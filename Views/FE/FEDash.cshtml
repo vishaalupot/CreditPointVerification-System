@@ -1,0 +1,476 @@
+﻿@model List<CPV_Mark3.Models.CaseTable>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+        .header {
+            font-size: 35px;
+            display: flex;
+            justify-content:space-between;
+            align-items: center;
+            padding: 20px 0px;
+            font-weight: 600;
+            color: #3A6C6C;
+            font-family: 'Jaldi', sans-serif;
+        }
+
+        .mob {
+            background-color: white; /* Use rgba for transparency */
+        }
+
+        .fe-dash2 {
+            bottom: 0;
+            width: 100%;
+            z-index: 3;
+            position: sticky;
+            margin-top: auto; /* Push the last div to the bottom */
+        }
+
+
+
+        body {
+            margin: 0;
+            background-color: white;
+            padding-top: 0px !important;
+            padding-bottom: 0px !important;
+        }
+
+        .mob {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+
+        .fe-cards {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /*margin-left: 25px;*/
+            overflow-y: auto; /* Enable vertical scroll */
+            min-height: 80vh;
+            z-index: 2;
+        }
+
+
+
+        @@media screen and (min-width: 768px) {
+            .mob {
+                display: block;
+            }
+
+            .cards {
+                width: 750px;
+                height: 150px;
+                background-color: #EAF6F6;
+                border-radius: 12px;
+                box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+                padding: 20px;
+                overflow: hidden;
+                transition: height 0.3s ease-out; /* Apply the transition to the height property */
+                margin-bottom: 15px;
+            }
+
+            .card-text {
+                font-family: Verdana, sans-serif;
+                font-size: 25px;
+            }
+
+            .tableHead {
+                font-size: 25px;
+                font-weight: 700;
+                width: max-content;
+                white-space: nowrap;
+                color: #3A6C6C;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            table tr td {
+                text-align: center;
+                height: 60px;
+                font-family: 'Jaldi', sans-serif;
+                font-size: 25px;
+                font-weight: 500;
+                color: #3A6C6C;
+            }
+
+            .button {
+                padding: 15px 0px;
+                font-size: 20px;
+                font-weight: 500;
+                text-align: center;
+                text-decoration: none;
+                cursor: pointer;
+                border: none;
+                border-radius: 8px;
+                width: 150px;
+                background-color: #236A8B;
+                color: white;
+                font-family: 'Jaldi', sans-serif;
+                width: 100%;
+                margin: 0px 2px;
+            }
+
+
+
+
+        }
+
+        @@media screen and (max-width: 500px) {
+
+            .mob {
+                display: block;
+            }
+
+
+            .cards {
+                width: 350px;
+                height: 150px;
+                background-color: #EAF6F6;
+                border-radius: 12px;
+                box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+                padding: 20px;
+                overflow: hidden;
+                transition: height 0.3s ease-out; /* Apply the transition to the height property */
+                margin-bottom: 15px;
+            }
+
+            .card-text {
+                font-family: Verdana, sans-serif;
+                font-size: 15px;
+            }
+            .tableHead {
+                font-size: 19px;
+                font-weight: 700;
+                width: max-content;
+                white-space: nowrap;
+                color: #3A6C6C;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            table tr td {
+                text-align: center;
+                height: 60px;
+                font-family: 'Jaldi', sans-serif;
+                font-size: 19px;
+                font-weight: 500;
+                color: #3A6C6C;
+            }
+
+            .button {
+                padding: 15px 0px;
+                font-size: 16px;
+                font-weight: 500;
+                text-align: center;
+                text-decoration: none;
+                cursor: pointer;
+                border: none;
+                border-radius: 8px;
+                width: 150px;
+                background-color: #236A8B;
+                color: white;
+                font-family: 'Jaldi', sans-serif;
+            }
+
+        }
+
+        .logo {
+            position: relative;
+            z-index: 2; /* Set a higher z-index for the container of the "Welcome" text */
+            text-shadow: 1px 1px 2px black; /* Adjust the values as needed */
+        }
+
+        .fe-dash2-conts {
+            position: relative;
+            z-index: 3; /* Set a higher z-index for the container of the "Welcome" text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .welcome {
+            color: white;
+            font-size: 35px;
+            font-family: Trebuchet MS, sans-serif;
+            padding-top: 30px;
+            text-shadow: 1px 1px 2px black; /* Adjust the values as needed */
+            z-index: 100;
+        }
+
+        .props,
+        .props2 {
+            position: absolute;
+            z-index: 1; /* Set a common z-index for these divs */
+        }
+
+        .logo {
+            width: 80px;
+            height: 50px;
+            top: 5px;
+            left: 40%;
+        }
+
+
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            table tr {
+                font-size: 15px;
+            }
+
+        td, tr {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:first-child td {
+            border-top: none; /* Remove top border for the first row */
+        }
+
+        tr:last-child td {
+            border-bottom: none; /* Remove bottom border for the last row */
+        }
+
+        td:first-child {
+            border-left: none; /* Remove left border for the first column */
+        }
+
+        td:last-child {
+            border-right: none; /* Remove right border for the last column */
+        }
+
+
+        .content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            width: 350px;
+            height: 150px;
+            background-color: white;
+            border-radius: 0px;
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+            padding-left: 20px;
+        }
+
+        .cards-cont {
+            display: flex;
+            flex-direction: row;
+           /* justify-content: space-between;*/
+            padding-bottom: 20px;
+        }
+
+
+        svg{
+          color: white;
+          cursor:pointer;
+          z-index: 999;
+          overflow: show;
+          width:40px;
+          height: auto;
+        }
+
+
+        svg:hover{
+            -webkit-animation-name: spin;
+            -webkit-animation-duration: 1000ms;
+            -webkit-animation-iteration-count: 1;
+        }
+
+
+
+        @@-ms-keyframes spin {
+            from { -ms-transform: rotate(0deg); }
+            to { -ms-transform: rotate(360deg); }
+        }
+        @@-moz-keyframes spin {
+            from { -moz-transform: rotate(0deg); }
+            to { -moz-transform: rotate(360deg); }
+        }
+        @@-webkit-keyframes spin {
+            from { -webkit-transform: rotate(0deg); }
+            to { -webkit-transform: rotate(360deg); }
+        }
+        @@keyframes spin {
+            from {
+                transform:rotate(0deg);
+            }
+            to {
+                transform:rotate(360deg);
+            }
+        }
+    </style>
+
+
+
+</head>
+<body>
+
+    <div class="mob ">
+        <div class="fe-dash2">
+            @Html.Partial("_MobLayout")
+        </div>
+
+        <div class="header" id="first">
+            My Visit List
+            <svg fill="black" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+                <path d="M0 0h24v24H0z" fill="none" />
+            </svg>
+        </div>
+
+        <div class="fe-cards" id="second">
+
+            @foreach (var item in Model)
+            {
+
+                <div class="cards collapsible">
+
+                    <table>
+                        <tr>
+                            <td class="tableHead">Application no</td>
+                            <td>@Html.DisplayFor(modelItem => item.Application_no)</td>
+
+                        </tr>
+                        <tr>
+                            <td class="tableHead">Customer Name</td>
+                            <td>@Html.DisplayFor(modelItem => item.Application_name)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="tableHead">Product</td>
+                            <td>@Html.DisplayFor(modelItem => item.Product)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="tableHead">Client</td>
+                            <td>@Html.DisplayFor(modelItem => item.Client)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="tableHead">Company Name</td>
+                            <td>@Html.DisplayFor(modelItem => item.Company_Name)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="tableHead">Visit Address</td>
+                            <td>@Html.DisplayFor(modelItem => item.Company_Address)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="tableHead">Allocation Date</td>
+                            <td>@Html.DisplayFor(modelItem => item.Allocation_Date)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="tableHead">Contact Person</td>
+                            <td>@Html.DisplayFor(modelItem => item.Contacted_Person)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="tableHead">Landline</td>
+                            <td>@Html.DisplayFor(modelItem => item.Landline)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="tableHead">Mobile</td>
+                            <td>@Html.DisplayFor(modelItem => item.Contacted_Person_Mobile_No)</td>
+                        </tr>
+
+                        <tr>
+                            <td class="tableHead">Business/Operating Hours</td>
+                            <td>@Html.DisplayFor(modelItem => item.Operating_Hours)</td>
+                        </tr>
+                    </table>
+
+
+
+                    <div style="display: flex; flex-direction: row; justify-content: space-between">
+
+                        <button class="button" onclick="redirectToVisit('@item.Id')">Visit</button>
+
+                        <button class="button " onclick="redirectToPhotos('@item.Id')">Photos</button>
+                        @*@Html.ActionLink("Photos","PhotoView", new {id = item.Id})*@
+
+                    </div>
+
+                    <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 10px">
+                        <button class="button " onclick="redirectToSignature('@item.Id')">Signature</button>
+                        @*@Html.ActionLink("Signature", "SignatureView", new { id = item.Id })*@
+                        <button class="button " onclick="redirectToSubmit('@item.Id')">Final Submit</button>
+                    </div>
+
+
+                </div>
+
+            }
+
+        </div>
+
+
+
+    </div>
+
+    <script>
+
+        function redirectToVisit(id) {
+            window.location.href = '@Url.Action("VisitView", "FE", new { id = "__id__" })'.replace("__id__", id);
+        }
+
+        function redirectToPhotos(id) {
+            window.location.href = '@Url.Action("PhotoView", "FE", new { id = "__id__" })'.replace("__id__", id);
+        }
+
+         function redirectToSignature(id) {
+            window.location.href = '@Url.Action("SignatureView", "FE", new { id = "__id__" })'.replace("__id__", id);
+        }
+
+        function redirectToSubmit(id) {
+            window.location.href = '@Url.Action("SubmitView", "FE", new { id = "__id__" })'.replace("__id__", id);
+        }
+
+        var coll = document.getElementsByClassName("cards");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+
+            coll[i].addEventListener("click", function () {
+
+
+                if (this.classList.toggle("active")) {
+                    this.style.borderBottomLeftRadius = "12px";  // Set border-radius when clicked
+
+                    this.style.height = "850px";
+                }
+                else {
+                    this.style.height = "150px";
+                }
+
+            });
+        }
+    </script>
+
+    @*//var content =  this.nextElementSibling;
+        //if (content.style.maxHeight) {
+        //    content.style.maxHeight = null;
+        //} else {
+        //    content.style.maxHeight = content.scrollHeight + "px";
+        //    this.style.borderBottomLeftRadius = "0";
+        //}*@
+</body>
+</html>

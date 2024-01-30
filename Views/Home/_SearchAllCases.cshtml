@@ -1,0 +1,80 @@
+﻿<!-- _CaseItemPartial.cshtml -->
+
+@model IEnumerable<CPV_Mark3.Models.CaseTable>
+
+<style>
+    table {
+        width: 100%;
+    }
+</style>
+<script src="/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        @*$(".changeBtn").click(function () {
+            let id = $(this).data("id");
+
+
+            let fe_name = $("#callingViewHiddenField").val();
+            let url = '@Url.Action("ChangeFE","Home", new { id = "_id_", fe_name = "_fe_name_" })';
+
+            alert("h");
+            url = url.replace("_id_", id);
+            url = url.replace("_fe_name_", fe_name);
+
+            $.ajax({
+                url: url,
+                type: "Post",
+                success: function (result) {
+                    location.reload();
+                    /* alert("Success");*/
+                },
+                error: function (error) {
+                    alert("error")
+                }
+            })
+
+        })*@
+    });
+</script>
+<script>
+    function updateSelectedRole(selectedRole) {
+        document.getElementById('callingViewHiddenField').value = selectedRole;
+    }
+</script>
+<div>
+    @if (Model != null && Model.Count() > 0)
+    {
+        <table>
+            <tr>
+                <th>Transfer to</th>
+                <th>Action</th>
+                <th>Application Number</th>
+                <th>Customer Name</th>
+                <th>Address</th>
+                <th>FE Name</th>
+                <th>Allocation Date	</th>
+                <th>Type</th>
+                <!-- Add other columns as needed -->
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Application_no</td>
+                    <td>@item.Application_name</td>
+                    <td>@item.Company_Address</td>
+                    <td>@item.FE_Name</td>
+                    <td>@item.Allocation_Date</td>
+                    <td>@item.Visit_Type</td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <p>No results found for the given query.</p>
+    }
+
+</div>
+

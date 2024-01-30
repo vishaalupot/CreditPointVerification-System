@@ -1,0 +1,224 @@
+﻿@model CPV_Mark3.Models.CaseImage
+
+@{
+    Layout = null;
+}
+
+@{
+    var images = ViewBag.Images as byte[][];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Upload - Derby CPV - DDC1</title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto:300,400,500,700" />
+    <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+
+            function uploadImage(snr) {
+
+                 let url = '@Url.Action("UploadImageInDataBase", "FE")';
+                var formData = new FormData();
+                formData.append("file", $("#ImageFile")[0].files[0]);
+                formData.append("snr", snr);
+
+                $.ajax({
+                    url: url,
+                    data: formData,
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        location.reload();
+                        let res = data;
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error
+                    }
+                })
+            }
+    </script>
+    <style>
+        .fe-dash2 {
+            bottom: 0;
+            width: 100%;
+            z-index: 3;
+            position: sticky;
+            margin-top: auto; /* Push the last div to the bottom */
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #4CAF50; /* Green background color */
+            color: white; /* White text color */
+            border: 1px solid #4CAF50; /* Green border */
+            border-radius: 4px; /* Rounded corners */
+            cursor: pointer;
+        }
+
+            .button:hover {
+                background-color: white;
+                color: #4CAF50;
+            }
+
+        body {
+            padding: 0px;
+        }
+
+        .blue {
+            background-color: #EAF6F6;
+            border-radius: 12px;
+            margin: 5px 10px;
+            width: 100%;
+        }
+
+        .details-dash {
+            height: 60px;
+            background-color: #236A8B;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        table {
+            color: white;
+            font-size: 15px;
+            border-collapse: collapse;
+            width: 100%;
+            height: 100%;
+        }
+
+
+        td, tr {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: left;
+        }
+
+            tr:first-child td {
+                border-top: none; /* Remove top border for the first row */
+            }
+
+            tr:first-child td {
+                border-bottom: none; /* Remove top border for the first row */
+            }
+
+            tr:last-child td {
+                border-bottom: none; /* Remove bottom border for the last row */
+                border-top: none !important;
+            }
+
+            td:first-child {
+                border-left: none; /* Remove left border for the first column */
+                border-top: none !important;
+            }
+
+            td:last-child {
+                border-right: none; /* Remove right border for the last column */
+            }
+
+        table td {
+            border: solid 1px white;
+            border-bottom: none;
+            border-left: none;
+            width: max-content;
+            padding: 0px 10px;
+        }
+
+        .container{
+            font-size: 19px;
+        }
+
+        .header {
+            font-size: 35px;
+            display: flex;
+            justify-content: center;
+            padding: 20px 0px;
+            font-weight: 600;
+            color: #236A8B;
+            font-family: 'Jaldi', sans-serif;
+        }
+
+        .Dashbutton {
+            display: inline-block;
+            /* padding: 10px 20px;*/
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #236A8B; /* Green background color */
+            background-image: url(../../Content/Images/dash.png);
+            color: white; /* White text color */
+            border: 1px solid #4CAF50; /* Green border */
+            border-radius: 4px; /* Rounded corners */
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            background-size: 30px;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    </style>
+</head>
+
+<body style="padding: 0px 0px;">
+    <div class="fe-dash2">
+        @Html.Partial("_MobLayout")
+    </div>
+    <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
+        <div class="header">Photo View</div>
+        @Html.ActionLink(" ", "FEDash", null, new { @class = "Dashbutton" })
+
+    </div>
+    <div class="blue">
+        <div class="details-dash">
+
+            <table>
+                <tr>
+                    <td>App #: @*@Model.Application_no*@</td>
+                    <td>Client: @*@Model.Client*@</td>
+                </tr>
+                <tr>
+                    <td>Name: @*@Model.Application_name*@</td>
+                    <td>Product: @*@Model.Product*@</td>
+                </tr>
+                <!-- Add more rows or customize as needed -->
+            </table>
+
+
+        </div>
+        <div class="container-body" style="display: flex; flex-direction: column;">
+
+            <form id="fileUploadForm" enctype="multipart/form-data">
+                <div class="container" id="divapplicant">
+                            @using (Html.BeginForm("PhotoView", "FE", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                               
+                            <div style="width: 100%;">Select Image File :@Html.TextBox("ImageFile", null, new { type = "file", @class = "form-control", accept = "image/*", capture = "camera", multiple = "multiple" })</div>
+                            <div style="width: 100%;">&nbsp;<input type="button" onclick="uploadImage(@ViewBag.snr)" value="Upload" class="btn btn-primary btn-block" /> </div>
+                                    
+                            }
+                </div>
+            </form>
+
+            <div id="PhotoImage" style="padding-bottom: 20px">
+                <div>
+                    @foreach (var base64Image in ViewBag.Images)
+                    {
+                        <img src="data:image/png;base64,@base64Image" alt="Image" style="width: 100px; height: 100px;" />
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+</html>

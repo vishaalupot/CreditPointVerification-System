@@ -1,0 +1,267 @@
+﻿@model CPV_Mark3.Models.RegisterViewModel
+
+
+
+@using (Html.BeginForm("Register", "Home", FormMethod.Post, new
+{
+    @class = "form-horizontal",
+    role = "form"@*, style = "width: 100%"*@ }))
+{
+
+    @Html.AntiForgeryToken()
+
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+        @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+        .form-horizontal {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .userbody-content1 {
+            display: flex;
+            flex-direction: row;
+            padding: 0px;
+            width: 95%;
+            height: 90vh;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+        }
+
+
+        .heading {
+            color: #3A6C6C;
+            font-size: 42px;
+            font-family: 'Jaldi', sans-serif;
+            padding-top: 40px;
+            text-align: left;
+            padding-bottom: 30px;
+            
+        }
+
+        .label {
+            color: #857F7F;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 15px;
+        }
+
+        .box {
+            background-color: #E3F4F4;
+            border-radius: 12px !important;
+            border-style: none;
+            width: 500px;
+            height: 25px;
+            margin-top: 7px;
+            margin-bottom: 10px;
+        }
+
+
+        .vertical-line {
+            margin-top: 120px;
+            height: 400px; /* Adjust the height of the line as needed */
+            border: solid 0.5px #559EBC;
+            margin-right: 50px;
+        }
+
+
+        .reg {
+            padding-right: 100px;
+            width: 400px !important;
+            padding-left: 30px;
+        }
+
+
+
+        table td {
+            border: solid 1px #67919F;
+            border-bottom: none;
+            border-left: none;
+        }
+
+        table tr td {
+            width: 200px;
+            height: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+
+        .label {
+            text-align: left;
+        }
+
+
+        .button-29 {
+            font-family: 'Jaldi', sans-serif;
+            align-items: center;
+            appearance: none;
+            background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+            border: 0;
+            border-radius: 6px;
+            box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+            box-sizing: border-box;
+            color: #fff;
+            cursor: pointer;
+            display: inline-flex;
+            font-family: "JetBrains Mono",monospace;
+            height: 35px;
+            justify-content: center;
+            line-height: 1;
+            list-style: none;
+            overflow: hidden;
+            padding-left: 16px;
+            padding-right: 16px;
+            position: relative;
+            text-align: left;
+            text-decoration: none;
+            transition: box-shadow .15s,transform .15s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            white-space: nowrap;
+            will-change: box-shadow,transform;
+            font-size: 15px;
+        }
+
+            .button-29:focus {
+                box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+            }
+
+            .button-29:hover {
+                box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+                transform: translateY(-2px);
+            }
+
+            .button-29:active {
+                box-shadow: #3c4fe0 0 3px 7px inset;
+                transform: translateY(2px);
+            }
+    </style>
+
+   
+
+
+
+
+    <div class="userbody-content1">
+
+        <div class="reg" style="width: 500px; padding-left:50px;">
+
+            <div style="display: flex; flex-direction: row; margin-bottom: auto; align-items: center; ">
+                <img src="~/Content/Images/usermaster.png" style="width: 50px; height: 50px; padding-right: 2px; "/>
+                <div class="heading">User Master</div>
+            </div>
+            
+            <div style="display: flex; flex-direction: column;">
+                @Html.LabelFor(m => m.FullName, "Full Name", new { @class = "label" })
+                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control box" })
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                @Html.LabelFor(m => m.PhoneNumber, "Mobile", new { @class = "label" })
+                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control box" })
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                @Html.LabelFor(m => m.Email, "Email", new { @class = "label" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control box" })
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                @Html.LabelFor(m => m.UserName, new { @class = "label" })
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control box" })
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                @Html.LabelFor(m => m.Password, new { @class = "label" })
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control box" })
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                @Html.LabelFor(m => m.InitialRole, new { @class = "label" })
+                @Html.DropDownListFor(m => m.InitialRole, new SelectList(ViewBag.Roles, ""), new { @class = "form-control box" })
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                <div class="col-md-offset-2 col-md-10" style="padding: 15px 0px;">
+                    @*<input type="submit" class="btn btn-default" value="Register" />*@
+                    <button class="button-29" role="button" type="submit">Register</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="vertical-line"></div>
+
+        @{ Html.RenderAction("UserView", "Home"); }
+
+
+        @*<div style="display: flex; flex-direction: column; width: 500px; padding: 20px;">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.FullName, "Full Name", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PhoneNumber, "Mobile", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, "Email", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.InitialRole, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.InitialRole, new SelectList(ViewBag.Roles, ""), new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-default" value="Register" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="user-form" style="width: max-content;">
+
+
+
+            </div>*@
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

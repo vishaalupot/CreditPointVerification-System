@@ -1,0 +1,187 @@
+﻿@model  CPV_Mark3.Models.ProductTable
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+    @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+   /* .form-horizontal {
+        justify-content: center;
+        display: flex;
+        width: 100% !important;
+        flex-direction: column;
+        border: 1px solid #ccc;
+    }*/
+
+    .heading {
+        color: #3A6C6C;
+        font-size: 42px;
+        font-family: 'Jaldi', sans-serif;
+        padding-top: 40px;
+        text-align: left;
+        padding-bottom: 30px;
+    }
+
+    .userbody-content {
+        display: flex;
+        flex-direction: row;
+        padding: 0px;
+        width: 95%;
+        height: 90vh;
+        background-color: #FFFFFF;
+        border-radius: 12px;
+        justify-content: center;
+        /* border-color: black;
+        border:groove;*/
+    }
+
+    .form-group {
+        width: 100%;
+    }
+
+    .form-horizontal .form-group {
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+
+    .label {
+        color: #857F7F;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 400;
+        font-size: 15px;
+    }
+
+    .box {
+        background-color: #E3F4F4;
+        border-radius: 12px !important;
+        border-style: none;
+        width: 500px;
+        height: 25px;
+        margin-top: 7px;
+        margin-bottom: 10px;
+    }
+
+
+    .vertical-line {
+        margin-top: 120px;
+        height: 400px; /* Adjust the height of the line as needed */
+        border: solid 0.5px #559EBC;
+        margin: 120px 120px;
+
+    }
+
+     
+    .reg {
+        padding-right: 100px;
+        width: 400px !important;
+        padding-left: 30px;
+    }
+
+
+    .button-29 {
+        font-family: 'Jaldi', sans-serif;
+        align-items: center;
+        appearance: none;
+        background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+        border: 0;
+        border-radius: 6px;
+        box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        display: inline-flex;
+        font-family: "JetBrains Mono",monospace;
+        height: 35px;
+        justify-content: center;
+        line-height: 1;
+        list-style: none;
+        overflow: hidden;
+        padding-left: 16px;
+        padding-right: 16px;
+        position: relative;
+        text-align: left;
+        text-decoration: none;
+        transition: box-shadow .15s,transform .15s;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        white-space: nowrap;
+        will-change: box-shadow,transform;
+        font-size: 15px;
+    }
+
+        .button-29:focus {
+            box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+        }
+
+        .button-29:hover {
+            box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+            transform: translateY(-2px);
+        }
+
+        .button-29:active {
+            box-shadow: #3c4fe0 0 3px 7px inset;
+            transform: translateY(2px);
+        }
+</style>
+
+<div class="userbody-content">
+    <div class="reg" style="width: 500px; padding-left:50px;">
+        <div class="heading">Product Master</div>
+
+        @using (Html.BeginForm(new { @*style = "width: 100%; border: 1px solid #ccc;"*@ }))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div class="form-horizontal">
+                @Html.HiddenFor(model => model.ProductId)
+                <div class="form-group" style="width: 100%;">
+                    @Html.LabelFor(model => model.ProductName,"Product Name", htmlAttributes: new { @class = "label" })
+                    <br />
+                    <br />
+                    <div>
+                        @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control box" } })
+
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                    @Html.LabelFor(model => model.ProductStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <br />
+                    <br />
+                    <div>
+                        @Html.DropDownListFor(model => model.ProductStatus, new SelectList(new[]
+                           {
+                               new { Value = "Enabled", Text = "Enabled" },
+                               new { Value = "Disabled", Text = "Disabled" }
+                           }, "Value", "Text"), new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(model => model.ProductStatus, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @*<input type="submit" value="Create" class="btn btn-success" />*@
+
+                        <button class="button-29" role="button" type="submit">Register</button>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+    </div>
+
+
+    <div class="vertical-line"></div>
+
+
+  
+
+    <div class="user-form">
+        @{ Html.RenderAction("NewProductView", "Home"); }
+    </div>
+</div>
+   
+

@@ -1,0 +1,134 @@
+﻿
+@{
+    ViewBag.Title = "CasesReports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Cases - Derby CPV</title>
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto:300,400,500,700" />
+    <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet" />
+    <script src="/Scripts/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        $("#reportButton").click(function () {
+                @*var a = '@Html.Action("CreateCaseManagerView")';*@
+            window.location.href = '@Url.Action("DownloadCases", "Report")';
+        });
+    </script>
+
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+        @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+        .userbody-content {
+            display: flex;
+            flex-direction: row;
+            width: 95%;
+            height: 90vh;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .heading {
+            color: #3A6C6C;
+            font-size: 45px;
+            font-family: 'Jaldi', sans-serif;
+            text-align: left;
+            font-weight: 600;
+            padding-top: 50px;
+            display: flex;
+            justify-content: flex-start;
+            
+        }
+        .bod {
+            width: 95%;
+            height: 90vh;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            display: flex;
+           /* justify-content: center;*/
+            display: flex;
+            flex-direction: column;
+            padding: 0px 20px;
+            flex-direction: row;
+        }
+
+        label {
+            color: #857F7F;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 15px;
+            padding: 0px 5px;
+            font-weight: 600;
+        }
+
+        .down-btn {
+            width: 100px;
+            height: 40px;
+            background: linear-gradient(to right,#25947a, #236a8b 50%);
+            border: 1px groove #CBD5E0;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .down-btn:hover{
+            font-weight:600;
+            color: white;
+        }
+
+
+    </style>
+</head>
+<body style="padding: 0px;">
+    <div class="bod">
+        <div>
+            <div class="heading">Reports</div>  
+
+            <div style="width:500px;">
+                <div style="padding-bottom: 20px;">
+                    <label>From Date</label>
+                    <input class="form-control" data-val="true" data-val-required="From Date is required." id="fromdate" name="fromdate" type="date" value="" />
+                </div>
+
+                <div>
+                    <label>To Date</label>
+                    <input class="form-control" data-val="true" data-val-required="To Date is required." id="todate" name="todate" type="date" value="" />
+                </div>
+            </div>
+
+            <div style="padding-top: 20px;">
+                <form action="@Url.Action("DownloadCases", "Report")" method="post">
+                    <input type="submit" class="btn down-btn" value="Download" />
+                </form>
+            </div>
+
+        </div>
+        
+            
+        <div>
+            <div style="display: flex; justify-content: center;">
+                <img src="~/Content/Images/report-animate.svg" alt="Image 1" style="width: 700px; height: 700px;" />
+            </div>
+        </div>
+
+
+            
+    </div>
+</body>
+</html>
+
+

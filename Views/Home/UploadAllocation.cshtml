@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "UploadAllocation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto:300,400,500,700" />
+    <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <link href="/Content/css?v=33TLKQioqhn1ElQO6aBqikpQhCQLzzH07Rj-bJK3Emw1" rel="stylesheet" />
+    <script src="/bundles/modernizr?v=inCVuEFe6J4Q07A0AcRsbJic_UE5MwpRMNGcOtk94TE1"></script>
+
+    <style>
+        body{
+            padding: 0px;
+        }
+        .userbody-content {
+            display: flex;
+            flex-direction: column;
+            width: 95%;
+            height: 90vh;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            padding: 10px;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="userbody-content">
+        <div class="container-body">
+            <div id="divapplicant">
+                <div class="page-title shadow-sm">
+                    <h5>UPLOAD ALLOCATION</h5>
+                </div>
+                <br />
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8 mx-auto">
+                            <div class="inner-margin">
+                                <label>Select file (*.xls, *.xlsx) <span class="mandatory">*</span> </label>
+                                <input class="form-control" id="excelfile" name="excelfile" type="File" value="" />
+                            </div>
+                            <div class="inner-margin">
+                                <label>Client <span class="mandatory">*</span> </label>
+                                <select class="form-control" id="client" name="client">
+                                    <option value=""></option>
+                                    <option value="ADIB">ADIB</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <br />
+                                <input type="button" id="btnUploadFile" name="btnUploadFile" class="btn btn-block btn-primary" value="Upload" />
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div id="divLoading">
+
+            </div>
+
+            <script>
+                $("#btnUploadFile").click(function () {
+
+                    var client = $("#client").val();
+                    var product = $("#product").val();
+                    var verification_type = $("#verification_type").val();
+
+                    if (client == "") {
+                        swal("Oops", "Please select client name", "error")
+                        return false;
+                    }
+                    else if (product == "") {
+                        swal("Oops", "Please select product", "error")
+                        return false;
+                    }
+                    else if ($("#excelfile").val() != "") {
+                        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+                        if (!regex.test($("#excelfile").val().toLowerCase())) {
+                            swal("Oops", "Please remove special character from your selected excel file!", "error")
+                            return false;
+                        }
+                        else {
+                            UploadSelectedExcelsheet(client, product);
+                        }
+                    }
+                    else {
+                        swal("Oops", "Please select a Excel file!", "error")
+                        return false;
+                    }
+                });
+
+                function UploadSelectedExcelsheet(client, product) {
+                    $("#divLoading").show();
+                    var data = new FormData();
+                    var i = 0;
+                    var fl = $("#excelfile").get(0).files[0];
+                    if (fl != undefined) {
+                        data.append("file", fl);
+                        data.append("client", client);
+                        data.append("product", product);
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/UploadExcelsheet",
+                        contentType: false,
+                        processData: false,
+                        data: data,
+                        success: function (response) {
+                            $("#divLoading").hide();
+                            if (response.Status == "Success") {
+                                swal("Success!", response.Total, "success");
+                            }
+                            else if (response.Status == "Fail") {
+                                swal("Oops", response.Total, "error")
+                            }
+                            else {
+                                swal("Oops", response.Total, "error")
+                            }
+                        },
+                        error: function (response) {
+                            $("#divLoading").hide();
+                            swal("Oops", response.Total, "error")
+                            return false;
+                        }
+                    });
+                }
+            </script>
+        </div>
+        </div>
+</body>
+</html>
+
+

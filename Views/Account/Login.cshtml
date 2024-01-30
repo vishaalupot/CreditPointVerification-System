@@ -1,0 +1,264 @@
+﻿@using CPV_Mark3.Models
+@model LoginViewModel
+@{
+    Layout = null;
+}
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+        @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+        body {
+            background-color: white;
+        }
+
+        .loginForm {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            position: fixed;
+           
+        }
+
+        .login {
+            background-color: white;
+            width: 100%;
+            height: 100vh;
+            border-radius: 40px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .form-group {
+            width: 100%;
+            padding-bottom: 20px;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        .login-box {
+            background-color: #F7FAFC;
+            border-radius: 10px;
+            width: 250px;
+            height: 35px;
+            border: 1px groove #CBD5E0;
+            margin-top: 7px;
+        }
+
+            .login-box:focus {
+                border: 1px groove #CBD5E0;
+            }
+
+        
+        .login-text {
+            color: #718096;
+            font-family: Tahoma;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .headboard {
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+            font-weight: 100;
+            font-size: 35px;
+            display: flex;
+            justify-content:center;
+        }
+
+        .log-btn {
+            width: 80px;
+            height: 30px;
+            background: linear-gradient(to right,#25947a, #236a8b 50%);
+            border: 1px groove #CBD5E0;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+        }
+
+        
+
+        .logo {
+            width: 150px;
+        }
+
+        .out-box {
+            width: 320px;
+            height: 420px;
+            background-color: white;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+        }
+
+        @@media screen and (min-width: 768px) {
+            .mobile{
+                display: none;
+            }
+
+            .desktop {
+                display: block;
+            }
+        }
+
+        @@media screen and (max-width: 500px) {
+            .desktop {
+                display: none;
+            }
+
+            .mobile {
+                background: linear-gradient(to bottom,#25947a, #236a8b 50%);
+                align-items: center;
+                display: flex;
+                justify-content: center;
+                height: 100vh;
+                flex-direction: column;
+            }
+
+            .login {
+
+                background-color: white;
+                width: max-content;
+                height: max-content;
+                border-radius: 12px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .nav-contents {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                padding: 10px; /* Adjust as needed */
+                text-align: center;
+            }
+        }
+
+        .inside-cont{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<div class="desktop">
+    <div class="row login">
+         
+        <section id="loginForm" style="width: 1000px;display: flex; justify-content: center; align-items: center; align-content: center; height: 100%; background: linear-gradient(to bottom,#25947a, #236a8b 50%); border-radius: 12px;">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <div class="out-box">
+                    @Html.AntiForgeryToken()
+                    <h1 class="headboard">Login</h1>
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+
+                        <div class="col-md-10 inside-cont">
+                            @Html.LabelFor(m => m.UserName, "User Name", new { @class = "col-md-2 control-label login-text" })
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control login-box" })
+                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-md-10 inside-cont">
+                            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label login-text" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control login-box" })
+                            @*@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+                    <div class="form-group login-text inside-cont">
+                        <div class="col-md-offset-2 col-md-10">
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(m => m.RememberMe)
+                                @Html.LabelFor(m => m.RememberMe)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group inside-cont">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Sign in" class="btn btn-default log-btn" />
+                        </div>
+                    </div>
+                </div>
+
+
+
+            }
+        </section>
+        <div style="width: 100%; display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: center;">
+                <img src="~/Content/Images/logo.png" alt="Image 1" class="logo" />
+            </div>
+
+
+            <div style="display: flex; justify-content: center;">
+                <img src="~/Content/Images/comp.svg" alt="Image 1" style="width: 700px; height: 700px;" />
+            </div>
+
+         </div>
+
+        </div>
+</div>
+
+<div class="mobile">
+    <div class="nav-contents">
+        <img src="~/Content/Images/logo.png" alt="Image 1" class="logo" style="filter: drop-shadow(0px 3px 2px rgba(0.5, 0.50, 0.50, 0.55)); transform: matrix(1, 0, 0, 1, 0, 0); /* Add a subtle box shadow */ " />
+    </div>
+    <div class="row login" style=" box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; ">
+
+        <section id="loginForm" style="display: flex; justify-content: center; align-items: center; align-content: center; height:100%; padding: 10px; ">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <h1 class="headboard" >Sign in</h1>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserName, "User Name", new { @class = "col-md-2 control-label login-text" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control login-box" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label login-text" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control login-box" })
+                        @*@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })*@
+                    </div>
+                </div>
+                <div class="form-group login-text">
+                    <div class="col-md-offset-2 col-md-10">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Sign in" class="btn btn-default log-btn" />
+                    </div>
+                </div>
+
+
+            }
+        </section>
+    </div>
+</div>
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

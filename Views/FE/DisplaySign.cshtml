@@ -1,0 +1,25 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<body>
+
+    @if (ViewBag.ImageSrcs != null && ViewBag.ImageSrcs.Length > 0)
+    {
+        foreach (var imageSrc in ViewBag.ImageSrcs)
+        {
+            <img src="@imageSrc" alt="Signature" style="border: groove; width: 200px; height: 200px;" />
+        }
+    }
+    else
+    {
+        <p>Images not found.</p>
+    }
+
+</body>
+</html>
+

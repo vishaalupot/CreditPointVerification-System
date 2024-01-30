@@ -1,0 +1,41 @@
+﻿/* styles.css */
+.fe-dash {
+    background-color: #648073;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 50px;
+}
+
+.fe-dash2 {
+    background-color: steelblue;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    display: flex;
+}
+
+body {
+    margin: 0;
+}
+
+@media (min-width: 768px) {
+    .mob {
+        display: none;
+    }
+
+    .desk {
+        display: block;
+    }
+}
+
+@media (max-width: 400px) {
+    .desk {
+        display: none;
+    }
+
+    .mob {
+        display: block;
+    }
+}

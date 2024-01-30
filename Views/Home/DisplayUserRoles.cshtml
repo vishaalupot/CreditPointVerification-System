@@ -1,0 +1,16 @@
+﻿@model IEnumerable<CPV_Mark3.Models.UserRolesViewModel>
+
+@using (Html.BeginForm("YourAction", "YourController", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.Label("Select User:", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.FirstOrDefault().UserName, new SelectList(Model, "UserName", "UserName"), "Select User", new { @class = "form-control" })
+        </div>
+    </div>
+
+    <input type="submit" value="Submit" class="btn btn-default" />
+}
+
+
+

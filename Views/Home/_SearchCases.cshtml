@@ -1,0 +1,210 @@
+﻿<!-- _CaseItemPartial.cshtml -->
+
+@model IEnumerable<CPV_Mark3.Models.CaseTable>
+
+<style>
+    table {
+        width: 100%;
+    }
+
+    .dis {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+
+    .view {
+        margin-top: 40px;
+        background-color: #EAF6F6;
+        border-radius: 12px;
+        padding: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
+        max-height: 500px;
+        width: 100%;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        table th {
+            font-size: 15px;
+        }
+
+    td, th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    tr:first-child td {
+        border-top: none; /* Remove top border for the first row */
+    }
+
+    tr:last-child td {
+        border-bottom: none; /* Remove bottom border for the last row */
+    }
+
+    td:first-child {
+        border-left: none; /* Remove left border for the first column */
+    }
+
+    td:last-child {
+        border-right: none; /* Remove right border for the last column */
+    }
+
+    table tr td {
+        text-align: center;
+        height: 60px;
+        font-family: 'Jaldi', sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        width: max-content;
+        white-space: nowrap;
+        color: #3A6C6C;
+    }
+
+    .tableHead {
+        font-size: 17px;
+        font-weight: 700;
+        width: max-content;
+        white-space: nowrap;
+        color: #3A6C6C;
+    }
+
+</style>
+<script src="/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#CaseTable").on("click", ".callingView", function () {
+            /* alert("test");*/
+            var tableRow = $(this).closest("tr");
+
+            // Find the first td (table cell) within the current row
+            var firstColumnCell = tableRow.find("td:first");
+            var call = firstColumnCell.find("select");
+            /* console.log(call[0].value);*/
+
+
+            let id = $(this).data("id");
+            /*alert("hii");*/
+
+
+            let url = '@Url.Action("ChangeFE","Home", new { id = "_id_", fe_name = "_fe_name_" })';
+
+
+            url = url.replace("_id_", id);
+            url = url.replace("_fe_name_", call[0].value);
+
+            $.ajax({
+                url: url,
+                type: "Post",
+                success: function (result) {
+                    location.reload();
+                    /* alert("Success");*/
+                },
+                error: function (error) {
+                    location.reload();
+                   /* alert("error")*/
+                }
+            })
+
+        })
+
+
+
+        // Get the text content or value of the first column cell
+        //var valueOfFirstColumn = firstColumnCell;
+
+        //// Log the value
+        //console.log(valueOfFirstColumn);
+    });
+
+
+        @*$(".callingView1").click(function () {
+            let id = $(this).data("id");
+            alert("hii");
+
+            let fe_name = $("#callingViewHiddenField1").val();
+            console.log(fe_name);
+
+            let url = '@Url.Action("ChangeFE","Home", new { id = "_id_", fe_name = "_fe_name_" })';
+
+
+            url = url.replace("_id_", id);
+            url = url.replace("_fe_name_", fe_name);
+
+            $.ajax({
+                url: url,
+                type: "Post",
+                success: function (result) {
+                    location.reload();
+                    /* alert("Success");*/
+                },
+                error: function (error) {
+                    alert("error")
+                }
+            })
+
+        })*@
+   
+</script>
+<script>
+    function updateSelectedRole(selectedRole) {
+        document.getElementById('callingViewHiddenField1').value = selectedRole;
+    }
+</script>
+<style>
+
+</style>
+<div>
+    <div class="dis">
+        <div class="view">
+            @if (Model != null && Model.Count() > 0)
+            {
+                <table id="CaseTable">
+                    <tr>
+                        <td class="tableHead">Transfer to</td>
+                        <td class="tableHead">Action</td>
+                        <td class="tableHead">Application Number</td>
+                        <td class="tableHead">Customer Name</td>
+                        <td class="tableHead">Address</td>
+                        <td class="tableHead">FE Name</td>
+                        <td class="tableHead">Allocation Date	</td>
+                        <td class="tableHead">Type</td>
+                        <!-- Add other columns as needed -->
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <input type="text" id="callingViewHiddenField1" class="callingViewHiddenField" style="display: none; background-color: white !important;" />
+                                @{ Html.RenderAction("_FEView", "Home"); }
+                            </td>
+                            <td>
+                                @*<button type="button" data-id='@item.Id' id="changeBtn" class="btn btn-primary changeBtn callingView">Change</button>*@
+
+                                <img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="changeBtn callingView" />
+
+                            </td>
+                            <td>@item.Application_no</td>
+                            <td>@item.Application_name</td>
+                            <td>@item.Company_Address</td>
+                            <td>@item.FE_Name</td>
+                            <td>@item.Allocation_Date</td>
+                            <td>@item.Visit_Type</td>
+                        </tr>
+                    }
+                </table>
+            }
+            </div>
+            </div>
+           
+
+        </div>

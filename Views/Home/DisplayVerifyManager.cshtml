@@ -1,0 +1,352 @@
+﻿@model List<CPV_Mark3.Models.CaseTable>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New User</title>
+    <script src="/Scripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+        $(".submitBtn").click(function () {
+    let data = $(this).data("id");
+
+    let url = '@Url.Action("EditVerifyManager", "Home", new { id = "_id_" })';
+
+    url = url.replace("_id_", data);
+
+    $.ajax({
+        url: url,
+        type: "Post",
+        success: function (result) {
+            // Redirect to the specified URL
+            window.location.href = '@Url.Action("EditVerifyManager", "Home", new { id = "_id_" })'.replace("_id_", data);
+        },
+        error: function (error) {
+            alert("error");
+        }
+    });
+});
+
+    </script>
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+        @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+        /*body {
+            font-family: sans-serif;
+            font-size: 16px;*/ /* Set your desired base font size */
+        /*width: 100%;
+            height: 100%;
+        }*/
+
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+
+        .user-form {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            width: 450px;
+        }
+
+
+        label {
+            color: #857F7F;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 15px;
+            padding: 0px 5px;
+            font-weight: 600;
+        }
+
+
+
+        .user-list {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+        }
+
+            .user-list th, .user-list td {
+                padding: 10px;
+                border: 1px solid #ccc;
+                text-align: left;
+            }
+
+        .user-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cont {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .userbody-content {
+            display: flex;
+            flex-direction: row;
+            width: 95%;
+            height: 90vh;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            justify-content: center;
+        }
+
+
+        .dis {
+            width: max-content;
+            height: 100%;
+            width: 100%;
+        }
+
+
+        .view {
+            margin-top: 50px;
+            background-color: #EAF6F6;
+            border-radius: 12px;
+            padding: 10px;
+            margin-left: 15px;
+            margin-right: 15px;
+            max-height: 500px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        td, th {
+            border: 0.5px solid #67919F;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:first-child td {
+            border-top: none; /* Remove top border for the first row */
+        }
+
+        tr:last-child td {
+            border-bottom: none; /* Remove bottom border for the last row */
+        }
+
+        td:first-child {
+            border-left: none; /* Remove left border for the first column */
+        }
+
+        td:last-child {
+            border-right: none; /* Remove right border for the last column */
+        }
+
+        table tr td {
+            text-align: center;
+            height: 60px;
+            font-family: 'Jaldi', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            width: max-content;
+            white-space: nowrap;
+            color: #3A6C6C;
+        }
+
+        .tableHead {
+            font-size: 17px;
+            font-weight: 700;
+            width: max-content;
+            white-space: nowrap;
+            color: #3A6C6C;
+        }
+
+        .heading {
+            color: #3A6C6C;
+            font-size: 42px;
+            font-family: 'Jaldi', sans-serif;
+            padding-top: 40px;
+            text-align: left;
+        }
+
+
+
+
+        .search-input {
+            background-color: #E3F4F4;
+            border-radius: 50px;
+            border-style: none;
+            width: 500px;
+            height: 40px;
+            margin-top: 7px;
+            margin-bottom: 10px;
+            border: 0px solid #000;
+            border-bottom-right-radius: 0px;
+            border-top-right-radius: 0px;
+            font-family: 'Jaldi', sans-serif;
+            font-size: 15px;
+            padding-left: 10px;
+        }
+
+            .search-input:focus {
+                border-color: #68c5b5; /* Set the border color you want when the input is focused */
+                outline: none; /* Remove the default focus outline (optional) */
+            }
+
+        #btnsubmit {
+            background-color: #236154;
+            border-radius: 12px;
+            border: none;
+            width: 60px;
+            height: 30px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+        }
+        .box {
+            background-color: #E3F4F4;
+            border-radius: 12px !important;
+            border-style: none;
+            width: 150px;
+            height: 30px;
+            margin-top: 7px;
+            margin-bottom: 10px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 12px;
+            padding: 0px 5px;
+        }
+    </style>
+
+
+
+
+
+</head>
+<body>
+    <div class="userbody-content">
+        <div class="cont">
+            <div class="heading">Verify Manager</div>
+
+
+            <div style="display: flex; flex-direction: row; width: 100%;">
+
+                <div style="margin-right: 5px;">
+                    <label>Application No</label>
+                    @*<input class="form-control" id="search" name="search" type="text" value="" "  />*@
+                    <input type="text" id="searchInput" class="box" />
+                </div>
+
+                <div>
+                    <label>User List</label>
+                    <input type="text" id="callingViewHiddenField" style="display: none;" />
+                    @{ Html.RenderAction("_FEView", "Home"); }
+                </div>
+
+                <div>
+                    <label>Product</label>
+                    <input type="text" id="callingViewHiddenField" style="display: none;" />
+                    @Html.DropDownList("Product", new SelectList(CPV_Mark3.Controllers.HomeController.GetProductList()), "-- Select --", new { @class = " drop box" })
+                </div>
+
+                <div>
+                    <label>Status</label>
+                    <input type="text" id="callingViewHiddenField" style="display: none;" />
+                    @Html.DropDownList("Status", new SelectList(CPV_Mark3.Controllers.HomeController.GetStatus()), "-- Select --", new { @class = " drop box" })
+                </div>
+
+                @*<div>
+                    <label>User List</label>
+                    <input type="text" id="callingViewHiddenField" style="display: none;" />
+                    @{ Html.RenderAction("_FEView", "Home"); }
+                </div>*@
+
+                <div style=" width: 150px; margin-left: 5px; margin: 7px 3px 10px 8px;">
+                    <input type="button" id="btnsubmit" value="Search" />
+                </div>
+
+            </div>
+
+                <div class="dis">
+                    <div class="view">
+                        <table>
+                            <tr>
+                                <td class="tableHead">Application no</td>
+                                <td class="tableHead">Customer Name</td>
+                                <td class="tableHead">Company Name</td>
+                                <td class="tableHead">Product</td>
+                                <td class="tableHead">FE Name</td>
+                                <td class="tableHead">Allocation Date</td>
+                                <td class="tableHead">Final Date</td>
+                                <td class="tableHead">Final Status</td>
+                                <td class="tableHead">Type</td>
+                                <td class="tableHead">Action</td>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Application_no) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Application_name) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Company_Name) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Product) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.FE_Name) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Allocation_Date) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Final_Date) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Final_Status) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Visit_Type) </td>
+
+
+                                    <td>
+
+                                        <a href="@Url.Action("EditVerifyManager", "Home", new { id = item.Id })">
+                                            <img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />
+                                        </a>
+
+                                        @*<img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />*@
+
+                                        @*@Html.ActionLink("Go to Page", "EditVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </table>
+                    </div>
+                </div>
+
+                @*<table class="user-list">
+                <thead>
+                    <tr>
+                        <th>Application_no</th>
+                        <th>Customer Name</th>
+                        <th>Company Name</th>
+                        <th>Product</th>
+                        <th>FE Name	</th>
+                        <th>Allocation Date</th>
+                        <th>Final Date</th>
+                        <th>Final Status</th>
+                        <th>Type</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+
+                    <tbody>
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Application_no) </td>
+                            <td>@Html.DisplayFor(modelItem => item.Application_name) </td>
+                            <td>@Html.DisplayFor(modelItem => item.Company_Name) </td>
+                            <td>@Html.DisplayFor(modelItem => item.Product) </td>
+                            <td>@Html.DisplayFor(modelItem => item.FE_Name) </td>
+                            <td>@Html.DisplayFor(modelItem => item.Allocation_Date) </td>
+                            <td>@Html.DisplayFor(modelItem => item.Final_Date) </td>
+                            <td>@Html.DisplayFor(modelItem => item.Final_Status) </td>
+                            <td>@Html.DisplayFor(modelItem => item.Visit_Type) </td>
+                            <td>
+                                @Html.ActionLink("Go to Page", "EditVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })
+                            </td>
+
+                        </tr>
+                    </tbody>
+
+                }
+            </table>*@
+            </div>
+        </div>
+</body>
+</html>
+

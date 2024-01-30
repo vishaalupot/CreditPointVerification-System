@@ -1,0 +1,49 @@
+﻿@model List<string>
+@{
+    Layout = null;
+}
+
+<style>
+    select {
+        margin-bottom: 20px;
+    }
+
+
+    #userRolesDropdown {
+        background-color: #E3F4F4;
+        border-radius: 12px !important;
+        border-style: none;
+        width: 100px;
+        height: 30px;
+        margin-top: 7px;
+        margin-bottom: 10px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 400;
+        font-size: 10px;
+        padding: 0px 5px;
+        font-weight: 600;
+    }
+
+        #userRolesDropdown:focus {
+            border-color: #68c5b5; /* Set the border color you want when the input is focused */
+            outline: none; /* Remove the default focus outline (optional) */
+        }
+
+
+</style>
+
+<select id="userRolesDropdown" style="color: black;">
+    <option value="">Select a role</option>
+    @foreach (var role in Model)
+    {
+        <option value="@role">@role</option>
+    }
+</select>
+
+<script>
+    document.getElementById('userRolesDropdown').addEventListener('change', function () {
+        var selectedRole = this.value;
+        // Update the hidden field in the calling view
+        parent.updateSelectedRole(selectedRole);
+    });
+</script>

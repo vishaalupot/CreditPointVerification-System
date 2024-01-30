@@ -1,0 +1,444 @@
+﻿
+@{
+    ViewBag.Title = "DisplayCaseManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model List<CPV_Mark3.Models.CaseTable>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New User</title>
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+        @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+
+        .user-form {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            width: 450px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .user-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cont {
+            display: flex;
+            flex-direction: column;
+            padding-left: 20px;
+            width: 95%;
+            height: 90vh;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            justify-content: center;
+        }
+
+        .userbody-content {
+            display: flex;
+            flex-direction: row;
+            width: 95%;
+            height: 90vh;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            justify-content: center;
+        }
+
+        .dis {
+
+            width: 100%;
+            height: 100%;
+        }
+
+
+        .view {
+            margin-top: 40px;
+            background-color: #EAF6F6;
+            border-radius: 12px;
+            padding: 10px;
+            margin-left: 15px;
+            margin-right: 15px;
+            max-height: 500px;
+            width: max-content;
+            border: 1px groove #CBD5E0;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            table th {
+                font-size: 15px;
+            }
+
+        td, th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:first-child td {
+            border-top: none; /* Remove top border for the first row */
+        }
+
+        tr:last-child td {
+            border-bottom: none; /* Remove bottom border for the last row */
+        }
+
+        td:first-child {
+            border-left: none; /* Remove left border for the first column */
+        }
+
+        td:last-child {
+            border-right: none; /* Remove right border for the last column */
+        }
+
+        table tr td {
+            text-align: center;
+            height: 60px;
+            font-family: 'Jaldi', sans-serif;
+
+            font-size: 15px;
+            font-weight: 500;
+            width: max-content;
+            white-space: nowrap;
+            color: #3A6C6C;
+        }
+
+        .tableHead {
+            font-size: 17px;
+            font-weight: 700;
+            width: max-content;
+            white-space: nowrap;
+            color: #3A6C6C;
+        }
+
+
+
+        .search-input {
+            background-color: #E3F4F4;
+            border-radius: 50px;
+            border-style: none;
+            width: 500px;
+            height: 40px;
+            margin-top: 7px;
+            margin-bottom: 10px;
+            border: 0px solid #000;
+            border-bottom-right-radius: 0px;
+            border-top-right-radius: 0px;
+            font-family: 'Jaldi', sans-serif;
+            font-size: 15px;
+            padding-left: 10px;
+            border: 1px groove #CBD5E0;
+        }
+
+            .search-input:focus {
+                border-color: #68c5b5; /* Set the border color you want when the input is focused */
+                outline: none; /* Remove the default focus outline (optional) */
+            }
+
+        #btnsubmit {
+            background-color: #236154;
+            border-radius: 50px;
+            width: 45px;
+            height: 40px;
+            border: none;
+            border-bottom-left-radius: 0px;
+            border-top-left-radius: 0px;
+            margin-bottom: 3px;
+            background-image: url('../../Content/Images/search1.png'); /* Replace 'path/to/your/image.png' with the actual path to your PNG image */
+            background-size: cover;
+            background-size: 55%;
+            background-repeat: no-repeat;
+            background-position: center;
+           
+        }
+
+        
+
+
+    </style>
+    <script src="/Scripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(".submitBtn").click(function () {
+                let data = $(this).data("id");
+
+                let url = '@Url.Action("DisplayCaseManager","Home", new { id = "_id_" })';
+
+                 url = url.replace("_id_", data);
+
+                $.ajax({
+                    url: url,
+                    type: "Post",
+                    success: function (result) {
+                            location.reload();
+                            /* alert("Success");*/
+                        },
+                    error: function (error) {
+
+                            alert("error")
+                    }
+                    })
+
+            })
+
+             $(".deleteBtn").click(function () {
+                let data = $(this).data("id");
+
+                 @*let url = '@Url.Action("DeleteCase", "Home", new { id = "_id_" })';*@
+
+
+                 let url = '@Url.Action("DeleteCase")';
+                 let ajaxdata = { id : data };
+                 //url = url.replace("_id_", data);
+                 alert(ajaxdata);
+                $.ajax({
+                    url: url,
+                    data: ajaxdata,
+                    type: "Post",
+                    success: function (result) {
+                        location.reload();
+                       /* alert("Success");*/
+                    },
+                    error: function (error) {
+
+                        alert("error")
+                    }
+                })
+
+            })
+
+             $("#btnsubmit").on("click", function (e) {
+
+                console.log("Button clicked");
+/*                e.preventDefault();*/
+                var query = $("#searchInput").val();
+                var query2 = $("#callingViewHiddenField").val();
+                //console.log(query);
+
+                var url = '@Url.Action("_SearchAllCases", "Home")';
+                url = url.replace("_query_", query);
+
+                console.log(url);
+                $.ajax({
+                    url: url,
+                    data: { query: query },
+                    type: "Post",
+                    success: function (result) {
+                        $("#CaseList").html(result);
+
+                    },
+                    error: function (e) {
+                        alert("Error fetching search results");
+                    }
+                });
+            });
+
+
+            $("#createCaseButton").click(function () {
+                @*var a = '@Html.Action("CreateCaseManagerView")';*@
+            window.location.href = '@Url.Action("CreateCaseManagerView", "Home")';
+        });
+        })
+
+
+
+
+
+    </script>
+
+    <style>
+        .cssbuttons-io {
+            width: 100px;
+            height: 40px;
+            position: relative;
+            font-family: 'Jaldi', sans-serif;
+            /* font-weight: 500;*/
+            font-size: 17px;
+            /* letter-spacing: 0.05em;*/
+            border-radius: 50px;
+            cursor: pointer;
+            border: none;
+            background: linear-gradient(to right, #25947a, #236a8b);
+            color: ghostwhite;
+            overflow: hidden;
+            margin-right: 20px;
+            margin-bottom: 3px;
+        }
+
+            .cssbuttons-io svg {
+                width: 1.5em;
+                height: 1.5em;
+                margin-right: 0.5em;
+            }
+
+            .cssbuttons-io span {
+                position: relative;
+                z-index: 10;
+                transition: color 0.4s;
+                display: inline-flex;
+                align-items: center;
+                padding: 0.4em 0em 0.8em 0em;
+            }
+
+            .cssbuttons-io::before,
+            .cssbuttons-io::after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 0;
+            }
+
+            .cssbuttons-io::before {
+                content: "";
+                background: #236154;
+                width: 120%;
+                left: -10%;
+                transform: skew(30deg);
+                transition: transform 0.4s cubic-bezier(0.3, 1, 0.8, 1);
+            }
+
+            .cssbuttons-io:hover::before {
+                transform: translate3d(100%, 0, 0);
+            }
+
+            .cssbuttons-io:active {
+                transform: scale(0.95);
+            }
+
+        .heading {
+            color: #3A6C6C;
+            font-size: 42px;
+            font-family: 'Jaldi', sans-serif;
+            padding-top: 40px;
+            text-align: left;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<div class="userbody-content">
+    @using (Html.BeginForm("DisplayCaseManager", "Home", FormMethod.Post))
+    {
+
+
+        <div class="cont">
+            <div class="heading">Product Master</div>
+            <div style="display: flex; flex-direction: row; align-items: center;">
+                <div style="display: flex; flex-direction: row; margin-right: auto; align-items: center;">
+                    <input type="text" id="searchInput" class="search-input" />
+                    <input type="button" id="btnsubmit" />
+                </div>
+
+                <button id="createCaseButton" class="cssbuttons-io" type="button">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+                        </svg>
+                        Case
+                    </span>
+                </button>
+            </div>
+
+
+
+
+
+
+            @*@Html.ActionLink("Add New Case", "CreateCaseManagerView", "Home", new { @class = "btn btn-primary" })*@
+
+
+            <div class="dis">
+                <div class="view">
+                    <div id="CaseList"></div>
+                    <table>
+                        <tr>
+                            <td class="tableHead">Application no</td>
+                            <td class="tableHead">Customer Name</td>
+                            <td class="tableHead">Company Name</td>
+                            <td class="tableHead">Product</td>
+                            <td class="tableHead">FE Name</td>
+                            <td class="tableHead">Allocation Date</td>
+                            <td class="tableHead">Final Date</td>
+                            <td class="tableHead">Final Status</td>
+                            <td class="tableHead">Type</td>
+                            <td class="tableHead">Send PDA</td>
+                            <td class="tableHead">Delete</td>
+
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Application_no, new { @class = "tablecont"}) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Application_name, new { @class = "tablecont" }) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Company_Name, new { @class = "tablecont" }) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Product, new { @class = "tablecont" }) </td>
+                                <td>@Html.DisplayFor(modelItem => item.FE_Name, new { @class = "tablecont" }) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Allocation_Date, new { @class = "tablecont" }) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Final_Date, new { @class = "tablecont" }) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Final_Status, new { @class = "tablecont" }) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Visit_Type, new { @class = "tablecont" }) </td>
+                                <td>
+
+                                    @Html.HiddenFor(modelItem => item.Id)
+                                    @*<button type="button" data-id='@item.Id' class="btn btn-primary submitBtn">Send to PDA</button>*@
+
+                                    <img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />
+                                   
+
+                                    @*@Html.ActionLink("Send to PDA", "CreateCaseManagerView", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
+                                    @*@Html.ActionLink("Delete", "DisplayCaseManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
+                                </td>
+                                <td>
+                                    <img src="~/Content/Images/trash.png" style="width: 25px; height: 25px; cursor: pointer;" data-id='@item.Id' class="deleteBtn" />
+                                    @*<button type="button" data-id='@item.Id' class="btn btn-primary deleteBtn">Delete</button>*@
+                                </td>
+                            </tr>
+
+                        }
+
+                    </table>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    }
+</div>
+</html>
+
+
+
+
+
+

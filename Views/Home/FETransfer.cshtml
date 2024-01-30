@@ -1,0 +1,150 @@
+﻿@model List<CPV_Mark3.Models.CaseTable>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btnsubmit").on("click", function (e) {
+
+             /*   console.log("Button clicked");*/
+/*                e.preventDefault();*/
+                var query = $("#searchInput").val();
+                var query2 = $("#callingViewHiddenField").val();
+                //console.log(query);
+
+                var url = '@Url.Action("_SearchCases", "Home")';
+                url = url.replace("_query_", query);
+
+                console.log(url);
+                $.ajax({
+                    url: url,
+                    data: {
+                        query: query,
+                        query2: query2
+                    },
+                    type: "Post",
+                    success: function (result) {
+                        $("#CaseList").html(result);
+
+                    },
+
+
+
+
+                    error: function (e) {
+                     /*   alert("Error fetching search results");*/
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        function updateSelectedRole(selectedRole) {
+            document.getElementById('callingViewHiddenField').value = selectedRole;
+        }
+    </script>
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+        @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+        .userbody-content {
+            display: flex;
+            flex-direction: column;
+            width: 95%;
+            height: 90vh;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            padding: 10px;
+        }
+
+        .heading {
+            color: #3A6C6C;
+            font-size: 42px;
+            font-family: 'Jaldi', sans-serif;
+            padding-top: 40px;
+            text-align: left;
+            padding-bottom: 30px;
+            font-weight: 600;
+        }
+
+        #id {
+            width: 100%;
+        }
+
+        .box {
+            background-color: #E3F4F4;
+            border-radius: 12px !important;
+            border-style: none;
+            width: 200px;
+            height: 30px;
+            margin-top: 7px;
+            margin-bottom: 10px;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 12px;
+            padding: 0px 5px;
+        }
+
+         .box:focus {
+            border-color: #68c5b5; /* Set the border color you want when the input is focused */
+            outline: none; /* Remove the default focus outline (optional) */
+        }
+
+
+
+        label {
+            color: #857F7F;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 15px;
+            padding: 0px 5px;
+            font-weight: 600;
+        }
+
+        #btnsubmit {
+            background-color: #236154;
+            border-radius: 12px;
+            border: none;
+            width: 60px;
+            height: 30px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+        }
+
+       
+    </style>
+</head>
+<body style="padding: 0px;">
+    <div class="userbody-content">
+        <div class="heading">Case Transfer</div>
+        <div style="display: flex; flex-direction: row;">
+            <div style="display: flex; flex-direction: row; width: 100%;">
+
+                <div style="margin-right: 5px;">
+                    <label>Application No</label>
+                    @*<input class="form-control" id="search" name="search" type="text" value="" "  />*@
+                    <input type="text" id="searchInput" class="box" />
+                </div>
+                <div>
+                    <label>User List</label>
+                    <input type="text" id="callingViewHiddenField" style="display: none;" />
+                    @{ Html.RenderAction("_FEView", "Home"); }
+                </div>
+                <div style=" width: 150px; margin-left: 5px; margin: 7px 3px 10px 8px;">
+                    <input type="button" id="btnsubmit"  value="Search" />
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div id="CaseList"></div>
+
+    </div>
+
+
+</body>
+</html>
+
+
