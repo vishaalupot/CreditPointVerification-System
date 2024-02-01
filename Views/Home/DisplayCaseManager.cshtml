@@ -9,7 +9,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add New User</title>
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
         @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
@@ -67,7 +66,6 @@
         }
 
         .dis {
-
             width: 100%;
             height: 100%;
         }
@@ -82,7 +80,7 @@
             margin-right: 15px;
             max-height: 500px;
             width: max-content;
-            border: 1px groove #CBD5E0;
+            border: 1px groove #569F9F;
         }
 
         table {
@@ -95,7 +93,7 @@
             }
 
         td, th {
-            border: 1px solid #ddd;
+            border: 1px groove #569F9F;
             padding: 8px;
             text-align: left;
         }
@@ -120,7 +118,6 @@
             text-align: center;
             height: 60px;
             font-family: 'Jaldi', sans-serif;
-
             font-size: 15px;
             font-weight: 500;
             width: max-content;
@@ -152,7 +149,7 @@
             font-family: 'Jaldi', sans-serif;
             font-size: 15px;
             padding-left: 10px;
-            border: 1px groove #CBD5E0;
+            border: 1px groove #569F9F;
         }
 
             .search-input:focus {
@@ -174,12 +171,7 @@
             background-size: 55%;
             background-repeat: no-repeat;
             background-position: center;
-           
         }
-
-        
-
-
     </style>
     <script src="/Scripts/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
@@ -187,9 +179,7 @@
 
             $(".submitBtn").click(function () {
                 let data = $(this).data("id");
-
                 let url = '@Url.Action("DisplayCaseManager","Home", new { id = "_id_" })';
-
                  url = url.replace("_id_", data);
 
                 $.ajax({
@@ -204,7 +194,6 @@
                             alert("error")
                     }
                     })
-
             })
 
              $(".deleteBtn").click(function () {
@@ -236,11 +225,8 @@
              $("#btnsubmit").on("click", function (e) {
 
                 console.log("Button clicked");
-/*                e.preventDefault();*/
                 var query = $("#searchInput").val();
                 var query2 = $("#callingViewHiddenField").val();
-                //console.log(query);
-
                 var url = '@Url.Action("_SearchAllCases", "Home")';
                 url = url.replace("_query_", query);
 
@@ -259,17 +245,11 @@
                 });
             });
 
-
             $("#createCaseButton").click(function () {
                 @*var a = '@Html.Action("CreateCaseManagerView")';*@
             window.location.href = '@Url.Action("CreateCaseManagerView", "Home")';
         });
         })
-
-
-
-
-
     </script>
 
     <style>
@@ -343,98 +323,94 @@
         }
     </style>
 </head>
-<div class="userbody-content">
-    @using (Html.BeginForm("DisplayCaseManager", "Home", FormMethod.Post))
-    {
+<body>
+    <div class="userbody-content">
+        @using (Html.BeginForm("DisplayCaseManager", "Home", FormMethod.Post))
+        {
+            <div class="cont">
+                <div class="heading">Product Master</div>
+                <div style="display: flex; flex-direction: row; align-items: center;">
+                    <div style="display: flex; flex-direction: row; margin-right: auto; align-items: center;">
+                        <input type="text" id="searchInput" class="search-input" />
+                        <input type="button" id="btnsubmit" />
+                    </div>
 
-
-        <div class="cont">
-            <div class="heading">Product Master</div>
-            <div style="display: flex; flex-direction: row; align-items: center;">
-                <div style="display: flex; flex-direction: row; margin-right: auto; align-items: center;">
-                    <input type="text" id="searchInput" class="search-input" />
-                    <input type="button" id="btnsubmit" />
+                    <button id="createCaseButton" class="cssbuttons-io" type="button">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+                            </svg>
+                            Case
+                        </span>
+                    </button>
                 </div>
-
-                <button id="createCaseButton" class="cssbuttons-io" type="button">
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-                        </svg>
-                        Case
-                    </span>
-                </button>
-            </div>
+                @*@Html.ActionLink("Add New Case", "CreateCaseManagerView", "Home", new { @class = "btn btn-primary" })*@
 
 
+                <div class="dis">
+                    <div class="view">
+                        <div id="CaseList"></div>
 
-
-
-
-            @*@Html.ActionLink("Add New Case", "CreateCaseManagerView", "Home", new { @class = "btn btn-primary" })*@
-
-
-            <div class="dis">
-                <div class="view">
-                    <div id="CaseList"></div>
-                    <table>
-                        <tr>
-                            <td class="tableHead">Application no</td>
-                            <td class="tableHead">Customer Name</td>
-                            <td class="tableHead">Company Name</td>
-                            <td class="tableHead">Product</td>
-                            <td class="tableHead">FE Name</td>
-                            <td class="tableHead">Allocation Date</td>
-                            <td class="tableHead">Final Date</td>
-                            <td class="tableHead">Final Status</td>
-                            <td class="tableHead">Type</td>
-                            <td class="tableHead">Send PDA</td>
-                            <td class="tableHead">Delete</td>
-
-                        </tr>
-
-                        @foreach (var item in Model)
-                        {
+                        <table>
                             <tr>
-                                <td>@Html.DisplayFor(modelItem => item.Application_no, new { @class = "tablecont"}) </td>
-                                <td>@Html.DisplayFor(modelItem => item.Application_name, new { @class = "tablecont" }) </td>
-                                <td>@Html.DisplayFor(modelItem => item.Company_Name, new { @class = "tablecont" }) </td>
-                                <td>@Html.DisplayFor(modelItem => item.Product, new { @class = "tablecont" }) </td>
-                                <td>@Html.DisplayFor(modelItem => item.FE_Name, new { @class = "tablecont" }) </td>
-                                <td>@Html.DisplayFor(modelItem => item.Allocation_Date, new { @class = "tablecont" }) </td>
-                                <td>@Html.DisplayFor(modelItem => item.Final_Date, new { @class = "tablecont" }) </td>
-                                <td>@Html.DisplayFor(modelItem => item.Final_Status, new { @class = "tablecont" }) </td>
-                                <td>@Html.DisplayFor(modelItem => item.Visit_Type, new { @class = "tablecont" }) </td>
-                                <td>
+                                <td class="tableHead">Application no</td>
+                                <td class="tableHead">Customer Name</td>
+                                <td class="tableHead">Company Name</td>
+                                <td class="tableHead">Product</td>
+                                <td class="tableHead">FE Name</td>
+                                <td class="tableHead">Allocation Date</td>
+                                <td class="tableHead">Final Date</td>
+                                <td class="tableHead">Final Status</td>
+                                <td class="tableHead">Type</td>
+                                <td class="tableHead">Send PDA</td>
+                                <td class="tableHead">Delete</td>
 
-                                    @Html.HiddenFor(modelItem => item.Id)
-                                    @*<button type="button" data-id='@item.Id' class="btn btn-primary submitBtn">Send to PDA</button>*@
-
-                                    <img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />
-                                   
-
-                                    @*@Html.ActionLink("Send to PDA", "CreateCaseManagerView", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
-                                    @*@Html.ActionLink("Delete", "DisplayCaseManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
-                                </td>
-                                <td>
-                                    <img src="~/Content/Images/trash.png" style="width: 25px; height: 25px; cursor: pointer;" data-id='@item.Id' class="deleteBtn" />
-                                    @*<button type="button" data-id='@item.Id' class="btn btn-primary deleteBtn">Delete</button>*@
-                                </td>
                             </tr>
 
-                        }
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Application_no, new { @class = "tablecont" }) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Application_name, new { @class = "tablecont" }) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Company_Name, new { @class = "tablecont" }) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Product, new { @class = "tablecont" }) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.FE_Name, new { @class = "tablecont" }) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Allocation_Date, new { @class = "tablecont" }) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Final_Date, new { @class = "tablecont" }) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Final_Status, new { @class = "tablecont" }) </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Visit_Type, new { @class = "tablecont" }) </td>
+                                    <td>
 
-                    </table>
+                                        @Html.HiddenFor(modelItem => item.Id)
+                                        @*<button type="button" data-id='@item.Id' class="btn btn-primary submitBtn">Send to PDA</button>*@
+
+                                        <img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />
+
+
+                                        @*@Html.ActionLink("Send to PDA", "CreateCaseManagerView", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
+                                        @*@Html.ActionLink("Delete", "DisplayCaseManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
+                                    </td>
+                                    <td>
+                                        <img src="~/Content/Images/trash.png" style="width: 25px; height: 25px; cursor: pointer;" data-id='@item.Id' class="deleteBtn" />
+                                        @*<button type="button" data-id='@item.Id' class="btn btn-primary deleteBtn">Delete</button>*@
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </table>
+                    </div>
                 </div>
+
+
+
             </div>
 
 
+        }
+    </div>
+</body>
 
-        </div>
-
-
-    }
-</div>
 </html>
 
 

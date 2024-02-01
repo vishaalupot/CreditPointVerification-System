@@ -71,7 +71,7 @@
         }
 
         td, th {
-            border: 1px solid #ddd;
+            border: 1px groove #569F9F;
             padding: 8px;
             text-align: left;
         }
@@ -97,11 +97,19 @@
             height: 60px;
             font-family: 'Jaldi', sans-serif;
             font-size: 20px;
+            font-weight: 500;
+            white-space: nowrap;
+            color: #3A6C6C;
         }
 
         .tableHead {
-            font-size: 23px;
+            font-size: 25px;
+            font-weight: 700;
+            width: max-content;
+            white-space: nowrap;
+            color: #3A6C6C;
         }
+
     </style>
     <script src="/Scripts/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
@@ -147,7 +155,15 @@
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.ProductName) </td>
                             @*<td>@Html.DisplayFor(modelItem => item.ProductStatus) </td>*@
-                            <td><button type="button" data-id='@item.ProductId' class="btn btn-primary deleteBtn">Delete</button></td>
+
+                        <td>
+
+                            <img src="~/Content/Images/trash.png" alt="Delete" data-id='@item.ProductId'  style="width: 30px; height: 30px; cursor: pointer;" class=" deleteBtn">
+
+                            @*<button type="button" data-id='@item.ProductId' class="deleteBtn">
+                            </button>*@
+
+                        </td>
 
                         </tr>
 

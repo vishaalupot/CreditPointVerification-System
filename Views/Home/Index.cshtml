@@ -1,4 +1,4 @@
-﻿@model CPV_Mark3.Models.CaseTable
+﻿@model IEnumerable<CPV_Mark3.Models.CaseTable>
 
 
 @{
@@ -104,7 +104,7 @@
 
 
     .body-cont3 {
-        width: 90%; /* Adjust width as needed */
+        width: 95%; /* Adjust width as needed */
         height: 70%;
         margin: 20px 0px 20px 25px;
         padding: 20px;
@@ -275,10 +275,11 @@
     .stat0 {
         background-color: white;
         border-radius: 12px;
-        width: 300px;
-        height: 150px;
+        width: 600px;
+        height: 175px;
         border: 1px groove #CBD5E0;
         margin: 10px 10px;
+        padding: 10px 10px;
         overflow: hidden;
         scroll-behavior: smooth;
     }
@@ -286,7 +287,7 @@
     .stat1 {
         background-color: white;
         border-radius: 12px;
-        width: 500px;
+        width: 460px;
         height: 225px;
         margin: 10px 10px;
         border: 1px groove #CBD5E0;
@@ -309,13 +310,26 @@
     .stat3 {
         background-color: white;
         border-radius: 12px;
-        width: 225px;
-        height: 400px;
+        width: 250px;
+        height: 420px;
         border: 1px groove #CBD5E0;
         margin: 10px 10px;
         display: flex;
         justify-content: center;
         flex-direction: column;
+        padding: 10px;
+    }
+
+    .stat1-below {
+        background-color: #044361;
+        border-radius: 12px;
+        width: 120px;
+        height: 225px;
+        margin: 10px 10px;
+        border: 1px groove #CBD5E0;
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
     }
 
     .dis {
@@ -374,24 +388,150 @@
         color: #9B9FA4;
     }
 
+    .sub-head {
+        color: #3A6C6C;
+        font-size: 14px;
+        font-family: 'Jaldi', sans-serif;
+        text-align: left;
+        font-weight: 600;
+    }
 
+    .name-head {
+        color: #3A6C6C;
+        font-size: 14px;
+        font-family: 'Jaldi', sans-serif;
+        font-weight: 600;
+        padding:4px 0px;
+    }
+</style>
 
+<style>
+    #circle-loader-wrap1 {
+        overflow: hidden;
+        position: relative;
+        margin-top: -10px;
+        width: 125px;
+        height: 125px;
+        /* box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1) inset; */
+        background-color: white;
+        border-radius: 200px;
+        transform: rotate(180deg);
+    }
+
+        #circle-loader-wrap1:after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            background-color: #D9D9D9;
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+        }
+
+        #circle-loader-wrap1 div {
+            overflow: hidden;
+            position: absolute;
+            width: 50%;
+            height: 100%;
+        }
+
+        #circle-loader-wrap1 .loader {
+            position: absolute;
+            left: 100%;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 1000px;
+            background-color: #17ABFF;
+        }
+
+        #circle-loader-wrap1 .left-wrap {
+            left: 0;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+            #circle-loader-wrap1 .left-wrap .loader {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+                transform-origin: 0 50% 0;
+                animation: loading-left 4s 1 forwards linear;
+            }
+
+        #circle-loader-wrap1 .right-wrap {
+            left: 49%;
+        }
+
+            #circle-loader-wrap1 .right-wrap .loader {
+                left: -100%;
+                border-bottom-right-radius: 0;
+                border-top-right-radius: 0;
+                transform-origin: 100% 50% 0;
+                animation: loading-right 4s 1 forwards linear;
+                border-radius: 10px;
+            }
+
+    .animate-once .loader {
+        animation: none; /* Disable animation */
+    }
+
+    @@keyframes loading-left {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        25%, 100% {
+            transform: rotate(180deg);
+        }
+    }
+
+    @@keyframes loading-right {
+        0%, 25% {
+            transform: rotate(0deg);
+        }
+
+        50%, 100% {
+            transform: rotate(64.8deg);
+        }
+    }
+
+    .circular-progress1 {
+        position: relative;
+        height: 115px;
+        width: 113px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+    }
+
+        .circular-progress1:before {
+            content: "";
+            position: absolute;
+            height: 79%;
+            width: 79%;
+            background-color: #ffffff;
+            border-radius: 50%;
+            background-color: #EEEEEE;
+        }
+
+    .value-container1 {
+        position: relative;
+        font-family: "Poppins", sans-serif;
+        font-size: 35px;
+        color: #000000;
+        background-color: #EEEEEE;
+        font-weight: 800;
+    }
 </style>
 
 <div class="body-content">
     <div style=" display: flex; flex-direction: column; width: 90%;">
         <div class="body-cont1">
             <div class="heading">ADIB DASHBOARD</div>
-            @*<div>
-                       <form>
-                           <input class="SearchBar" type="text" placeholder="Search..." required>
-                       </form>
-                </div>*@
         </div>
-        <div @*class="body-cont2"*@>
-
-
-        </div>
+    
 
         <div class="body-cont3">
 
@@ -399,115 +539,111 @@
                 <div style="display: flex; flex-direction: row;">
 
                     <div class="stat0">
+                        <div class="sub-head">Daily Stats</div>
+                        <div style="display: flex; flex-direction: row; justify-content: space-between; padding: 4px 0px;">
+                            <div style="display: flex; flex-direction: column;">
+                                <div class="circular-progress1">
+                                    <div class="value-container1">0</div>
+                                </div>
+                                <span style="display: flex; justify-content: center; font-weight: 700; font-size: 12px;">Total Applications</span>
+                            </div>
 
-                        @*<div class="circular-progress1">
-                                <div class="value-container">0</div>
+
+                            <div style="display: flex; flex-direction: column;">
+                                <div class="circular-progress1">
+                                    <div class="value-container1">0</div>
+                                </div>
+                                <span style="display: flex; justify-content: center; font-weight: 700; font-size: 12px;">On time</span>
+                            </div>
+
+
+                            <div style="display: flex; flex-direction: column;">
+                                <div class="circular-progress1">
+                                    <div class="value-container1">0</div>
+                                </div>
+                                <span style="display: flex; justify-content: center; font-weight: 700; font-size: 12px;">Under Process</span>
+                            </div>
+
+
+                            <div style="display: flex; flex-direction: column;">
+                                <div class="circular-progress1">
+                                    <div class="value-container1">0</div>
+                                </div>
+                                <span style="display: flex; justify-content: center; font-weight: 700; font-size: 12px;">Over Due</span>
+                            </div>
                         </div>
 
-                        <span style="display: flex; justify-content: center; font-weight: 700; font-size: 12px;">On time</span>*@
 
                     </div>
-
-                    @*<div class="stat2">
-                            <canvas id="myPie"></canvas>
-                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                            <script>
-                                const ctx1 = document.getElementById('myPie');
-
-                                new Chart(ctx1, {
-                                    type: 'pie',
-                                    data: {
-                                        datasets: [{
-                                            label: '# of Employees by Roles',
-                                            data: [15, 20, 10, 5, 20, 30], // Replace with your actual data
-                                            backgroundColor: [
-                                                '#005BFF',
-                                                '#00C9B6',
-                                                '#9100DB',
-                                                '#0400E3',
-                                                '#FF0734',
-                                                '#FA7E00',
-                                                'rgba(0, 128, 128, 0.2)',
-                                                'rgba(218, 165, 32, 0.2)',
-                                                'rgba(128, 128, 0, 0.2)',
-                                                'rgba(106, 90, 205, 0.2)',
-                                                'rgba(178, 34, 34, 0.2)'
-                                            ],
-                                            borderColor: [
-                                                'white'
-                                            ],
-                                            borderWidth: 1,
-                                            hoverOffset: 4
-                                        }]
-                                    }
-                                });
-                            </script>
-                        </div>*@
                 </div>
 
+                <div style="display: flex; flex-direction: row;">
+                    <div class="stat1">
+                        <canvas id="myChart" style="width: 600px !important;"></canvas>
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-                <div class="stat1">
-                    <canvas id="myChart"></canvas>
-                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <script>
+                            const ctx = document.getElementById('myChart');
 
-                    <script>
-                        const ctx = document.getElementById('myChart');
+                            new Chart(ctx, {
+                                data: {
+                                    datasets: [{
+                                        type: 'bar',
+                                        label: 'Total Cases',
+                                        data: [12, 19, 3, 5, 2, 13],
+                                        backgroundColor: [
+                                            '#165DFF',
+                                        ],
 
-                        new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                                datasets: [{
-                                    label: '# of Votes',
-                                    data: [12, 19, 3, 5, 2, 3],
-                                    backgroundColor: [
-                                        '#0C56FF', // Color for the first bar (Red)
-                                    ],
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
-                                }
-                            }
-                        });
+                                    }, {
+                                        type: 'bar',
+                                        label: 'Completed Cases',
+                                        data: [10, 9, 8, 2, 1, 7],
+                                        backgroundColor: [
+                                            '#14C9C9',
+                                        ],
+                                    }],
+                                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                                },
 
-                    </script>
+                            });
 
+                        </script>
+                    </div>
 
-
-
+                    <div class="stat1-below">
+                    </div>
                 </div>
+
+               
             </div>
 
             <div class="stat3">
-                <div style="font-size: 12px; font-weight: 700; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 4px 25px; ">FE Stats</div>
+                <div class="sub-head">FE Stats</div>
                 <div class="dis">
                     <div class="view">
                         <table>
                             <tr>
                                 <td class="tableHead">Employee</td>
-                                <td class="tableHead">Total Cases</td>
+                                <td class="tableHead">Total</td>
                                 <td class="tableHead">Pending</td>
                             </tr>
-                            <tr>
+                     
 
-                                <td>@(Model?.FE_Name ?? "N/A")</td>
-                                <td>@(Model?.Application_no ?? "N/A")</td>
-                                <td>@(Model?.Final_Status ?? "N/A")</td>
-                            </tr>
+                                @foreach (var model in Model)
+                                {
+                                <tr>
+                                    <td class="name-head">@(model?.FE_Name ?? "N/A")</td>
+                                    <td> @*@(model?.Application_no ?? "N/A")*@ </td>
+                                    <td>@*@(model?.Final_Status ?? "N/A")*@</td>
+                                </tr>
+                            }
+                               
 
-                        </table>
+                            </table>
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
     </div>
     <div style=" display: flex; flex-direction: column; padding: 0px 30px 0px 0px;">
@@ -544,10 +680,55 @@
 
 
     </div>
-
 </div>
 
 
+
+<script>
+
+    window.addEventListener('load', function () {
+        var circleLoader1 = document.getElementById('circle-loader-wrap1');
+        circleLoader1.classList.remove('animate-once'); // Remove the class to disable animation
+    });
+
+
+    let circularProgressBars1 = document.querySelectorAll(".circular-progress1");
+    let progressEndValues1 = [52, 20, 25, 7];
+    let colors1 = ["#17ABFF", "#580058", "#004d06", "#ca0000"]; // Example colors for each progress bar
+
+    let firstProgressBar1 = circularProgressBars1[0];
+    let firstProgressEndValue1 = progressEndValues1[0];
+
+    function updateProgressBar(progressBar1, index1) {
+        let valueContainer1 = progressBar1.querySelector(".value-container1");
+        let progressValue1 = 0;
+        let progressEndValue1 = progressEndValues1[index1];
+        let color1 = colors1[index1];
+        let speed1 = 100;
+
+        valueContainer1.style.color = color1;
+
+        let update = () => {
+            progressValue1++;
+            valueContainer1.textContent = `${progressValue1}`;
+            progressBar1.style.background = `conic-gradient(
+            ${color1} ${(progressValue1 / firstProgressEndValue1) * 360}deg,
+            #ffffff ${(progressValue1 / firstProgressEndValue1) * 360}deg
+        )`;
+
+            if (progressValue1 < progressEndValue1) {
+                requestAnimationFrame(update);
+            }
+        };
+
+        update();
+    }
+
+    circularProgressBars1.forEach((progressBar1, index1) => {
+        updateProgressBar(progressBar1, index1);
+    });
+
+</script>
 
 
 @*Daily stats JS*@

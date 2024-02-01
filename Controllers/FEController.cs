@@ -57,56 +57,6 @@ namespace CPV_Mark3.Controllers
             return RedirectToAction("FEDash");
         }
 
-        //[HttpPost]
-        //public ActionResult SignatureView(string signatureData, int snr)
-        //{
-        //    CPV_DB1Entities db = new CPV_DB1Entities();
-
-        //    CaseTable table = new CaseTable();
-
-        //    var Signs = db.CaseTables.Where(a => a.Id == snr).FirstOrDefault();
-
-        //    Signs.CustSign = signatureData;
-        //    db.Entry(Signs).State = EntityState.Modified;
-
-        //    //image.Case_Id = int.Parse(Session["id"].ToString());
-
-        //    //image.Image = ConvertToBytes(file);
-        //    //image.TimeStamp = DateTime.Now;
-
-        //    //db.CaseImages.Add(image);
-
-        //    //db.SaveChanges();
-
-
-
-        //    //byte[] signatureBytes = Convert.FromBase64String(signatureData.Split(',')[1]);
-
-
-
-
-
-        //    //if (Signs is null)
-        //    //{
-        //    //    CaseImage imageNew = new CaseImage();
-        //    //    imageNew.Case_Id = snr;
-        //    //    imageNew.TimeStamp = DateTime.Now;
-        //    //    imageNew.CustSign = signatureData;
-
-        //    //    db.CaseImages.Add(imageNew);
-        //    //}
-        //    //else
-        //    //{
-        //    //    Signs.CustSign = signatureData;
-        //    //    db.Entry(Signs).State = EntityState.Modified;
-        //    //}
-
-        //    db.SaveChanges();
-
-        //    return RedirectToAction("FEDash");
-        //}
-
-
         [HttpPost]
         public ActionResult VisitView(FormCollection form)
         {
@@ -157,14 +107,13 @@ namespace CPV_Mark3.Controllers
             caseTable.Name_Neighbor2_feedback = form["Name_Neighbor2_feedback"].ToString();
             caseTable.Name_Security_feedback = form["Name_Security_feedback"].ToString();
             caseTable.FE_Decision = form["FE_Decision"].ToString();
-            caseTable.Latitude = form["Latitude"].ToString();
-            caseTable.Longitude = form["Longitude"].ToString();
+            //caseTable.Latitude = form["Latitude"].ToString();
+            //caseTable.Longitude = form["Longitude"].ToString();
             caseTable.Feedback = form["Feedback"].ToString();
-            caseTable.Images = form["Images"].ToString();
-            caseTable.Verifier_Signature = form["Verifier_Signature"].ToString();
-            caseTable.Customer_Signature = form["Customer_Signature"].ToString();
-            caseTable.Final_Date = DateTime.TryParse(form["Final_Date"], out allocationDate) ? allocationDate : default(DateTime);
-            caseTable.Final_Status = form["Final_Status"].ToString();
+            //caseTable.Images = form["Images"].ToString();
+            //caseTable.Verifier_Signature = form["Verifier_Signature"].ToString();
+            //caseTable.Customer_Signature = form["Customer_Signature"].ToString();
+            caseTable.Final_Date = DateTime.Now;
             caseTable.ReceptionDesk = form["ReceptionDesk"].ToString();
             caseTable.Different_CompanyNameBoard_Seen_Reason = form["Different_CompanyNameBoard_Seen_Reason"].ToString();
             //caseTable.Application_name = form["Application_name"].ToString();
@@ -190,9 +139,11 @@ namespace CPV_Mark3.Controllers
         public ActionResult SignatureView(int id)
         {
 
+            CPV_DB1Entities db = new CPV_DB1Entities();
+            CaseTable caseTable = db.CaseTables.Find(id);
             ViewBag.snr = id;
             Session["id"] = id;
-            return View();
+            return View(caseTable);
         }
 
         [HttpPost]
@@ -231,7 +182,11 @@ namespace CPV_Mark3.Controllers
         public ActionResult PhotoView(int id)
         {
 
-            //Added code below
+            CPV_DB1Entities db = new CPV_DB1Entities();
+
+
+            CaseTable caseTable = db.CaseTables.Find(id);
+
             List<byte[]> imageList = GetImageFromDataBase(id).ToList();
 
             List<string> base64Images = new List<string>();
@@ -247,7 +202,7 @@ namespace CPV_Mark3.Controllers
                 ViewBag.Images = base64Images;
                 ViewBag.snr = id;
                 Session["id"] = id;
-                return View();
+                return View(caseTable);
                 //string imageBase64 = Convert.ToBase64String(images);
                 //ViewBag.ImageBase64 = imageBase64;
 
@@ -262,7 +217,7 @@ namespace CPV_Mark3.Controllers
 
             ViewBag.snr = id;
             Session["id"] = id;
-            return View();
+            return View(caseTable);
         }
 
         //public ActionResult PhotoView(FormCollection file)

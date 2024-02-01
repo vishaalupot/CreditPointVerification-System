@@ -12,10 +12,11 @@
 
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+
         .header {
             font-size: 35px;
             display: flex;
-            justify-content:space-between;
+            justify-content: space-between;
             align-items: center;
             padding: 20px 0px;
             font-weight: 600;
@@ -95,6 +96,7 @@
                 justify-content: center;
                 align-items: center;
             }
+
             table tr td {
                 text-align: center;
                 height: 60px;
@@ -120,10 +122,6 @@
                 width: 100%;
                 margin: 0px 2px;
             }
-
-
-
-
         }
 
         @@media screen and (max-width: 500px) {
@@ -149,6 +147,7 @@
                 font-family: Verdana, sans-serif;
                 font-size: 15px;
             }
+
             .tableHead {
                 font-size: 19px;
                 font-weight: 700;
@@ -159,6 +158,7 @@
                 justify-content: center;
                 align-items: center;
             }
+
             table tr td {
                 text-align: center;
                 height: 60px;
@@ -182,7 +182,6 @@
                 color: white;
                 font-family: 'Jaldi', sans-serif;
             }
-
         }
 
         .logo {
@@ -239,24 +238,24 @@
             text-align: left;
         }
 
-        tr:first-child td {
-            border-top: none; /* Remove top border for the first row */
-        }
+            tr:first-child td {
+                border-top: none; /* Remove top border for the first row */
+            }
 
-        tr:last-child td {
-            border-bottom: none; /* Remove bottom border for the last row */
-        }
+            tr:last-child td {
+                border-bottom: none; /* Remove bottom border for the last row */
+            }
 
-        td:first-child {
-            border-left: none; /* Remove left border for the first column */
-        }
+            td:first-child {
+                border-left: none; /* Remove left border for the first column */
+            }
 
-        td:last-child {
-            border-right: none; /* Remove right border for the last column */
-        }
+            td:last-child {
+                border-right: none; /* Remove right border for the last column */
+            }
 
 
-        .content {
+            .content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.2s ease-out;
@@ -271,52 +270,75 @@
         .cards-cont {
             display: flex;
             flex-direction: row;
-           /* justify-content: space-between;*/
+            /* justify-content: space-between;*/
             padding-bottom: 20px;
         }
 
 
-        svg{
-          color: white;
-          cursor:pointer;
-          z-index: 999;
-          overflow: show;
-          width:40px;
-          height: auto;
+        svg {
+            color: white;
+            cursor: pointer;
+            z-index: 999;
+            overflow: show;
+            width: 40px;
+            height: auto;
         }
 
 
-        svg:hover{
-            -webkit-animation-name: spin;
-            -webkit-animation-duration: 1000ms;
-            -webkit-animation-iteration-count: 1;
-        }
+            svg:hover {
+                -webkit-animation-name: spin;
+                -webkit-animation-duration: 1000ms;
+                -webkit-animation-iteration-count: 1;
+            }
 
 
 
         @@-ms-keyframes spin {
-            from { -ms-transform: rotate(0deg); }
-            to { -ms-transform: rotate(360deg); }
+            from {
+                -ms-transform: rotate(0deg);
+            }
+
+            to {
+                -ms-transform: rotate(360deg);
+            }
         }
+
         @@-moz-keyframes spin {
-            from { -moz-transform: rotate(0deg); }
-            to { -moz-transform: rotate(360deg); }
+            from {
+                -moz-transform: rotate(0deg);
+            }
+
+            to {
+                -moz-transform: rotate(360deg);
+            }
         }
+
         @@-webkit-keyframes spin {
-            from { -webkit-transform: rotate(0deg); }
-            to { -webkit-transform: rotate(360deg); }
+            from {
+                -webkit-transform: rotate(0deg);
+            }
+
+            to {
+                -webkit-transform: rotate(360deg);
+            }
         }
+
         @@keyframes spin {
             from {
-                transform:rotate(0deg);
+                transform: rotate(0deg);
             }
+
             to {
-                transform:rotate(360deg);
+                transform: rotate(360deg);
             }
         }
     </style>
 
-
+    <script>
+        function reloadPage() {
+            location.reload();
+        }
+    </script>
 
 </head>
 <body>
@@ -326,107 +348,109 @@
             @Html.Partial("_MobLayout")
         </div>
 
-        <div class="header" id="first">
-            My Visit List
-            <svg fill="black" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
-                <path d="M0 0h24v24H0z" fill="none" />
-            </svg>
-        </div>
+        <div style="margin: 5px 10px;">
 
-        <div class="fe-cards" id="second">
+            <div class="header" id="first">
+                My Visit List
+                <svg fill="black" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg" onclick="reloadPage()">
+                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+                    <path d="M0 0h24v24H0z" fill="none" />
+                </svg>
+            </div>
 
-            @foreach (var item in Model)
-            {
+            <div class="fe-cards" id="second">
 
-                <div class="cards collapsible">
+                @foreach (var item in Model)
+                {
 
-                    <table>
-                        <tr>
-                            <td class="tableHead">Application no</td>
-                            <td>@Html.DisplayFor(modelItem => item.Application_no)</td>
+                    <div class="cards collapsible">
 
-                        </tr>
-                        <tr>
-                            <td class="tableHead">Customer Name</td>
-                            <td>@Html.DisplayFor(modelItem => item.Application_name)</td>
-                        </tr>
+                        <table>
+                            <tr>
+                                <td class="tableHead">Application no</td>
+                                <td>@Html.DisplayFor(modelItem => item.Application_no)</td>
 
-                        <tr>
-                            <td class="tableHead">Product</td>
-                            <td>@Html.DisplayFor(modelItem => item.Product)</td>
-                        </tr>
+                            </tr>
+                            <tr>
+                                <td class="tableHead">Customer Name</td>
+                                <td>@Html.DisplayFor(modelItem => item.Application_name)</td>
+                            </tr>
 
-                        <tr>
-                            <td class="tableHead">Client</td>
-                            <td>@Html.DisplayFor(modelItem => item.Client)</td>
-                        </tr>
+                            <tr>
+                                <td class="tableHead">Product</td>
+                                <td>@Html.DisplayFor(modelItem => item.Product)</td>
+                            </tr>
 
-                        <tr>
-                            <td class="tableHead">Company Name</td>
-                            <td>@Html.DisplayFor(modelItem => item.Company_Name)</td>
-                        </tr>
+                            <tr>
+                                <td class="tableHead">Client</td>
+                                <td>@Html.DisplayFor(modelItem => item.Client)</td>
+                            </tr>
 
-                        <tr>
-                            <td class="tableHead">Visit Address</td>
-                            <td>@Html.DisplayFor(modelItem => item.Company_Address)</td>
-                        </tr>
+                            <tr>
+                                <td class="tableHead">Company Name</td>
+                                <td>@Html.DisplayFor(modelItem => item.Company_Name)</td>
+                            </tr>
 
-                        <tr>
-                            <td class="tableHead">Allocation Date</td>
-                            <td>@Html.DisplayFor(modelItem => item.Allocation_Date)</td>
-                        </tr>
+                            <tr>
+                                <td class="tableHead">Visit Address</td>
+                                <td>@Html.DisplayFor(modelItem => item.Company_Address)</td>
+                            </tr>
 
-                        <tr>
-                            <td class="tableHead">Contact Person</td>
-                            <td>@Html.DisplayFor(modelItem => item.Contacted_Person)</td>
-                        </tr>
+                            <tr>
+                                <td class="tableHead">Allocation Date</td>
+                                <td>@Html.DisplayFor(modelItem => item.Allocation_Date)</td>
+                            </tr>
 
-                        <tr>
-                            <td class="tableHead">Landline</td>
-                            <td>@Html.DisplayFor(modelItem => item.Landline)</td>
-                        </tr>
+                            <tr>
+                                <td class="tableHead">Contact Person</td>
+                                <td>@Html.DisplayFor(modelItem => item.Contacted_Person)</td>
+                            </tr>
 
-                        <tr>
-                            <td class="tableHead">Mobile</td>
-                            <td>@Html.DisplayFor(modelItem => item.Contacted_Person_Mobile_No)</td>
-                        </tr>
+                            <tr>
+                                <td class="tableHead">Landline</td>
+                                <td>@Html.DisplayFor(modelItem => item.Landline)</td>
+                            </tr>
 
-                        <tr>
-                            <td class="tableHead">Business/Operating Hours</td>
-                            <td>@Html.DisplayFor(modelItem => item.Operating_Hours)</td>
-                        </tr>
-                    </table>
+                            <tr>
+                                <td class="tableHead">Mobile</td>
+                                <td>@Html.DisplayFor(modelItem => item.Contacted_Person_Mobile_No)</td>
+                            </tr>
+
+                            <tr>
+                                <td class="tableHead">Business/Operating Hours</td>
+                                <td>@Html.DisplayFor(modelItem => item.Operating_Hours)</td>
+                            </tr>
+                        </table>
 
 
 
-                    <div style="display: flex; flex-direction: row; justify-content: space-between">
+                        <div style="display: flex; flex-direction: row; justify-content: space-between">
 
-                        <button class="button" onclick="redirectToVisit('@item.Id')">Visit</button>
+                            <button class="button" onclick="redirectToVisit('@item.Id')">Visit</button>
 
-                        <button class="button " onclick="redirectToPhotos('@item.Id')">Photos</button>
-                        @*@Html.ActionLink("Photos","PhotoView", new {id = item.Id})*@
+                            <button class="button " onclick="redirectToPhotos('@item.Id')">Photos</button>
+                            @*@Html.ActionLink("Photos","PhotoView", new {id = item.Id})*@
+
+                        </div>
+
+                        <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 10px">
+                            <button class="button " onclick="redirectToSignature('@item.Id')">Signature</button>
+                            @*@Html.ActionLink("Signature", "SignatureView", new { id = item.Id })*@
+                            <button class="button " onclick="redirectToSubmit('@item.Id')">Final Submit</button>
+                        </div>
+
 
                     </div>
 
-                    <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 10px">
-                        <button class="button " onclick="redirectToSignature('@item.Id')">Signature</button>
-                        @*@Html.ActionLink("Signature", "SignatureView", new { id = item.Id })*@
-                        <button class="button " onclick="redirectToSubmit('@item.Id')">Final Submit</button>
-                    </div>
+                }
 
-
-                </div>
-
-            }
+            </div>
 
         </div>
 
+        </div>
 
-
-    </div>
-
-    <script>
+        <script>
 
         function redirectToVisit(id) {
             window.location.href = '@Url.Action("VisitView", "FE", new { id = "__id__" })'.replace("__id__", id);
@@ -463,9 +487,9 @@
 
             });
         }
-    </script>
+        </script>
 
-    @*//var content =  this.nextElementSibling;
+        @*//var content =  this.nextElementSibling;
         //if (content.style.maxHeight) {
         //    content.style.maxHeight = null;
         //} else {

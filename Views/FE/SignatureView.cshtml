@@ -26,43 +26,11 @@
 
             var canvas3 = document.querySelector('#Vsignature2'); //$("#signature").val();
             var pad3 = new SignaturePad(canvas3);
-
-            //$('#accept').click(function () {
-            //    var data = pad.toDataURL();
-            //    //$('#savetarget').attr('src', data);
-            //    $('#SignatureDataUrl').val(data);
-            //    pad.off();
-            //});
         });
-
 
         function uploadImage(snr) {
 
-            @*var canvas = document.querySelector('#signature'); //$("#signature").val();
-            var pad = new SignaturePad(canvas);
-
-
-
-            var data = pad.toDataURL();
-            console.log("vis"+data);
-
-            //$('#savetarget').attr('src', data);
-            $('#SignatureDataUrl').val(data);
-            pad.off();
-
-            let url = '@Url.Action("SignatureView", "FE")';
-
-            // Get the signature data from the hidden input
-            var signatureData = $('#SignatureDataUrl').val();
-            alert(signatureData);
-            console.log(signatureData);
-            // Create FormData and append the signature data and snr
             var formData = new FormData();
-            formData.append("signatureData", signatureData);
-            formData.append("snr", snr);*@
-
-
-            /*TESTING HERE*/
 
             const canvas = document.getElementById("signature");
             const dataURL = canvas.toDataURL();
@@ -87,8 +55,6 @@
 
             let url = '@Url.Action("SignatureView", "FE")';
 
-
-            /*TESTING HERE*/
 
             $.ajax({
                 url: url,
@@ -116,6 +82,7 @@
     </script>
 
     <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
         .fe-dash2 {
             position: fixed;
             bottom: 0;
@@ -165,7 +132,6 @@
             background-color: #236A8B; /* Green background color */
             background-image: url(../../Content/Images/dash.png);
             color: white; /* White text color */
-            border: 1px solid #4CAF50; /* Green border */
             border-radius: 4px; /* Rounded corners */
             cursor: pointer;
             width: 50px;
@@ -180,6 +146,7 @@
             border-radius: 12px;
             margin: 5px 10px;
             width: 100%;
+            border: 1px solid #569F9F;
         }
 
         .details-dash {
@@ -202,6 +169,7 @@
             border: 1px solid white;
             padding: 8px;
             text-align: left;
+            font-weight: 500;
         }
 
             tr:first-child td {
@@ -241,76 +209,101 @@
             position: sticky;
             margin-top: auto; /* Push the last div to the bottom */
         }
+
+        canvas {
+            background-color: white;
+            border: 1px solid #569F9F !important;
+            border-radius: 8px;
+        }
+
+        .h-sign{
+            font-size: 25px;
+            display: flex;
+            justify-content: center;
+            padding: 20px 0px;
+            font-weight: 600;
+            color: #236A8B;
+            font-family: 'Jaldi', sans-serif;
+        }
+
+
     </style>
+
+    
 
 </head>
 <body style="padding: 0px 0px;">
     <div class="fe-dash2">
         @Html.Partial("_MobLayout")
     </div>
-    <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
-        <div class="header">Photo View</div>
-        @Html.ActionLink(" ", "FEDash", null, new { @class = "Dashbutton" })
+
+    <div style="margin: 5px 10px;">
+
+        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
+            <div class="header">Signature View</div>
+            @Html.ActionLink(" ", "FEDash", null, new { @class = "Dashbutton" })
+
+        </div>
+
+        <div class="row space blue" style=" margin: auto auto;">
+            <div class="details-dash">
+
+                <table>
+                    <tr>
+                        <td>App #: @Model.Application_no</td>
+                        <td>Client: @Model.Client</td>
+                    </tr>
+                    <tr>
+                        <td>Name: @Model.Application_name</td>
+                        <td>Product: @Model.Product</td>
+                    </tr>
+                    <!-- Add more rows or customize as needed -->
+                </table>
+
+
+            </div>
+            <div style="display: flex; align-items: center; flex-direction: column;">
+                <form method="POST" action="/FE/SignatureView" style="display: flex; flex-direction: column;">
+
+                    <div class="h-sign">Customer Signature</div>
+                    <canvas width="225" height="200" id="signature" style="border:1px solid black"></canvas><br>
+
+                    <div class="h-sign">Verifier Signature</div>
+                    <canvas width="225" height="200" id="Vsignature1" style="border:1px solid black"></canvas><br>
+
+                    <div class="h-sign">Verifier Signature Confirmation</div>
+                    <canvas width="225" height="200" id="Vsignature2" style="border:1px solid black"></canvas><br>
+
+                    <button type="button" id="accept" class="btn btn-primary" style="background-color: #236A8B">
+                        <input type="button" id="accept" style="background-color: #236A8B; font-size: 15px;" onclick="uploadImage(@ViewBag.snr)" value="Upload" class="btn btn-primary btn-block" />
+
+                        <input type="hidden" id="SignatureDataUrl" name="SignatureDataUrl">
+                    </button>
+                    @*<img width="500" height="400" id="retrievedSignature" style="border:1px solid black">*@
+
+
+                    @*@Html.Partial("DisplaySign")*@
+
+                    @*<img width="400" height="400" id="savetarget" style="border:1px solid black" src="@Url.Action("DisplaySign", "FE", new { id = ViewBag.snr })" alt="Retrieved Signature"><br>*@
+
+
+
+                    @*<div>
+                            @foreach (var base64Image in ViewBag.Images)
+                            {
+                                <img src="data:image/png;base64,@base64Image" alt="Image" style="width: 100px; height: 100px;" />
+                            }
+                        </div>*@
+
+                </form>
+                <!--<div>
+                 -->
+                <!-- Replace 123 with the actual Id value -->
+                <!--</div>-->
+            </div>
+        </div>
 
     </div>
-
-    <div class="blue">
-        <div class="details-dash">
-
-            <table>
-                <tr>
-                    <td>App #: @*@Model.Application_no*@</td>
-                    <td>Client: @*@Model.Client*@</td>
-                </tr>
-                <tr>
-                    <td>Name: @*@Model.Application_name*@</td>
-                    <td>Product: @*@Model.Product*@</td>
-                </tr>
-                <!-- Add more rows or customize as needed -->
-            </table>
-
-
-        </div>
-        <div style="display: flex; align-items: center; flex-direction: column;">
-            <form method="POST" action="/FE/SignatureView">
-
-                <h1>Customer Signature</h1>
-                <canvas width="225" height="200" id="signature" style="border:1px solid black"></canvas><br>
-
-                <h1>Verifier Signature</h1>
-                <canvas width="225" height="200" id="Vsignature1" style="border:1px solid black"></canvas><br>
-
-                <h1>Customer Signature</h1>
-                <canvas width="225" height="200" id="Vsignature2" style="border:1px solid black"></canvas><br>
-
-                <button type="button" id="accept" class="btn btn-primary">
-                    <input type="button" id="accept" onclick="uploadImage(@ViewBag.snr)" value="Upload" class="btn btn-primary btn-block" />
-
-                    <input type="hidden" id="SignatureDataUrl" name="SignatureDataUrl">
-                </button>
-                @*<img width="500" height="400" id="retrievedSignature" style="border:1px solid black">*@
-
-
-                @*@Html.Partial("DisplaySign")*@
-
-                @*<img width="400" height="400" id="savetarget" style="border:1px solid black" src="@Url.Action("DisplaySign", "FE", new { id = ViewBag.snr })" alt="Retrieved Signature"><br>*@
-
-
-
-                @*<div>
-                        @foreach (var base64Image in ViewBag.Images)
-                        {
-                            <img src="data:image/png;base64,@base64Image" alt="Image" style="width: 100px; height: 100px;" />
-                        }
-                    </div>*@
-
-            </form>
-            <!--<div>
-             -->
-            <!-- Replace 123 with the actual Id value -->
-            <!--</div>-->
-        </div>
-        </div>
 </body>
 </html>
 

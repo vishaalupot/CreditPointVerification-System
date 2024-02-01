@@ -90,25 +90,33 @@ namespace CPV_Mark3.Controllers
 
             if (query != "" || query2 != "")
             {
-                 results = db.CaseTables
-                    .Where(item => item.Application_no == query || item.FE_Name == query2)
-                    .ToList();
+                results = db.CaseTables
+                   .Where(item => item.Application_no == query || item.FE_Name == query2)
+                   .ToList();
             }
-            
-
-            
-
-           
 
 
 
 
-            return PartialView("_SearchCases",results);
+
+
+
+
+
+            return PartialView("_SearchCases", results);
 
 
         }
 
-   
+
+        public ActionResult _SearchAllCases()
+        {
+
+            CPV_DB1Entities db = new CPV_DB1Entities();
+            List<CaseTable> cases = db.CaseTables.ToList();
+            return PartialView(cases);
+        }
+
 
         [HttpPost]
         public ActionResult _SearchAllCases(string query)
@@ -121,7 +129,7 @@ namespace CPV_Mark3.Controllers
 
             var results = db.CaseTables.ToList();
 
-            if(query != "")
+            if (query != "")
             {
                 results = db.CaseTables
                    .Where(item => item.Application_no == query)
@@ -156,13 +164,15 @@ namespace CPV_Mark3.Controllers
 
             if (User.IsInRole("FE"))
             {
-                return RedirectToAction("FEDash","FE");
+                return RedirectToAction("FEDash", "FE");
             }
-            else 
+            else
             {
-                return View();
+                CPV_DB1Entities db = new CPV_DB1Entities();
+                List<CaseTable> caseTable = db.CaseTables.ToList();
+                return View(caseTable);
             }
-         
+
         }
 
         public ActionResult About()
@@ -196,6 +206,37 @@ namespace CPV_Mark3.Controllers
 
         }
 
+        public ActionResult PrintVerifyManager(int id)
+        {
+            CPV_DB1Entities db = new CPV_DB1Entities();
+            CaseTable caseTable = db.CaseTables.Find(id);
+            List<byte[]> imageList = GetImageFromDataBase(id).ToList();
+
+            List<string> base64Images = new List<string>();
+
+            if (imageList.Any())
+            {
+                foreach (var imageData in imageList)
+                {
+                    string base64Image = Convert.ToBase64String(imageData);
+                    base64Images.Add(base64Image);
+                }
+
+                ViewBag.Images = base64Images;
+                return View(caseTable);
+                //string imageBase64 = Convert.ToBase64String(images);
+                //ViewBag.ImageBase64 = imageBase64;
+
+                //ViewBag.Images = images;
+            }
+            else
+            {
+                ViewBag.Images = new List<string>();
+                ViewBag.ErrorMessage = "No images found for the specified ID.";
+            }
+            return View(caseTable);
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -205,12 +246,12 @@ namespace CPV_Mark3.Controllers
             CPV_DB1Entities db = new CPV_DB1Entities();
             AspNetUser user = new AspNetUser
             {
-               FullName = form["FullName"],
+                FullName = form["FullName"],
                 UserName = form["UserName"],
                 UserRole = form["UserRole"],
                 Status = form["Status"]
-                
-                };
+
+            };
 
             db.AspNetUsers.Add(user);
 
@@ -239,8 +280,8 @@ namespace CPV_Mark3.Controllers
             CPV_DB1Entities db = new CPV_DB1Entities();
             ProductTable product = new ProductTable
             {
-                     ProductName = form["ProductName"],
-                    ProductStatus = "Enabled"
+                ProductName = form["ProductName"],
+                ProductStatus = "Enabled"
             };
 
             db.ProductTables.Add(product);
@@ -252,7 +293,7 @@ namespace CPV_Mark3.Controllers
 
         public ActionResult CreateCaseManagerView()
         {
-        
+
             return View();
         }
 
@@ -265,7 +306,7 @@ namespace CPV_Mark3.Controllers
             return View(cases);
         }
 
-       [HttpPost]
+        [HttpPost]
         public ActionResult DisplayCaseManager(int id)
         {
             CPV_DB1Entities db = new CPV_DB1Entities();
@@ -329,9 +370,9 @@ namespace CPV_Mark3.Controllers
 
 
         [HttpPost]
-        public ActionResult ChangeFE(int id,string fe_name)
+        public ActionResult ChangeFE(int id, string fe_name)
         {
-                CPV_DB1Entities db = new CPV_DB1Entities();
+            CPV_DB1Entities db = new CPV_DB1Entities();
             List<CaseTable> cases = db.CaseTables.ToList();
             CaseTable caseTable = db.CaseTables.Find(id);
 
@@ -369,15 +410,6 @@ namespace CPV_Mark3.Controllers
 
             var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var users = userManager.Users.ToList();
-
-            //demo
-            //var feList1 = await DisplayUserRoles(); // Call your method to get the FE list
-            //ViewBag.FEList = new SelectList(feList1, "PropertyNameForValue", "PropertyNameForText");
-
-            //var feList = GetFEList(); // Call your method to get the FE list
-            //ViewBag.FEList = new SelectList(feList);
-
-
 
             CPV_DB1Entities db = new CPV_DB1Entities();
 
@@ -430,7 +462,8 @@ namespace CPV_Mark3.Controllers
         public static List<string> GetProductList()
         {
             CPV_DB1Entities db = new CPV_DB1Entities();
-            return db.CaseTables.Select(s => s.Final_Status).ToList();
+            return db.ProductTables.Select(s => s.ProductName).ToList();
+            //return db.CaseTables.Select(s => s.Final_Status).ToList();
         }
         public static List<string> GetVisitList()
         {
@@ -603,64 +636,6 @@ namespace CPV_Mark3.Controllers
             }
 
             return View(usernamesWithFERole);
-
-
-
-
-
-
-            //ApplicationUserManager userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-
-            //// Get all users from the database
-            //var allUsers = userManager.Users.ToList();
-
-            //// Find users with the "FE" role
-            //var usersWithFERole = allUsers.Where(user => userManager.IsInRole(user.Id, "FE")).ToList();
-
-            //// Create a list to store the roles of users with the "FE" role
-            //var userRoles = new List<string>();
-
-            //// Iterate through each user and get their roles
-            //foreach (var user in usersWithFERole)
-            //{
-            //    var roles = userManager.GetRoles(user.Id);
-            //    userRoles.AddRange(roles);
-            //}
-
-            //return View(userRoles);
-
-
-
-
-
-
-
-
-
-
-
-            //var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            //var users = userManager.Users.ToList();
-            //var targetRoles = new List<string> { "FE" };
-
-            //List<UserRolesViewModel> usersWithTargetRoles = new List<UserRolesViewModel>();
-
-            //foreach (var user in users)
-            //{
-            //    var userRoles = await userManager.GetRolesAsync(user.Id);
-
-            //    if (userRoles.Any(role => targetRoles.Contains(role)))
-            //    {
-            //        var userWithRoles = new UserRolesViewModel
-            //        {
-            //            UserName = user.UserName,
-            //            // Add other properties as needed
-            //        };
-            //        usersWithTargetRoles.Add(userWithRoles);
-            //    }
-            //}
-
-            //return PartialView("_FEView", usersWithTargetRoles);
         }
 
 
@@ -738,11 +713,11 @@ namespace CPV_Mark3.Controllers
             caseTable.Latitude = form["Latitude"].ToString();
             caseTable.Longitude = form["Longitude"].ToString();
             caseTable.Feedback = form["Feedback"].ToString();
-            caseTable.Images = form["Images"].ToString();
-            caseTable.Verifier_Signature = form["Verifier_Signature"].ToString();
-            caseTable.Customer_Signature = form["Customer_Signature"].ToString();
+            //caseTable.Images = form["Images"].ToString();
+            //caseTable.Verifier_Signature = form["Verifier_Signature"].ToString();
+            //caseTable.Customer_Signature = form["Customer_Signature"].ToString();
             caseTable.Final_Date = DateTime.TryParse(form["Final_Date"], out allocationDate) ? allocationDate : default(DateTime);
-            caseTable.Final_Status = form["Final_Status"].ToString();
+            //caseTable.Final_Status = form["Final_Status"].ToString();
             caseTable.ReceptionDesk = form["ReceptionDesk"].ToString();
             caseTable.Different_CompanyNameBoard_Seen_Reason = form["Different_CompanyNameBoard_Seen_Reason"].ToString();
             //caseTable.Application_name = form["Application_name"].ToString();
@@ -753,8 +728,8 @@ namespace CPV_Mark3.Controllers
             db.SaveChanges();
             return RedirectToAction("DisplayVerifyManager");
         }
-        
-        
+
+
         public ActionResult EditVerifyManager(int id)
         {
             CPV_DB1Entities db = new CPV_DB1Entities();
@@ -807,13 +782,11 @@ namespace CPV_Mark3.Controllers
             ViewBag.Roles = listRoles;
             return View();
 
-            
+
         }
 
-        //
-        // POST: /Account/Register
+
         [HttpPost]
-        //[AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -831,7 +804,8 @@ namespace CPV_Mark3.Controllers
                     UserRole = model.InitialRole,
                     Status = model.Status,
                     Email = model.Email,
-                    PhoneNumber = model.PhoneNumber
+                    PhoneNumber = model.PhoneNumber,
+
                 };
 
                 model.UserRole = model.InitialRole;
@@ -849,15 +823,6 @@ namespace CPV_Mark3.Controllers
             return View(model);
         }
 
-        //public ActionResult DisplayFE()
-        //{
-        //    var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>());
-        //    List<string> roles = roleManager.Roles.Select(r => r.Name.Trim()).ToList();
-        //    ViewBag.Roles = roles;
-
-        //    return View();
-        //}
-
         public ApplicationUserManager UserManager
         {
             get
@@ -869,8 +834,6 @@ namespace CPV_Mark3.Controllers
                 _userManager = value;
             }
         }
-
-       
 
     }
 
@@ -886,9 +849,4 @@ namespace CPV_Mark3.Controllers
         public string RoleName { get; set; }
         public List<UserDto> Users { get; set; }
     }
-
-    
-
-
-
 }

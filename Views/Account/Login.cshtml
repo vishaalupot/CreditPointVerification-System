@@ -11,6 +11,7 @@
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
         @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
         body {
             background-color: white;
         }
@@ -21,7 +22,6 @@
             align-items: center;
             align-content: center;
             position: fixed;
-           
         }
 
         .login {
@@ -55,7 +55,7 @@
                 border: 1px groove #CBD5E0;
             }
 
-        
+
         .login-text {
             color: #718096;
             font-family: Tahoma;
@@ -68,7 +68,7 @@
             font-weight: 100;
             font-size: 35px;
             display: flex;
-            justify-content:center;
+            justify-content: center;
         }
 
         .log-btn {
@@ -81,10 +81,11 @@
             cursor: pointer;
         }
 
-        
+
 
         .logo {
-            width: 150px;
+            width: 160px;
+            height: 90px;
         }
 
         .out-box {
@@ -98,7 +99,7 @@
         }
 
         @@media screen and (min-width: 768px) {
-            .mobile{
+            .mobile {
                 display: none;
             }
 
@@ -122,7 +123,6 @@
             }
 
             .login {
-
                 background-color: white;
                 width: max-content;
                 height: max-content;
@@ -141,18 +141,50 @@
             }
         }
 
-        .inside-cont{
+        .inside-cont {
             display: flex;
             justify-content: center;
             flex-direction: column;
             align-items: center;
         }
+
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+            background: rgba(255,255,255,0.8);
+            padding: 20px;
+            border-radius: 5px;
+            display: none;
+        }
     </style>
+
+    <script>
+        $(document).ready(function () {
+            $("#loginForm").submit(function () {
+                // Show the loading div when the form is submitted
+               
+                $("#divLoading").show();
+            });
+
+            // Optionally, you can hide the loading div after a delay
+            $(window).on('load', function () {
+                setTimeout(function () {
+                    $("#divLoading").hide();
+                }, 2000); // Adjust the delay as needed (in milliseconds)
+                alert("hi")
+            });
+        });
+    </script>
+
+
 </head>
 
 <div class="desktop">
     <div class="row login">
-         
+
         <section id="loginForm" style="width: 1000px;display: flex; justify-content: center; align-items: center; align-content: center; height: 100%; background: linear-gradient(to bottom,#25947a, #236a8b 50%); border-radius: 12px;">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
@@ -199,16 +231,23 @@
         <div style="width: 100%; display: flex; flex-direction: column;">
             <div style="display: flex; justify-content: center;">
                 <img src="~/Content/Images/logo.png" alt="Image 1" class="logo" />
+                <img src="~/Content/Images/verify-logo.png" alt="Image 1" class="logo1"  />
+
             </div>
 
 
             <div style="display: flex; justify-content: center;">
-                <img src="~/Content/Images/comp.svg" alt="Image 1" style="width: 700px; height: 700px;" />
+                <img src="~/Content/Images/login2.svg" alt="Image 1" style="width: 600px; height: 600px;" />
             </div>
 
-         </div>
-
         </div>
+
+    </div>
+
+    <div id="divLoading">
+        <!-- Loading spinner GIF -->
+        <img src="~/Content/Images/loading.gif" alt="Loading...">
+    </div>
 </div>
 
 <div class="mobile">

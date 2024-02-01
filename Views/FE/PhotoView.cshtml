@@ -1,4 +1,4 @@
-﻿@model CPV_Mark3.Models.CaseImage
+﻿@model CPV_Mark3.Models.CaseTable
 
 @{
     Layout = null;
@@ -78,6 +78,7 @@
             border-radius: 12px;
             margin: 5px 10px;
             width: 100%;
+            border: 1px solid #569F9F;
         }
 
         .details-dash {
@@ -100,6 +101,7 @@
             border: 1px solid white;
             padding: 8px;
             text-align: left;
+            font-weight: 500;
         }
 
             tr:first-child td {
@@ -132,7 +134,7 @@
             padding: 0px 10px;
         }
 
-        .container{
+        .container {
             font-size: 19px;
         }
 
@@ -155,7 +157,6 @@
             background-color: #236A8B; /* Green background color */
             background-image: url(../../Content/Images/dash.png);
             color: white; /* White text color */
-            border: 1px solid #4CAF50; /* Green border */
             border-radius: 4px; /* Rounded corners */
             cursor: pointer;
             width: 50px;
@@ -171,54 +172,58 @@
     <div class="fe-dash2">
         @Html.Partial("_MobLayout")
     </div>
-    <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
-        <div class="header">Photo View</div>
-        @Html.ActionLink(" ", "FEDash", null, new { @class = "Dashbutton" })
+    <div style="margin: 5px 10px;">
 
-    </div>
-    <div class="blue">
-        <div class="details-dash">
-
-            <table>
-                <tr>
-                    <td>App #: @*@Model.Application_no*@</td>
-                    <td>Client: @*@Model.Client*@</td>
-                </tr>
-                <tr>
-                    <td>Name: @*@Model.Application_name*@</td>
-                    <td>Product: @*@Model.Product*@</td>
-                </tr>
-                <!-- Add more rows or customize as needed -->
-            </table>
-
+        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
+            <div class="header">Photo View</div>
+            @Html.ActionLink(" ", "FEDash", null, new { @class = "Dashbutton" })
 
         </div>
-        <div class="container-body" style="display: flex; flex-direction: column;">
 
-            <form id="fileUploadForm" enctype="multipart/form-data">
-                <div class="container" id="divapplicant">
-                            @using (Html.BeginForm("PhotoView", "FE", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                            {
-                               
-                            <div style="width: 100%;">Select Image File :@Html.TextBox("ImageFile", null, new { type = "file", @class = "form-control", accept = "image/*", capture = "camera", multiple = "multiple" })</div>
-                            <div style="width: 100%;">&nbsp;<input type="button" onclick="uploadImage(@ViewBag.snr)" value="Upload" class="btn btn-primary btn-block" /> </div>
-                                    
-                            }
-                </div>
-            </form>
 
-            <div id="PhotoImage" style="padding-bottom: 20px">
-                <div>
-                    @foreach (var base64Image in ViewBag.Images)
-                    {
-                        <img src="data:image/png;base64,@base64Image" alt="Image" style="width: 100px; height: 100px;" />
-                    }
-                </div>
+        <div class="row space blue" style=" margin: auto auto;">
+            <div class="details-dash">
+
+                <table>
+                    <tr>
+                        <td>App #: @Model.Application_no</td>
+                        <td>Client: @Model.Client</td>
+                    </tr>
+                    <tr>
+                        <td>Name: @Model.Application_name</td>
+                        <td>Product: @Model.Product</td>
+                    </tr>
+                    <!-- Add more rows or customize as needed -->
+                </table>
+
+
             </div>
+            <div class="container-body" style="display: flex; flex-direction: column;">
 
+                <form id="fileUploadForm" enctype="multipart/form-data">
+                    <div class="container" id="divapplicant" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+                        @using (Html.BeginForm("PhotoView", "FE", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+
+                            <div style="width: 100%; padding: 10px;">@Html.TextBox("ImageFile", null, new { type = "file", @class = "form-control", accept = "image/*", capture = "camera", multiple = "multiple" })</div>
+                            <div style="width: 100%;">&nbsp;<input type="button" onclick="uploadImage(@ViewBag.snr)" value="Upload" class="btn btn-primary btn-block" style="background-color: #236A8B; font-size: 15px;" /> </div>
+
+                        }
+                    </div>
+                </form>
+
+                <div id="PhotoImage" style="padding-bottom: 20px">
+                    <div>
+                        @foreach (var base64Image in ViewBag.Images)
+                        {
+                            <img src="data:image/png;base64,@base64Image" alt="Image" style="width: 100px; height: 100px;" />
+                        }
+                    </div>
+                </div>
+
+            </div>
         </div>
+
     </div>
-
-
 </body>
 </html>

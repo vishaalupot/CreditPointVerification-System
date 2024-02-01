@@ -17,10 +17,10 @@
 
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+
         .form-horizontal {
             width: 100%;
             padding: 50px;
-            
         }
 
         .form-control {
@@ -54,7 +54,7 @@
             font-family: 'Jaldi', sans-serif;
             text-align: left;
             padding-left: 10px;
-            font-weight:600;
+            font-weight: 600;
         }
 
         .label {
@@ -72,7 +72,7 @@
             height: 30px;
             margin-top: 7px;
             margin-bottom: 10px;
-            border: 1px groove #8becec;
+            border: 1px groove #569F9F;
         }
 
         input, select, textarea {
@@ -116,6 +116,42 @@
 
 
     </script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU&callback=Function.prototype"></script>
+    <script type="text/javascript">
+
+
+        var map;
+        function ShowErrorPopup() {
+            var lat = @Model.Latitude;
+            var longi = @Model.Longitude;
+
+            var latlng = new google.maps.LatLng(lat, longi);
+            var myOptions = {
+                zoom: 14,
+                zoomControl: false,
+                scaleControl: false,
+                scrollwheel: false,
+                disableDoubleClickZoom: true,
+                center: latlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById("map"), myOptions);
+            var marker = new google.maps.Marker
+                (
+                    {
+                        position: new google.maps.LatLng(lat, longi),
+                        map: map,
+                    }
+                );
+        }
+        google.maps.event.addDomListener(window, 'load', ShowErrorPopup);
+    </script>
+
+    
+    <script src="/bundles/jquery?v=2u0aRenDpYxArEyILB59ETSCA2cfQkSMlxb6jbMBqf81"></script>
+
+    <script src="/bundles/bootstrap?v=ESck_wvaWCiF5JsitLMh765lhMnw7BVBtZE-YUTa4Ns1"></script>
+
 </head>
 
 <div class="bod">
@@ -133,11 +169,22 @@
         <div class="form-group  col-sm-12 col-md-6 col-lg-4">
             <div class="row">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.Allocation_Date, "Allocation_Date", htmlAttributes: new { @class = "control-label label" })
+                    @Html.LabelFor(model => model.Allocation_Date, "Allocation Date", htmlAttributes: new { @class = "control-label label" })
                 </div>
             </div>
             <div class="col-md-12">
                 @Html.TextBoxFor(model => model.Allocation_Date, new { @class = "form-control box", @readonly = "readonly" })
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Final_Date, "Final Submit", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Final_Date, new { @class = "form-control box", @readonly = "readonly" })
             </div>
         </div>
 
@@ -732,7 +779,7 @@
                 <div class="col-md-12">
                     @Html.LabelFor(
                         model => model.AUTHORIZED_SIGNATORY,
-                        "Whether the applicant is related to the OWNER or " + Environment.NewLine + " AUTHORIZED SIGNATORY: If Yes, Relation: y",
+                        "Whether the applicant is related to the OWNER or AUTHORIZED SIGNATORY: If Yes, Relation: y",
                         new { @class = "control-label label" }
                     )
                 </div>
@@ -888,6 +935,45 @@
         </div>
 
         <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Latitude, "Latitude", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "form-control box" } })
+                @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Longitude, "Longitude", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "form-control box" } })
+                @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Label("Location", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-10">
+                <input id="lati" type="hidden" />
+                <input id="langi" type="hidden" />
+                <div id="map" style="width:350px; height: 350px; display: inline-block"></div>
+            </div>
+        </div>
+
+        <div>
             <div class="row">
                 <div class="col-md-12">
                     @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label label" })
