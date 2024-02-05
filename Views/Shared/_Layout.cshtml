@@ -260,6 +260,29 @@
                 background-color: #113545;
                 border: 1px solid white;
             }
+
+        .dp1 {
+            margin-top: 20px;
+            width: 150px;
+            height: 150px;
+            border-radius: 75px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        .welcomeName {
+            font-size: 23px;
+            text-decoration: none;
+            color: inherit;
+            color: white;
+            font-weight: 400;
+            padding-left: 12px;
+            padding-right: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 5px;
+            font-family: 'Jaldi', sans-serif;
+        }
     </style>
 
 
@@ -308,10 +331,6 @@
 
     </script>
 
-    <script>
-
-         
-    </script>
 
 </head>
 <body>
@@ -321,7 +340,15 @@
             <div class="nav-contents">
                 <img src="~/Content/Images/logo.png" alt="Image 1" class="logo" />
             </div>
-            <div class="nav-contents" style="margin-top: 100px">
+
+            <img src="@Url.Action("DisplayProfilePic", "Home", new { snr = @User.Identity.GetUserId() })" alt="Profile Picture" class="dp1" />
+
+            <div class="welcomeName">
+                @User.Identity.GetUserName()
+            </div>
+
+
+            <div class="nav-contents" style="margin-top: 50px">
                 <ul>
                     <li>
                         <div class="nav-cont">
