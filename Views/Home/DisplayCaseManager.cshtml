@@ -175,8 +175,12 @@
     </style>
     <script src="/Scripts/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
 
+        $(document).ready(function ()
+        {
+            searchCases();
+
+            /*Not used anymore*/
             $(".submitBtn").click(function () {
                 let data = $(this).data("id");
                 let url = '@Url.Action("DisplayCaseManager","Home", new { id = "_id_" })';
@@ -195,7 +199,7 @@
                     }
                     })
             })
-
+            /*Not used anymore*/
              $(".deleteBtn").click(function () {
                 let data = $(this).data("id");
 
@@ -222,34 +226,49 @@
 
             })
 
-             $("#btnsubmit").on("click", function (e) {
+            $("#btnsubmit").on("click", function (e)
+            {
 
-                console.log("Button clicked");
-                var query = $("#searchInput").val();
-                var query2 = $("#callingViewHiddenField").val();
-                var url = '@Url.Action("_SearchAllCases", "Home")';
-                url = url.replace("_query_", query);
-
-                console.log(url);
-                $.ajax({
-                    url: url,
-                    data: { query: query },
-                    type: "Post",
-                    success: function (result) {
-                        $("#CaseList").html(result);
-
-                    },
-                    error: function (e) {
-                        alert("Error fetching search results");
-                    }
-                });
+                searchCases();
             });
 
             $("#createCaseButton").click(function () {
                 @*var a = '@Html.Action("CreateCaseManagerView")';*@
             window.location.href = '@Url.Action("CreateCaseManagerView", "Home")';
         });
+
+            $("#searchInput").keypress(function (e) {
+                if (e.which === 13) {
+                    searchCases();
+                }
+            });
+
         })
+
+
+  
+
+        function searchCases() {
+            console.log("Button clicked");
+            var query = $("#searchInput").val();
+            var url = '@Url.Action("_SearchAllCases", "Home")';
+            url = url.replace("_query_", query);
+
+            console.log(url);
+            $.ajax({
+                url: url,
+                data: { query: query },
+                type: "Post",
+                success: function (result) {
+                   
+                    $("#CaseList").html(result);
+                },
+                error: function (e) {
+                    alert("Error fetching search results");
+                }
+            });
+        }
+
     </script>
 
     <style>
@@ -349,56 +368,10 @@
 
                 <div class="dis">
                     <div class="view">
+                        
                         <div id="CaseList"></div>
 
-                        <table>
-                            <tr>
-                                <td class="tableHead">Application no</td>
-                                <td class="tableHead">Customer Name</td>
-                                <td class="tableHead">Company Name</td>
-                                <td class="tableHead">Product</td>
-                                <td class="tableHead">FE Name</td>
-                                <td class="tableHead">Allocation Date</td>
-                                <td class="tableHead">Final Date</td>
-                                <td class="tableHead">Final Status</td>
-                                <td class="tableHead">Type</td>
-                                <td class="tableHead">Send PDA</td>
-                                <td class="tableHead">Delete</td>
-
-                            </tr>
-
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>@Html.DisplayFor(modelItem => item.Application_no, new { @class = "tablecont" }) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Application_name, new { @class = "tablecont" }) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Company_Name, new { @class = "tablecont" }) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Product, new { @class = "tablecont" }) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.FE_Name, new { @class = "tablecont" }) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Allocation_Date, new { @class = "tablecont" }) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Final_Date, new { @class = "tablecont" }) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Final_Status, new { @class = "tablecont" }) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Visit_Type, new { @class = "tablecont" }) </td>
-                                    <td>
-
-                                        @Html.HiddenFor(modelItem => item.Id)
-                                        @*<button type="button" data-id='@item.Id' class="btn btn-primary submitBtn">Send to PDA</button>*@
-
-                                        <img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />
-
-
-                                        @*@Html.ActionLink("Send to PDA", "CreateCaseManagerView", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
-                                        @*@Html.ActionLink("Delete", "DisplayCaseManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
-                                    </td>
-                                    <td>
-                                        <img src="~/Content/Images/trash.png" style="width: 25px; height: 25px; cursor: pointer;" data-id='@item.Id' class="deleteBtn" />
-                                        @*<button type="button" data-id='@item.Id' class="btn btn-primary deleteBtn">Delete</button>*@
-                                    </td>
-                                </tr>
-
-                            }
-
-                        </table>
+                       
                     </div>
                 </div>
 

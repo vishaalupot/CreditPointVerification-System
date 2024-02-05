@@ -6,14 +6,18 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function () {
-            $("#btnsubmit").on("click", function (e) {
 
-             /*   console.log("Button clicked");*/
-/*                e.preventDefault();*/
+            searchCases()
+
+            $("#btnsubmit").on("click", function (e) {
+                searchCases()
+
+            });
+
+
+            function searchCases() {
                 var query = $("#searchInput").val();
                 var query2 = $("#callingViewHiddenField").val();
-                //console.log(query);
-
                 var url = '@Url.Action("_SearchCases", "Home")';
                 url = url.replace("_query_", query);
 
@@ -30,14 +34,11 @@
 
                     },
 
-
-
-
                     error: function (e) {
-                     /*   alert("Error fetching search results");*/
+                        /*   alert("Error fetching search results");*/
                     }
                 });
-            });
+            }
         });
     </script>
 

@@ -91,7 +91,6 @@
             background-color: #FFFFFF;
             border-radius: 12px;
             justify-content: center;
-
         }
 
 
@@ -179,7 +178,6 @@
             height: 40px;
             margin-top: 7px;
             margin-bottom: 10px;
-            border: 0px solid #000;
             border-bottom-right-radius: 0px;
             border-top-right-radius: 0px;
             font-family: 'Jaldi', sans-serif;
@@ -201,6 +199,7 @@
             color: white;
             font-family: 'Poppins', sans-serif;
         }
+
         .box {
             background-color: #E3F4F4;
             border-radius: 12px !important;
@@ -215,13 +214,45 @@
             border: 1px groove #569F9F;
         }
 
-            .box :focus {
+
+
+            .box:focus {
                 border: 1px groove #569F9F;
             }
     </style>
 
 
+    <script>
+        $(document).ready(function () {
+            $("#btnsubmit").on("click", function (e) {
+                alert("hi");
+                search()
+            });
+        })
 
+
+        function search() {
+                console.log("Button clicked");
+                var query = $("#searchInput").val();
+                var url = '@Url.Action("DisplayVerifyManager", "Home")';
+                url = url.replace("_query_", query);
+
+                console.log(url);
+                $.ajax({
+                    url: url,
+                    data: { query: query },
+                    type: "Post",
+                    success: function (result) {
+
+                        $("#CaseList").html(result);
+                    },
+                    error: function (e) {
+                        alert("Error fetching search results");
+                    }
+                });
+            }
+
+    </script>
 
 
 </head>
@@ -258,10 +289,10 @@
                 </div>
 
                 @*<div>
-                    <label>User List</label>
-                    <input type="text" id="callingViewHiddenField" style="display: none;" />
-                    @{ Html.RenderAction("_FEView", "Home"); }
-                </div>*@
+                        <label>User List</label>
+                        <input type="text" id="callingViewHiddenField" style="display: none;" />
+                        @{ Html.RenderAction("_FEView", "Home"); }
+                    </div>*@
 
                 <div style=" width: 150px; margin-left: 5px; margin: 7px 3px 10px 8px;">
                     <input type="button" id="btnsubmit" value="Search" />
@@ -269,101 +300,105 @@
 
             </div>
 
-                <div class="dis">
-                    <div class="view">
-                        <table>
-                            <tr>
-                                <td class="tableHead">Application no</td>
-                                <td class="tableHead">Customer Name</td>
-                                <td class="tableHead">Company Name</td>
-                                <td class="tableHead">Product</td>
-                                <td class="tableHead">FE Name</td>
-                                <td class="tableHead">Allocation Date</td>
-                                <td class="tableHead">Final Date</td>
-                                <td class="tableHead">Final Status</td>
-                                <td class="tableHead">Type</td>
-                                <td class="tableHead">Action</td>
-                                <td class="tableHead">Print</td>
-                            </tr>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>@Html.DisplayFor(modelItem => item.Application_no) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Application_name) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Company_Name) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Product) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.FE_Name) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Allocation_Date) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Final_Date) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Final_Status) </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Visit_Type) </td>
-                                    <td>
+            <div id="CaseList">
 
-                                        <a href="@Url.Action("EditVerifyManager", "Home", new { id = item.Id })">
-                                            <img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />
-                                        </a>
-
-                                        @*<img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />*@
-
-                                        @*@Html.ActionLink("Go to Page", "EditVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
-                                    </td>
-                                    <td>
-                                        <a href="@Url.Action("PrintVerifyManager", "Home", new { id = item.Id, target = "_blank" })">
-                                            <img src="~/Content/Images/printer.png" style="width: 25px; height: 25px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />
-                                        </a>
-
-
-                                        @*@Html.ActionLink("Print", "PrintVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary", target = "_blank" })*@
-
-                                    </td>
-                                </tr>
-
-                            }
-
-                        </table>
-                    </div>
-                </div>
-
-                @*<table class="user-list">
-                <thead>
-                    <tr>
-                        <th>Application_no</th>
-                        <th>Customer Name</th>
-                        <th>Company Name</th>
-                        <th>Product</th>
-                        <th>FE Name	</th>
-                        <th>Allocation Date</th>
-                        <th>Final Date</th>
-                        <th>Final Status</th>
-                        <th>Type</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                @foreach (var item in Model)
-                {
-
-                    <tbody>
-                        <tr>
-                            <td>@Html.DisplayFor(modelItem => item.Application_no) </td>
-                            <td>@Html.DisplayFor(modelItem => item.Application_name) </td>
-                            <td>@Html.DisplayFor(modelItem => item.Company_Name) </td>
-                            <td>@Html.DisplayFor(modelItem => item.Product) </td>
-                            <td>@Html.DisplayFor(modelItem => item.FE_Name) </td>
-                            <td>@Html.DisplayFor(modelItem => item.Allocation_Date) </td>
-                            <td>@Html.DisplayFor(modelItem => item.Final_Date) </td>
-                            <td>@Html.DisplayFor(modelItem => item.Final_Status) </td>
-                            <td>@Html.DisplayFor(modelItem => item.Visit_Type) </td>
-                            <td>
-                                @Html.ActionLink("Go to Page", "EditVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })
-                            </td>
-
-                        </tr>
-                    </tbody>
-
-                }
-            </table>*@
             </div>
+
+            <div class="dis">
+                <div class="view">
+                    <table>
+                        <tr>
+                            <td class="tableHead">Application no</td>
+                            <td class="tableHead">Customer Name</td>
+                            <td class="tableHead">Company Name</td>
+                            <td class="tableHead">Product</td>
+                            <td class="tableHead">FE Name</td>
+                            <td class="tableHead">Allocation Date</td>
+                            <td class="tableHead">Final Date</td>
+                            <td class="tableHead">Final Status</td>
+                            <td class="tableHead">Type</td>
+                            <td class="tableHead">Action</td>
+                            <td class="tableHead">Print</td>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Application_no) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Application_name) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Company_Name) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Product) </td>
+                                <td>@Html.DisplayFor(modelItem => item.FE_Name) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Allocation_Date) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Final_Date) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Final_Status) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Visit_Type) </td>
+                                <td>
+
+                                    <a href="@Url.Action("EditVerifyManager", "Home", new { id = item.Id })">
+                                        <img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />
+                                    </a>
+
+                                    @*<img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />*@
+
+                                    @*@Html.ActionLink("Go to Page", "EditVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("PrintVerifyManager", "Home", new { id = item.Id, target = "_blank" })">
+                                        <img src="~/Content/Images/printer.png" style="width: 25px; height: 25px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />
+                                    </a>
+
+
+                                    @*@Html.ActionLink("Print", "PrintVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary", target = "_blank" })*@
+
+                                </td>
+                            </tr>
+
+                        }
+
+                    </table>
+                </div>
+            </div>
+
+            @*<table class="user-list">
+                    <thead>
+                        <tr>
+                            <th>Application_no</th>
+                            <th>Customer Name</th>
+                            <th>Company Name</th>
+                            <th>Product</th>
+                            <th>FE Name	</th>
+                            <th>Allocation Date</th>
+                            <th>Final Date</th>
+                            <th>Final Status</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+
+                        <tbody>
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Application_no) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Application_name) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Company_Name) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Product) </td>
+                                <td>@Html.DisplayFor(modelItem => item.FE_Name) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Allocation_Date) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Final_Date) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Final_Status) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Visit_Type) </td>
+                                <td>
+                                    @Html.ActionLink("Go to Page", "EditVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })
+                                </td>
+
+                            </tr>
+                        </tbody>
+
+                    }
+                </table>*@
         </div>
+    </div>
 </body>
 </html>
 

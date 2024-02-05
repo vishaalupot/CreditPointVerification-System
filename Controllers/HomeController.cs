@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CPV_Mark3.Models;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -117,39 +119,85 @@ namespace CPV_Mark3.Controllers
             return PartialView(cases);
         }
 
-
         [HttpPost]
-        public ActionResult _SearchAllCases(string query)
+        public ActionResult _SearchVerifyManager(string query)
         {
             CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
-            // Filter items based on the search query
-            //var results = caseTable.Where(item => item.ToLower().Contains(query.ToLower())).ToList();
-            //return Json(results);
 
             var results = db.CaseTables.ToList();
 
             if (query != "")
             {
                 results = db.CaseTables
-                   .Where(item => item.Application_no == query)
-                   .ToList();
+                .Where(item => item.Application_no == query ||
+                               item.Application_name == query ||
+                               item.Company_Name == query)
+                .ToList();
+
             }
             else
             {
                 results = db.CaseTables.ToList();
             }
 
+            return PartialView("_SearchAllCases", results);
+
+
+        }
+
+
+        [HttpPost]
+        public ActionResult _SearchAllCases(string query)
+        {
+            CPV_DB1Entities db = new CPV_DB1Entities();
+            CaseTable caseTable = new CaseTable();
+
+            var results = db.CaseTables.ToList();
+
+            if (query != "")
+            {
+                results = db.CaseTables
+                .Where(item => item.Application_no == query ||
+                               item.Application_name == query ||
+                               item.Company_Name == query)
+                .ToList();
+
+            }
+            else
+            {
+                results = db.CaseTables.ToList();
+            }
 
             return PartialView("_SearchAllCases", results);
 
 
         }
 
-        //[ChildActionOnly]
-        //public ActionResult SearchCases(CaseTable item)
+        //[HttpPost]
+        //public ActionResult DisplayVerifyManager(string query)
         //{
-        //    return PartialView("_SearchCases", item);
+        //    CPV_DB1Entities db = new CPV_DB1Entities();
+        //    CaseTable caseTable = new CaseTable();
+
+        //    var results = db.CaseTables.ToList();
+
+        //    if (query != "")
+        //    {
+        //        results = db.CaseTables
+        //        .Where(item => item.Application_no == query ||
+        //                       item.Application_name == query ||
+        //                       item.Company_Name == query)
+        //        .ToList();
+
+        //    }
+        //    else
+        //    {
+        //        results = db.CaseTables.ToList();
+        //    }
+
+        //    return View(results);
+
         //}
 
 
@@ -535,33 +583,6 @@ namespace CPV_Mark3.Controllers
             //       .ToList();
         }
 
-        //public async Task DisplayRolesWithUsersAsync()
-        //{
-        //    var _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
-        //    var rolesWithUsers = await _roleManager.Roles
-        //        .Select(role => new UserRoleDto
-        //        {
-        //            RoleName = role.Name,
-        //            Users = _userManager.Users
-        //                .Where(user => _userManager.IsInRoleAsync(user.Id, role.Name).Result)
-        //                .Select(user => new UserDto
-        //                {
-        //                    UserId = user.Id,
-        //                    UserName = user.UserName,
-        //            // Include other user properties as needed
-        //        })
-        //                .ToList()
-        //        })
-        //        .ToListAsync();
-
-        //    var filteredUsernames = rolesWithUsers
-        //    .SelectMany(rwu => rwu.Users) // Flatten the list of users from rolesWithUsers
-        //    .Distinct() // Remove duplicate usernames
-        //    .ToList();
-
-
-        //}
-
         public async Task<List<UserRolesViewModel>> DisplayUserRoles()
         {
             var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -659,6 +680,8 @@ namespace CPV_Mark3.Controllers
             return View(cases);
 
         }
+
+
 
         [HttpPost]
         public ActionResult EditVerifyManager(FormCollection form)
@@ -835,6 +858,119 @@ namespace CPV_Mark3.Controllers
             }
         }
 
+
+        [HttpPost]
+        public ActionResult UploadImageInDataBase(HttpPostedFileBase file, string snr)
+        {
+
+            if (file == null)
+            {
+                ModelState.AddModelError("", "Please attached a file.");
+            }
+
+            if (ModelState.IsValid)
+            {
+
+                CPV_DB1Entities db = new CPV_DB1Entities();
+
+                AspNetUser user = new AspNetUser();
+
+                user.Id = snr.ToString();
+                user.Images = ConvertToBytes(file);
+
+                CaseImage image = new CaseImage();
+
+                db.AspNetUsers.Add(user);
+                db.SaveChanges();
+                return RedirectToAction("FEDash");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        public byte[] ConvertToBytes(HttpPostedFileBase image)
+        {
+            byte[] imageBytes = null;
+            BinaryReader reader = new BinaryReader(image.InputStream);
+            imageBytes = reader.ReadBytes((int)image.ContentLength);
+            return imageBytes;
+        }
+
+        [HttpPost]
+        public ActionResult _ProfilePic(HttpPostedFileBase file, string snr)
+        {
+             if (file == null)
+            {
+                ModelState.AddModelError("", "Please attached a file.");
+            }
+
+            if (ModelState.IsValid)
+            {
+
+                CPV_DB1Entities db = new CPV_DB1Entities();
+
+                List<AspNetUser> user = db.AspNetUsers.ToList();
+
+                AspNetUser aspNetUser = db.AspNetUsers.Find(snr.ToString());
+
+
+                if (aspNetUser != null)
+                {
+                    // Convert uploaded file to byte array
+                    aspNetUser.Images = ConvertToBytes(file);
+
+                    // Update existing user
+                    db.Entry(aspNetUser).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                //user.Images = ConvertToBytes(file);
+
+
+                //db.AspNetUsers.Add(user);
+                //db.SaveChanges();
+                return PartialView();
+            }
+            else
+            {
+                return PartialView();
+            }
+           
+        }
+
+        public ActionResult _ProfilePic()
+        {
+
+            return PartialView();
+        }
+
+        [HttpGet]
+        public ActionResult DisplayProfilePic(string snr)
+        {
+            AspNetUser user = db.AspNetUsers.Find(snr);
+
+            if (user != null && user.Images != null)
+            {
+                return File(user.Images, "image/jpeg"); // Adjust content type based on your image type
+            }
+            else
+            {
+                // Return a default image or handle the case when the image is not found
+                // For now, return an empty image
+                byte[] emptyImage = new byte[0];
+                return File(emptyImage, "image/jpeg");
+            }
+        }
+
+        public ActionResult DailyDashboard()
+        {
+            string data = "[52, 20, 25, 7]";
+
+            return Json(new { data = data });
+        }
+
     }
 
     public class UserDto
@@ -849,4 +985,6 @@ namespace CPV_Mark3.Controllers
         public string RoleName { get; set; }
         public List<UserDto> Users { get; set; }
     }
+
+   
 }
