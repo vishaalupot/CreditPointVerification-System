@@ -35,7 +35,22 @@
         border-radius: 12px;
         display: flex;
         flex-direction: row;
+        overflow: auto;
+
     }
+
+        .body-content::-webkit-scrollbar {
+            width: 0em; /* Adjust the width as needed */
+        }
+
+        .body-content::-webkit-scrollbar-track {
+            background-color: transparent; /* Hide the scrollbar track */
+        }
+
+    /* Define scrollbar thumb styles */
+        .body-content::-webkit-scrollbar-thumb {
+            background-color: #888; /* Adjust the color as needed */
+        }
 
     .images {
         visibility: hidden;
@@ -104,8 +119,8 @@
 
 
     .body-cont3 {
-        width: 95%; /* Adjust width as needed */
-        height: 70%;
+        width: 85%; /* Adjust width as needed */
+        height: 78%;
         margin: 20px 0px 20px 25px;
         padding: 20px;
         border-radius: 10px; /* Optional: Add rounded corners */
@@ -230,16 +245,12 @@
         }
     }
 
-
-
-
-
-
-
     .circular-progress {
         position: relative;
-        height: 138px;
-        width: 135px;
+        height: 20vw; /* 20% of the viewport height */
+        width: 20vw; /* 20% of the viewport width */
+        max-height: 138px; /* Set a maximum height if needed */
+        max-width: 135px; /* Set a maximum width if needed */
         border-radius: 50%;
         display: grid;
         place-items: center;
@@ -262,6 +273,7 @@
         color: #000000;
         background-color: #EEEEEE;
         font-weight: 800;
+        border-radius: 50px;
     }
 
     .heading {
@@ -403,6 +415,7 @@
         font-weight: 600;
         padding:4px 0px;
     }
+
 </style>
 
 <style>
@@ -527,7 +540,7 @@
 </style>
 
 <div class="body-content">
-    <div style=" display: flex; flex-direction: column; width: 90%;">
+    <div style=" display: flex; flex-direction: column; width: 85%;">
         <div class="body-cont1">
             <div class="heading">ADIB DASHBOARD</div>
         </div>
@@ -646,7 +659,7 @@
             </div>
         </div>
     </div>
-    <div style=" display: flex; flex-direction: column; padding: 0px 30px 0px 0px;">
+    <div style=" display: flex; flex-direction: column; padding: 0px 10px 0px 0px;">
 
         <div class="body-bg">
 
