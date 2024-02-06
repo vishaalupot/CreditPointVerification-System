@@ -34,7 +34,22 @@
             display: flex;
             flex-direction: column; /* Set the direction to column */
             align-items: center; /* Optional: Center the items horizontally */
+            overflow:auto;
         }
+
+        /* Hide the scrollbar track when not actively scrolling */
+            .nav-bar::-webkit-scrollbar {
+                width: 0em; /* Adjust the width as needed */
+            }
+
+            .nav-bar::-webkit-scrollbar-track {
+                background-color: transparent; /* Hide the scrollbar track */
+            }
+
+        /* Define scrollbar thumb styles */
+            .nav-bar::-webkit-scrollbar-thumb {
+                background-color: #888; /* Adjust the color as needed */
+            }
 
         body {
             padding: 0;
@@ -65,7 +80,7 @@
             font-size: 15px;
             border-radius: 10px; /* Adjust the value to control the degree of curvature */
             padding: 10px 10px;
-            width: 170px;
+            width: 12vw;
             /* box-shadow: rgba(0, 0, 0, 0.25) 1.95px 1.95px 2.6px;*/
             font-weight: 200;
         }
@@ -117,12 +132,12 @@
 
         .image {
             visibility: visible;
-            position: absolute;
+            position: relative;
         }
 
         .image1 {
             visibility: visible;
-            position: absolute;
+            position: relative;
         }
 
         .body-cont {
@@ -267,6 +282,7 @@
             height: 150px;
             border-radius: 75px;
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            cursor:pointer;
         }
 
         .welcomeName {
@@ -341,7 +357,7 @@
                 <img src="~/Content/Images/logo.png" alt="Image 1" class="logo" />
             </div>
 
-            <img src="@Url.Action("DisplayProfilePic", "Home", new { snr = @User.Identity.GetUserId() })" alt="Profile Picture" class="dp1" />
+            <img src="@Url.Action("DisplayProfilePic", "Home", new { snr = @User.Identity.GetUserId() })" alt="Profile Picture" class="dp1"  id="name" />
 
             <div class="welcomeName">
                 @User.Identity.GetUserName()
@@ -352,8 +368,8 @@
                 <ul>
                     <li>
                         <div class="nav-cont">
-                            <img src="~/Content/Images/dashboard.png" alt="Image 1" class="nav-icons image" />
-                            <img src="~/Content/Images/dashboard1.png" alt="Image 1" class="nav-icons image1" />
+                            <img src="~/Content/Images/dashboard1.png" alt="Image 1" class="nav-icons image" />
+                            @*<img src="~/Content/Images/dashboard1.png" alt="Image 1" class="nav-icons image1" />*@
                             <div style="padding-left: 25px;">@Html.ActionLink("Dashboard", "Index", "Home", new { @class = "normal-text-link" })</div>
                         </div>
                     </li>
@@ -398,7 +414,7 @@
                     </li>
                 </ul>
             </div>
-            <div style=" margin-top: auto;  display: flex; flex-direction: column; cursor: pointer;" id="name">
+            <div style=" margin-top: auto;  display: flex; flex-direction: column; cursor: pointer;">
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
