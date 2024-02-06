@@ -1,5 +1,5 @@
 ﻿@model CPV_Mark3.Models.CaseTable
-
+@using CPV_Mark3.Controllers;
 
 
 @{
@@ -220,25 +220,28 @@
 
                 @*@{ Html.RenderAction("_FEView", "Home"); }*@
 
-                @Html.HiddenFor(m => m.FE_Name, new { id = "callingViewHiddenField" })
+                @Html.DropDownListFor(m => m.FE_Name,
+                          new SelectList(HomeController.GetAllUsers(), "--Users--"));
 
-                @{ Html.RenderAction("_FEView", "Home"); }
+                       @*@Html.HiddenFor(m => m.FE_Name, new { id = "callingViewHiddenField" })
 
+                    @{ Html.RenderAction("_FEView", "Home"); }*@
+                    @Html.ValidationMessageFor(model => model.FE_Name, "", new { @class = "text-danger" })
 
-                @*Working cmd*@
-                @*@Html.ActionLink("User Roles", "DisplayUserRoles", null, new { @class = "btn btn-default", @id = "userRolesDropdown" })*@
+                    @*Working cmd*@
+                    @*@Html.ActionLink("User Roles", "DisplayUserRoles", null, new { @class = "btn btn-default", @id = "userRolesDropdown" })*@
 
-                <script>
+                    <script>
             $(document).ready(function () {
                 $('#userRolesDropdown').click(function () {
                     window.location.href = '@Url.Action("DisplayUserRoles")';
                 });
             });
-                </script>
+                    </script>
 
 
-                @Html.ValidationMessageFor(model => model.FE_Name, "", new { @class = "text-danger" })
-            </div>
+
+                </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">

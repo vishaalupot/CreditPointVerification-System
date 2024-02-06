@@ -520,6 +520,15 @@ namespace CPV_Mark3.Controllers
         }
 
 
+        public static List<string> GetAllUsers()
+        {
+            using (CPV_DB1Entities db = new CPV_DB1Entities())
+            {
+                List<string> users = db.AspNetUsers.Where(w=>w.UserRole == "FE")
+                    .Select(s => s.UserName).ToList();
+                return users;
+            }
+        }
 
 
         public static List<string> GetFelist2()
