@@ -238,6 +238,35 @@
 
                 searchVerify()
             });
+
+            $("#searchInput").keypress(function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    searchVerify();
+                }
+            });
+
+            $("#dropdown").keypress(function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    searchVerify();
+                }
+            });
+
+            $("#dropdown2").keypress(function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    searchVerify();
+                }
+            }); 
+
+            $("#dropdown3").keypress(function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    searchVerify();
+                }
+            });
+
         })
 
 

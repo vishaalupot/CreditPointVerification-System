@@ -14,6 +14,20 @@
 
             });
 
+            $("#searchInput").keypress(function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    searchCases();
+                }
+            });
+            
+            $("#dropdown").keypress(function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    searchCases();
+                }
+            });
+
 
             function searchCases() {
                 
