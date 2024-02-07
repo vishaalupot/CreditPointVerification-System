@@ -102,10 +102,13 @@
          $(".deleteBtn").click(function () {
              let data = $(this).data("id");
 
+              @*let url = '@Url.Action("DeleteCase", "Home", new { id = "_id_" })';*@
+
+
               let url = '@Url.Action("DeleteCase")';
               let ajaxdata = { id : data };
               //url = url.replace("_id_", data);
-              /*alert(ajaxdata);*/
+              alert(ajaxdata);
              $.ajax({
                  url: url,
                  data: ajaxdata,
@@ -115,8 +118,8 @@
                     /* alert("Success");*/
                  },
                  error: function (error) {
-                     location.reload();
-                    /* alert("error")*/
+
+                     alert("error")
                  }
              })
 

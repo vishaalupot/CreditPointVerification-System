@@ -414,42 +414,45 @@ namespace CPV_Mark3.Controllers
         {
             using (CPV_DB1Entities db = new CPV_DB1Entities())
             {
+
+                //CaseImage caseImage = db.CaseImages.Find(id);
+                //CaseTable caseTable = db.CaseTables.Find(id);
+
+                //if(caseImage != null)
+                //{
+                //    db.CaseImages.Remove(caseImage);
+                //    db.SaveChanges();
+
+                //}
+                //if (caseTable != null)
+                //{
+                //    db.CaseTables.Remove(caseTable);
+                //    db.SaveChanges();
+                //}
+
+
+
+                //List<CaseTable> cases = db.CaseTables.ToList();
+                //return View(cases);
+
                 List<CaseImage> relatedImages = db.CaseImages.Where(ci => ci.Case_Id == id).ToList();
 
                 if (relatedImages != null && relatedImages.Count > 0)
                 {
                     db.CaseImages.RemoveRange(relatedImages);
                 }
+
                 CaseTable caseTable = db.CaseTables.Find(id);
 
                 if (caseTable != null)
                 {
                     db.CaseTables.Remove(caseTable);
                 }
+
                 db.SaveChanges();
+
                 List<CaseTable> cases = db.CaseTables.ToList();
                 return View(cases);
-            }
-        }
-
-
-        [HttpPost]
-        public ActionResult DeleteUser(string id)
-        {
-            using (CPV_DB1Entities db = new CPV_DB1Entities())
-            {
-
-                AspNetUser aspNetUser = db.AspNetUsers.Find(id);
-               
-               
-
-                if (aspNetUser != null)
-                {
-                    db.AspNetUsers.Remove(aspNetUser);
-                }
-                db.SaveChanges();
-                List<AspNetUser> users = db.AspNetUsers.ToList();
-                return View(users);
             }
         }
 
