@@ -77,7 +77,7 @@ namespace CPV_Mark3.Controllers
 
 
         [HttpPost]
-        public ActionResult _SearchCases(string query, string query2)
+        public ActionResult _SearchCases(string query, string query3)
         {
             CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
@@ -90,10 +90,10 @@ namespace CPV_Mark3.Controllers
                   .Where(item => item.Final_Status == "Pending")
                   .ToList();
 
-            if (query != "" || query2 != "")
+            if (query != "" || query3 != "")
             {
                 results = db.CaseTables
-                   .Where(item => item.Application_no == query || item.FE_Name == query2)
+                   .Where(item => item.Application_no == query || item.FE_Name == query3)
                    .ToList();
             }
 
@@ -119,20 +119,34 @@ namespace CPV_Mark3.Controllers
             return PartialView(cases);
         }
 
+        public ActionResult _SearchVerifyManager()
+        {
+
+            CPV_DB1Entities db = new CPV_DB1Entities();
+            List<CaseTable> cases = db.CaseTables.ToList();
+            return PartialView(cases);
+        }
+
         [HttpPost]
-        public ActionResult _SearchVerifyManager(string query)
+        public ActionResult _SearchVerifyManager(string query, string query2, string query3, string query4)
         {
             CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
 
             var results = db.CaseTables.ToList();
 
-            if (query != "")
+
+
+
+
+            if (query != "" || query2 != ""|| query3 != ""|| query4 != "")
             {
                 results = db.CaseTables
                 .Where(item => item.Application_no == query ||
-                               item.Application_name == query ||
-                               item.Company_Name == query)
+                               item.FE_Name == query2 ||
+                               item.Product == query3 ||
+                               item.Final_Status == query4
+                               )
                 .ToList();
 
             }
@@ -141,10 +155,12 @@ namespace CPV_Mark3.Controllers
                 results = db.CaseTables.ToList();
             }
 
-            return PartialView("_SearchAllCases", results);
-
-
+            return PartialView("_SearchVerifyManager", results);
         }
+
+
+
+
 
 
         [HttpPost]
