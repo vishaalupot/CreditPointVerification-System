@@ -603,6 +603,16 @@ namespace CPV_Mark3.Controllers
         }
 
 
+        public static List<string> Vish()
+        {
+            CPV_DB1Entities db = new CPV_DB1Entities();
+
+            List<string> GetFEList1 = new List<string> { "FE", "Client", "Admin" };
+
+            return GetFEList1;
+
+        }
+
         public List<string> GetFEList()
         {
             CPV_DB1Entities db = new CPV_DB1Entities();
