@@ -492,6 +492,27 @@ namespace CPV_Mark3.Controllers
         }
 
         [HttpPost]
+        public ActionResult DeleteUser(string id)
+        {
+            using (CPV_DB1Entities db = new CPV_DB1Entities())
+            {
+
+                AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+
+
+
+                if (aspNetUser != null)
+                {
+                    db.AspNetUsers.Remove(aspNetUser);
+                }
+                db.SaveChanges();
+                List<AspNetUser> users = db.AspNetUsers.ToList();
+                return View(users);
+            }
+        }
+
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateCaseManagerView(FormCollection form)
         {
