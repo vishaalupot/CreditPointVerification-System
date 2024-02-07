@@ -79,8 +79,7 @@
             margin-left: 15px;
             margin-right: 15px;
             max-height: 500px;
-            min-width: 1000px;
-            width: max-content;
+            width: 1000px;
             border: 1px groove #569F9F;
         }
 
@@ -355,7 +354,7 @@
         @using (Html.BeginForm("DisplayCaseManager", "Home", FormMethod.Post))
         {
             <div class="cont">
-                <div class="heading">Case Manager</div>
+                <div class="heading">Product Master</div>
                 <div style="display: flex; flex-direction: row; align-items: center;">
                     <div style="display: flex; flex-direction: row; margin-right: auto; align-items: center;">
                         <input type="text" id="searchInput" class="search-input" />
@@ -395,8 +394,24 @@
                                 <span class="placeholder col-12"></span>
 
                             </p>
-                        </div>
 
+
+
+
+                            @*<div class="card-body">
+                <h5 class="card-title placeholder-glow">
+                    <span class="placeholder col-6" style="width: 200px;"></span>
+                </h5>
+                <p class="card-text placeholder-glow">
+                    <span class="placeholder col-7" style="width: 75%;"></span>
+                    <span class="placeholder col-4"></span>
+                    <span class="placeholder col-4"></span>
+                    <span class="placeholder col-6"></span>
+                    <span class="placeholder col-8"></span>
+                </p>
+                <a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6"></a>
+            </div>*@
+                        </div>
                         <div id="CaseList"></div>
 
 

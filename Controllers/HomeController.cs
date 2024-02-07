@@ -79,7 +79,7 @@ namespace CPV_Mark3.Controllers
 
 
         [HttpPost]
-        public ActionResult _SearchCases(string query, string query3)
+        public ActionResult _SearchCases(string query, string query2)
         {
             CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
@@ -92,10 +92,10 @@ namespace CPV_Mark3.Controllers
                   .Where(item => item.Final_Status == "Pending")
                   .ToList();
 
-            if (query != "" || query3 != "")
+            if (query != "" || query2 != "")
             {
                 results = db.CaseTables
-                   .Where(item => item.Application_no == query || item.FE_Name == query3)
+                   .Where(item => item.Application_no == query || item.FE_Name == query2)
                    .ToList();
             }
 
@@ -121,34 +121,20 @@ namespace CPV_Mark3.Controllers
             return PartialView(cases);
         }
 
-        public ActionResult _SearchVerifyManager()
-        {
-
-            CPV_DB1Entities db = new CPV_DB1Entities();
-            List<CaseTable> cases = db.CaseTables.ToList();
-            return PartialView(cases);
-        }
-
         [HttpPost]
-        public ActionResult _SearchVerifyManager(string query, string query2, string query3, string query4)
+        public ActionResult _SearchVerifyManager(string query)
         {
             CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
 
             var results = db.CaseTables.ToList();
 
-
-
-
-
-            if (query != "" || query2 != ""|| query3 != ""|| query4 != "")
+            if (query != "")
             {
                 results = db.CaseTables
                 .Where(item => item.Application_no == query ||
-                               item.FE_Name == query2 ||
-                               item.Product == query3 ||
-                               item.Final_Status == query4
-                               )
+                               item.Application_name == query ||
+                               item.Company_Name == query)
                 .ToList();
 
             }
@@ -157,12 +143,10 @@ namespace CPV_Mark3.Controllers
                 results = db.CaseTables.ToList();
             }
 
-            return PartialView("_SearchVerifyManager", results);
+            return PartialView("_SearchAllCases", results);
+
+
         }
-
-
-
-
 
 
         [HttpPost]
@@ -414,42 +398,45 @@ namespace CPV_Mark3.Controllers
         {
             using (CPV_DB1Entities db = new CPV_DB1Entities())
             {
+
+                //CaseImage caseImage = db.CaseImages.Find(id);
+                //CaseTable caseTable = db.CaseTables.Find(id);
+
+                //if(caseImage != null)
+                //{
+                //    db.CaseImages.Remove(caseImage);
+                //    db.SaveChanges();
+
+                //}
+                //if (caseTable != null)
+                //{
+                //    db.CaseTables.Remove(caseTable);
+                //    db.SaveChanges();
+                //}
+
+
+
+                //List<CaseTable> cases = db.CaseTables.ToList();
+                //return View(cases);
+
                 List<CaseImage> relatedImages = db.CaseImages.Where(ci => ci.Case_Id == id).ToList();
 
                 if (relatedImages != null && relatedImages.Count > 0)
                 {
                     db.CaseImages.RemoveRange(relatedImages);
                 }
+
                 CaseTable caseTable = db.CaseTables.Find(id);
 
                 if (caseTable != null)
                 {
                     db.CaseTables.Remove(caseTable);
                 }
+
                 db.SaveChanges();
+
                 List<CaseTable> cases = db.CaseTables.ToList();
                 return View(cases);
-            }
-        }
-
-
-        [HttpPost]
-        public ActionResult DeleteUser(string id)
-        {
-            using (CPV_DB1Entities db = new CPV_DB1Entities())
-            {
-
-                AspNetUser aspNetUser = db.AspNetUsers.Find(id);
-               
-               
-
-                if (aspNetUser != null)
-                {
-                    db.AspNetUsers.Remove(aspNetUser);
-                }
-                db.SaveChanges();
-                List<AspNetUser> users = db.AspNetUsers.ToList();
-                return View(users);
             }
         }
 

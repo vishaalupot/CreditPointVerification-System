@@ -1,5 +1,5 @@
 ﻿@model List<CPV_Mark3.Models.CaseTable>
-@using CPV_Mark3.Controllers;
+
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -16,21 +16,17 @@
 
 
             function searchCases() {
-                
                 var query = $("#searchInput").val();
                 var query2 = $("#callingViewHiddenField").val();
-                var query3 = $("#dropdown").val();
-
                 var url = '@Url.Action("_SearchCases", "Home")';
                 url = url.replace("_query_", query);
-                url = url.replace("_query3_", query3);
 
                 console.log(url);
                 $.ajax({
                     url: url,
                     data: {
                         query: query,
-                        query3: query3
+                        query2: query2
                     },
                     type: "Post",
                     success: function (result) {
@@ -44,6 +40,12 @@
                 });
             }
         });
+    </script>
+
+    <script>
+        function updateSelectedRole(selectedRole) {
+            document.getElementById('callingViewHiddenField').value = selectedRole;
+        }
     </script>
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
@@ -86,10 +88,10 @@
             border: 1px groove #569F9F;
         }
 
-            .box:focus {
-                border-color: #68c5b5; /* Set the border color you want when the input is focused */
-                outline: none; /* Remove the default focus outline (optional) */
-            }
+         .box:focus {
+            border-color: #68c5b5; /* Set the border color you want when the input is focused */
+            outline: none; /* Remove the default focus outline (optional) */
+        }
 
 
 
@@ -111,34 +113,8 @@
             color: white;
             font-family: 'Poppins', sans-serif;
         }
-        .dis {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-        }
 
-
-        .view {
-            margin-top: 40px;
-            background-color: #EAF6F6;
-            border-radius: 12px;
-            padding: 10px;
-            margin-left: 15px;
-            margin-right: 15px;
-            max-height: 500px;
-            min-height: 100px;
-            height: max-content;
-            width: 100%;
-            border: 1px groove #569F9F;
-        }
-
-        .placeholder {
-            height: 25px;
-            opacity: .03;
-            border-radius: 12px;
-            margin: 5px;
-        }
+       
     </style>
 </head>
 <body style="padding: 0px;">
@@ -155,43 +131,19 @@
                 <div>
                     <label>User List</label>
                     <input type="text" id="callingViewHiddenField" style="display: none;" />
-                    @Html.DropDownList("FEList",
-                    new SelectList(HomeController.GetAllUsers()), "--Users--", new { @class = "box", id = "dropdown" })
+                    @{ Html.RenderAction("_FEView", "Home"); }
                 </div>
                 <div style=" width: 150px; margin-left: 5px; margin: 7px 3px 10px 8px;">
-                    <input type="button" id="btnsubmit" value="Search" />
+                    <input type="button" id="btnsubmit"  value="Search" />
                 </div>
             </div>
         </div>
         <br />
 
-        <div class="dis">
-            <div class="view">
+        <div id="CaseList"></div>
 
-                <div id="CaseList" aria-hidden="true">
-                    <p class="card-text placeholder-glow">
-                        <span class="placeholder col-1"></span>
-                        <span class="placeholder col-1"></span>
-                        <span class="placeholder col-1"></span>
-                        <span class="placeholder col-1"></span>
-                        <span class="placeholder col-1"></span>
-                        <span class="placeholder col-1"></span>
-                        <span class="placeholder col-1"></span>
-                        <span class="placeholder col-1"></span>
-                        <span class="placeholder col-1"></span>
-                        <span class="placeholder col-1"></span>
-                        <span class="placeholder col-12"></span>
-                        <span class="placeholder col-12"></span>
-                        <span class="placeholder col-12"></span>
-                        <span class="placeholder col-12"></span>
-                    </p>
-                </div>
+    </div>
 
-                <div id="CaseList"></div>
-
-            </div>
-        </div>
-        </div>
 
 </body>
 </html>

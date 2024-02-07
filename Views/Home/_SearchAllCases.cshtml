@@ -21,8 +21,7 @@
         margin-left: 0px;
         margin-right: 0px;
         max-height: 500px;
-        min-width: 1000px;
-        width: max-content;
+        width: 1000px;
         border: 1px groove #569F9F;
     }
 
@@ -102,10 +101,13 @@
          $(".deleteBtn").click(function () {
              let data = $(this).data("id");
 
+              @*let url = '@Url.Action("DeleteCase", "Home", new { id = "_id_" })';*@
+
+
               let url = '@Url.Action("DeleteCase")';
               let ajaxdata = { id : data };
               //url = url.replace("_id_", data);
-              /*alert(ajaxdata);*/
+              alert(ajaxdata);
              $.ajax({
                  url: url,
                  data: ajaxdata,
@@ -115,8 +117,8 @@
                     /* alert("Success");*/
                  },
                  error: function (error) {
-                     location.reload();
-                    /* alert("error")*/
+
+                     alert("error")
                  }
              })
 

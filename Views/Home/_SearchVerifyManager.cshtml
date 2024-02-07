@@ -2,10 +2,6 @@
 
 @model IEnumerable<CPV_Mark3.Models.CaseTable>
 
-@{ 
-    Layout = null;
-}
-
 <style>
     table {
         width: 100%;
@@ -25,8 +21,7 @@
         margin-left: 15px;
         margin-right: 15px;
         max-height: 500px;
-        min-width: 1000px;
-        width: max-content;
+        width: 1100px;
         border: 1px groove #569F9F;
     }
 
@@ -138,7 +133,7 @@
 <div>
 
 
-    @using (Html.BeginForm("DisplayVerifyManager", "Home", FormMethod.Post))
+    @using (Html.BeginForm("DisplayCaseManager", "Home", FormMethod.Post))
     {
         <table>
             <tr>
@@ -151,37 +146,40 @@
                 <td class="tableHead">Final Date</td>
                 <td class="tableHead">Final Status</td>
                 <td class="tableHead">Type</td>
-                <td class="tableHead">Action</td>
-                <td class="tableHead">Print</td>
+                <td class="tableHead">Send PDA</td>
+                <td class="tableHead">Delete</td>
+
             </tr>
 
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Application_no) </td>
-                    <td>@Html.DisplayFor(modelItem => item.Application_name) </td>
-                    <td>@Html.DisplayFor(modelItem => item.Company_Name) </td>
-                    <td>@Html.DisplayFor(modelItem => item.Product) </td>
-                    <td>@Html.DisplayFor(modelItem => item.FE_Name) </td>
-                    <td>@Html.DisplayFor(modelItem => item.Allocation_Date) </td>
-                    <td>@Html.DisplayFor(modelItem => item.Final_Date) </td>
-                    <td>@Html.DisplayFor(modelItem => item.Final_Status) </td>
-                    <td>@Html.DisplayFor(modelItem => item.Visit_Type) </td>
+                    <td>@Html.DisplayFor(modelItem => item.Application_no, new { @class = "tablecont" }) </td>
+                    <td>@Html.DisplayFor(modelItem => item.Application_name, new { @class = "tablecont" }) </td>
+                    <td>@Html.DisplayFor(modelItem => item.Company_Name, new { @class = "tablecont" }) </td>
+                    <td>@Html.DisplayFor(modelItem => item.Product, new { @class = "tablecont" }) </td>
+                    <td>@Html.DisplayFor(modelItem => item.FE_Name, new { @class = "tablecont" }) </td>
+                    <td>@Html.DisplayFor(modelItem => item.Allocation_Date, new { @class = "tablecont" }) </td>
+                    <td>@Html.DisplayFor(modelItem => item.Final_Date, new { @class = "tablecont" }) </td>
+                    <td>@Html.DisplayFor(modelItem => item.Final_Status, new { @class = "tablecont" }) </td>
+                    <td>@Html.DisplayFor(modelItem => item.Visit_Type, new { @class = "tablecont" }) </td>
                     <td>
-                        <a href="@Url.Action("EditVerifyManager", "Home", new { id = item.Id })">
-                            <img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' @*class="submitBtn"*@ />
-                        </a>
-                        @*<img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />*@
-                        @*@Html.ActionLink("Go to Page", "EditVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
+
+                        @Html.HiddenFor(modelItem => item.Id)
+                        @*<button type="button" data-id='@item.Id' class="btn btn-primary submitBtn">Send to PDA</button>*@
+
+                        <img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />
+
+
+                        @*@Html.ActionLink("Send to PDA", "CreateCaseManagerView", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
+                        @*@Html.ActionLink("Delete", "DisplayCaseManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
                     </td>
                     <td>
-                        <a href="@Url.Action("PrintVerifyManager", "Home", new { id = item.Id })">
-                            <img src="~/Content/Images/printer.png" style="width: 25px; height: 25px; cursor: pointer;" data-id='@item.Id'  />
-                        </a>
-                        @*@Html.ActionLink("Print", "PrintVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary", target = "_blank" })*@
-
+                        <img src="~/Content/Images/trash.png" style="width: 25px; height: 25px; cursor: pointer;" data-id='@item.Id' class="deleteBtn" />
+                        @*<button type="button" data-id='@item.Id' class="btn btn-primary deleteBtn">Delete</button>*@
                     </td>
                 </tr>
+
             }
 
         </table>

@@ -1,5 +1,5 @@
 ﻿@model List<CPV_Mark3.Models.CaseTable>
-@using CPV_Mark3.Controllers;
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -96,7 +96,7 @@
 
         .dis {
             width: max-content;
-            height: 125vh;
+            height: 100%;
             width: 100%;
         }
 
@@ -110,7 +110,6 @@
             margin-right: 15px;
             max-height: 500px;
             border: 1px groove #569F9F;
-
         }
 
         table {
@@ -146,6 +145,7 @@
             font-size: 15px;
             font-weight: 500;
             width: max-content;
+            white-space: nowrap;
             color: #3A6C6C;
         }
 
@@ -219,53 +219,32 @@
             .box:focus {
                 border: 1px groove #569F9F;
             }
-
-        .placeholder {
-            height: 25px;
-            opacity: .03;
-            border-radius: 12px;
-            margin: 5px;
-        }
     </style>
 
 
     <script>
         $(document).ready(function () {
-
-            searchVerify()
-
             $("#btnsubmit").on("click", function (e) {
-
-                searchVerify()
+                alert("hi");
+                search()
             });
         })
 
 
-        function searchVerify() {
+        function search() {
                 console.log("Button clicked");
                 var query = $("#searchInput").val();
-                var query2 = $("#dropdown").val();
-                var query3 = $("#dropdown2").val();
-                var query4 = $("#dropdown3").val();
-                var url = '@Url.Action("_SearchVerifyManager", "Home")';
-                //url = url.replace("_query_", query);
-                //url = url.replace("_query2_", query2);
-                //url = url.replace("_query3_", query3);
-                //url = url.replace("_query4_", query4);
+                var url = '@Url.Action("DisplayVerifyManager", "Home")';
+                url = url.replace("_query_", query);
 
                 console.log(url);
                 $.ajax({
                     url: url,
-                    data: {
-                        query: query,
-                        query2: query2,
-                        query3: query3,
-                        query4: query4
-                    },
+                    data: { query: query },
                     type: "Post",
                     success: function (result) {
 
-                        $("#VerifyList").html(result);
+                        $("#CaseList").html(result);
                     },
                     error: function (e) {
                         alert("Error fetching search results");
@@ -293,21 +272,20 @@
 
                 <div>
                     <label>User List</label>
-                    @*<input type="text" id="callingViewHiddenField" style="display: none;" />
-                        @{ Html.RenderAction("_FEView", "Home"); }*@
-                    @Html.DropDownList("FEList", new SelectList(HomeController.GetAllUsers()), "--Users--", new { @class = "box", id = "dropdown" })
+                    <input type="text" id="callingViewHiddenField" style="display: none;" />
+                    @{ Html.RenderAction("_FEView", "Home"); }
                 </div>
 
                 <div>
                     <label>Product</label>
                     <input type="text" id="callingViewHiddenField" style="display: none;" />
-                    @Html.DropDownList("Product", new SelectList(CPV_Mark3.Controllers.HomeController.GetProductList()), "-- Select --", new { @class = " drop box", id = "dropdown2" })
+                    @Html.DropDownList("Product", new SelectList(CPV_Mark3.Controllers.HomeController.GetProductList()), "-- Select --", new { @class = " drop box" })
                 </div>
 
                 <div>
                     <label>Status</label>
                     <input type="text" id="callingViewHiddenField" style="display: none;" />
-                    @Html.DropDownList("Status", new SelectList(CPV_Mark3.Controllers.HomeController.GetStatus()), "-- Select --", new { @class = " drop box", id = "dropdown3" })
+                    @Html.DropDownList("Status", new SelectList(CPV_Mark3.Controllers.HomeController.GetStatus()), "-- Select --", new { @class = " drop box" })
                 </div>
 
                 @*<div>
@@ -322,35 +300,103 @@
 
             </div>
 
+            <div id="CaseList">
+
+            </div>
+
             <div class="dis">
                 <div class="view">
+                    <table>
+                        <tr>
+                            <td class="tableHead">Application no</td>
+                            <td class="tableHead">Customer Name</td>
+                            <td class="tableHead">Company Name</td>
+                            <td class="tableHead">Product</td>
+                            <td class="tableHead">FE Name</td>
+                            <td class="tableHead">Allocation Date</td>
+                            <td class="tableHead">Final Date</td>
+                            <td class="tableHead">Final Status</td>
+                            <td class="tableHead">Type</td>
+                            <td class="tableHead">Action</td>
+                            <td class="tableHead">Print</td>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Application_no) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Application_name) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Company_Name) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Product) </td>
+                                <td>@Html.DisplayFor(modelItem => item.FE_Name) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Allocation_Date) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Final_Date) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Final_Status) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Visit_Type) </td>
+                                <td>
+
+                                    <a href="@Url.Action("EditVerifyManager", "Home", new { id = item.Id })">
+                                        <img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />
+                                    </a>
+
+                                    @*<img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />*@
+
+                                    @*@Html.ActionLink("Go to Page", "EditVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("PrintVerifyManager", "Home", new { id = item.Id, target = "_blank" })">
+                                        <img src="~/Content/Images/printer.png" style="width: 25px; height: 25px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />
+                                    </a>
 
 
-                    <div id="VerifyList" aria-hidden="true">
-                        <p class="card-text placeholder-glow">
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-12"></span>
-                            <span class="placeholder col-12"></span>
-                            <span class="placeholder col-12"></span>
+                                    @*@Html.ActionLink("Print", "PrintVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary", target = "_blank" })*@
 
-                        </p>
-                    </div>
+                                </td>
+                            </tr>
 
-                    <div id="VerifyList">
+                        }
 
-                    </div>
+                    </table>
                 </div>
             </div>
 
+            @*<table class="user-list">
+                    <thead>
+                        <tr>
+                            <th>Application_no</th>
+                            <th>Customer Name</th>
+                            <th>Company Name</th>
+                            <th>Product</th>
+                            <th>FE Name	</th>
+                            <th>Allocation Date</th>
+                            <th>Final Date</th>
+                            <th>Final Status</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+
+                        <tbody>
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Application_no) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Application_name) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Company_Name) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Product) </td>
+                                <td>@Html.DisplayFor(modelItem => item.FE_Name) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Allocation_Date) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Final_Date) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Final_Status) </td>
+                                <td>@Html.DisplayFor(modelItem => item.Visit_Type) </td>
+                                <td>
+                                    @Html.ActionLink("Go to Page", "EditVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })
+                                </td>
+
+                            </tr>
+                        </tbody>
+
+                    }
+                </table>*@
         </div>
     </div>
 </body>

@@ -8,7 +8,6 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
         @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
@@ -162,42 +161,24 @@
         }
     </style>
 
-    @*<script>
-            $(document).ready(function () {
-                $("#loginForm").submit(function () {
-                    // Show the loading div when the form is submitted
-
-                    $("#divLoading").show();
-                });
-
-                // Optionally, you can hide the loading div after a delay
-                $(window).on('load', function () {
-                    setTimeout(function () {
-                        $("#divLoading").hide();
-                    }, 2000); // Adjust the delay as needed (in milliseconds)
-                    alert("hi")
-                });
-            });
-        </script>*@
-
     <script>
         $(document).ready(function () {
-            $("#divLoading").hide();
-
-            $("#signin").on("click", function () {
+            $("#loginForm").submit(function () {
                 // Show the loading div when the form is submitted
+               
                 $("#divLoading").show();
+            });
 
-                // Optionally, you can hide the loading div after a delay
+            // Optionally, you can hide the loading div after a delay
+            $(window).on('load', function () {
                 setTimeout(function () {
                     $("#divLoading").hide();
                 }, 2000); // Adjust the delay as needed (in milliseconds)
-
-                // Alert here if needed
-                // alert("hi");
+                alert("hi")
             });
         });
     </script>
+
 
 </head>
 
@@ -306,7 +287,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Sign in" class="btn btn-default log-btn" id="signin" />
+                        <input type="submit" value="Sign in" class="btn btn-default log-btn" />
                     </div>
                 </div>
 
