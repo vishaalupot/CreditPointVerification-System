@@ -12,6 +12,7 @@
 
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+
         body {
             font-family: sans-serif;
             font-size: 16px; /* Set your desired base font size */
@@ -22,7 +23,6 @@
         }
 
         .user-form {
-            
             padding: 20px;
             border-radius: 5px;
             width: 100%;
@@ -94,7 +94,6 @@
         }
 
         td, th {
- 
             padding: 8px;
             text-align: left;
         }
@@ -135,20 +134,20 @@
 
 
 
-        
+
         .btn-two {
             color: #FFF;
             transition: all 0.5s;
             position: relative;
         }
 
-        .btn-two span {
-            z-index: 2;
-            display: block;
-            position: absolute;
-            width: 50px;
-            height: 50px;
-        }
+            .btn-two span {
+                z-index: 2;
+                display: block;
+                position: absolute;
+                width: 50px;
+                height: 50px;
+            }
 
             .btn-two::before {
                 content: '';
@@ -185,8 +184,36 @@
                 transform: rotate(45deg);
                 background-color: darkred;
             }
-        
     </style>
+    <script src="/Scripts/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".deleteBtn").click(function () {
+                let data = $(this).data("id");
+
+                let url = '@Url.Action("DeleteUser")';
+                let ajaxdata = { id: data };
+                //url = url.replace("_id_", data);
+                
+                $.ajax({
+                    url: url,
+                    data: ajaxdata,
+                    type: "Post",
+                    success: function (result) {
+                        location.reload();
+                        /* alert("Success");*/
+                    },
+                    error: function (error) {
+
+                        location.reload();
+                    }
+                })
+
+            })
+        });
+
+    </script>
+
 </head>
 <body>
     <div class="userbody-content">
