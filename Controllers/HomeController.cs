@@ -11,7 +11,7 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
-
+using Newtonsoft.Json;
 
 namespace CPV_Mark3.Controllers
 {
@@ -40,6 +40,8 @@ namespace CPV_Mark3.Controllers
                     .ToList();
             return View(results);
         }
+
+
 
         [HttpPost]
         public ActionResult FETransfer(string query, string query2)
@@ -209,6 +211,9 @@ namespace CPV_Mark3.Controllers
         public ActionResult Index()
         {
             //return View();
+            
+
+
 
             if (User.IsInRole("FE"))
             {
@@ -218,6 +223,25 @@ namespace CPV_Mark3.Controllers
             {
                 CPV_DB1Entities db = new CPV_DB1Entities();
                 List<CaseTable> caseTable = db.CaseTables.ToList();
+
+                List<int> Dashdata = new List<int>();
+                //var data = new List<int>() { 90, 25, 30, 10 };
+
+                List<CaseTable> totalcase = caseTable.Where(w => w.Allocation_Date < DateTime.Today.AddDays(10)).ToList();
+                int donecase = totalcase.Where(w => w.Final_Status == "Final_Status").Count();                
+                int newcase = totalcase.Where(w => w.Final_Status == "Pending").Count();
+                int overdueCase = totalcase.Where(w => w.Final_Status == "").Count();
+                //int overDue = 
+
+                Dashdata.Add(totalcase.Count());
+                Dashdata.Add(donecase);
+                Dashdata.Add(newcase);
+                Dashdata.Add(overdueCase);
+
+                var json = JsonConvert.SerializeObject(Dashdata);
+
+                ViewBag.DashData = json;
+
                 return View(caseTable);
             }
 
@@ -973,12 +997,7 @@ namespace CPV_Mark3.Controllers
             }
         }
 
-        public ActionResult DailyDashboard()
-        {
-            string data = "[52, 20, 25, 7]";
-
-            return Json(new { data = data });
-        }
+       
 
     }
 
