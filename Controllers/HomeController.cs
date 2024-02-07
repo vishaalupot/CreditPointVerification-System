@@ -229,7 +229,7 @@ namespace CPV_Mark3.Controllers
             //return View();
             
 
-
+            
 
             if (User.IsInRole("FE"))
             {
@@ -237,6 +237,7 @@ namespace CPV_Mark3.Controllers
             }
             else
             {
+                //Dashboard data dynamically refresh
                 CPV_DB1Entities db = new CPV_DB1Entities();
                 List<CaseTable> caseTable = db.CaseTables.ToList();
 
