@@ -394,20 +394,7 @@ namespace CPV_Mark3.Controllers
             return View(cases);
         }
 
-        [HttpPost]
-        public ActionResult DisplayCaseManager(int id)
-        {
-            CPV_DB1Entities db = new CPV_DB1Entities();
-            List<CaseTable> cases = db.CaseTables.ToList();
-            CaseTable caseTable = db.CaseTables.Find(id);
-
-            caseTable.Final_Status = "Pending";
-
-            db.Entry(caseTable).State = System.Data.Entity.EntityState.Modified;
-            db.SaveChanges();
-
-            return View(cases);
-        }
+       
 
         [HttpPost]
         public ActionResult DeleteCase(int id)
@@ -602,16 +589,6 @@ namespace CPV_Mark3.Controllers
 
         }
 
-
-        public static List<string> Vish()
-        {
-            CPV_DB1Entities db = new CPV_DB1Entities();
-
-            List<string> GetFEList1 = new List<string> { "FE", "Client", "Admin" };
-
-            return GetFEList1;
-
-        }
 
         public List<string> GetFEList()
         {

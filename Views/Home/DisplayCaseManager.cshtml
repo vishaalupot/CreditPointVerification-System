@@ -189,7 +189,7 @@
             searchCases();
 
             /*Not used anymore*/
-            $(".submitBtn").click(function () {
+            @*$(".submitBtn").click(function () {
                 let data = $(this).data("id");
                 let url = '@Url.Action("DisplayCaseManager","Home", new { id = "_id_" })';
                  url = url.replace("_id_", data);
@@ -206,7 +206,9 @@
                             alert("error")
                     }
                     })
-            })
+            })*@
+
+
             /*Not used anymore*/
              $(".deleteBtn").click(function () {
                 let data = $(this).data("id");
@@ -236,7 +238,6 @@
 
             $("#btnsubmit").on("click", function (e)
             {
-
                 searchCases();
             });
 
@@ -247,6 +248,7 @@
 
             $("#searchInput").keypress(function (e) {
                 if (e.which === 13) {
+                    e.preventDefault();
                     searchCases();
                 }
             });
@@ -261,8 +263,8 @@
             var query = $("#searchInput").val();
             var url = '@Url.Action("_SearchAllCases", "Home")';
             url = url.replace("_query_", query);
-
             console.log(url);
+           /* alert(query)*/
             $.ajax({
                 url: url,
                 data: { query: query },

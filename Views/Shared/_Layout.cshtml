@@ -357,7 +357,7 @@
                 <img src="~/Content/Images/logo.png" alt="Image 1" class="logo" />
             </div>
 
-            <img src="@Url.Action("DisplayProfilePic", "Home", new { snr = @User.Identity.GetUserId() })" alt="Profile Picture" class="dp1"  id="name" />
+            <img src="@Url.Action("DisplayProfilePic", "Home", new { snr = @User.Identity.GetUserId() })" alt="Profile Picture" onerror="this.src='@Url.Content("~/Content/Images/placeholder.png")'"  class="dp1"  id="name" />
 
             <div class="welcomeName">
                 @User.Identity.GetUserName()
