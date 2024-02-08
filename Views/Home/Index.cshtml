@@ -75,6 +75,9 @@
     }
 
 
+    .body-bg {
+        height: 70%;
+    }
 
     .dash1 {
         display: flex;
@@ -133,6 +136,7 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
+        overflow: hidden;
     }
 
 
@@ -248,10 +252,12 @@
 
     .circular-progress {
         position: relative;
-        height: 20vw; /* 20% of the viewport height */
-        width: 20vw; /* 20% of the viewport width */
-        max-height: 138px; /* Set a maximum height if needed */
-        max-width: 135px; /* Set a maximum width if needed */
+        /*height: 10vw;*/ /* 20% of the viewport height */
+        /*width: 10vw;*/ /* 20% of the viewport width */
+        height:25%;
+        width:115%;
+        /*max-height: 138px;*/ /* Set a maximum height if needed */
+        /*max-width: 135px;*/ /* Set a maximum width if needed */
         border-radius: 50%;
         display: grid;
         place-items: center;
@@ -288,8 +294,10 @@
     .stat0 {
         background-color: white;
         border-radius: 12px;
-        width: 600px;
-        height: 175px;
+        /*width: 600px;*/
+        width:95%;
+       /* height: 175px;*/
+        height: 40%;
         border: 1px groove #CBD5E0;
         margin: 10px 10px;
         padding: 10px 10px;
@@ -300,8 +308,10 @@
     .stat1 {
         background-color: white;
         border-radius: 12px;
-        width: 460px;
-        height: 225px;
+        /*width: 460px;*/
+        width: 85%;
+       /* height: 225px;*/
+       height: 45%;
         margin: 10px 10px;
         border: 1px groove #CBD5E0;
         display: flex;
@@ -312,8 +322,8 @@
     .stat2 {
         background-color: white;
         border-radius: 12px;
-        width: 175px;
-        height: 150px;
+        /*width: 175px;
+        height: 150px;*/
         border: 1px groove #CBD5E0;
         margin: 10px 10px;
         display: flex;
@@ -323,8 +333,10 @@
     .stat3 {
         background-color: white;
         border-radius: 12px;
-        width: 250px;
-        height: 420px;
+        /*width: 250px;
+        height: 420px;*/
+        width: 25%;
+        height:92%;
         border: 1px groove #CBD5E0;
         margin: 10px 10px;
         display: flex;
@@ -336,8 +348,9 @@
     .stat1-below {
         background-color: #2D6980;
         border-radius: 12px;
-        width: 120px;
-        height: 225px;
+        width: 15vh;
+        height: 25vh;
+        
         margin: 10px 10px;
         border: 1px groove #CBD5E0;
         display: flex;
@@ -665,8 +678,8 @@
         <div class="body-bg">
 
             <br>
-            <div class="circular-progress" style="width:160px ; height: 160px; ">
-                <div class="value-container" style=" font-size: 60px;">0</div>
+            <div class="circular-progress" @*style="width:160px ; height: 160px; "*@>
+                <div class="value-container" style=" font-size: 50px;">0</div>
             </div>
             <span style="display: flex; justify-content: center; font-weight: 700; font-size: 12px;">Total Applications</span>
 

@@ -17,7 +17,7 @@
     }
 
 
-    .view {
+    /*.view {
         margin-top: 40px;
         background-color: #EAF6F6;
         border-radius: 12px;
@@ -26,8 +26,36 @@
         margin-right: 15px;
         max-height: 500px;
         min-width: 1000px;
-        width: max-content;
+        width: 90%;
         border: 1px groove #569F9F;
+        overflow: auto;
+    }*/
+
+        /* Hide the scrollbar track when not actively scrolling */
+        /*.view::-webkit-scrollbar {
+            width: 0.4em;*/ /* Adjust the width as needed */
+        /*}
+
+        .view::-webkit-scrollbar-track {
+            background-color: transparent;*/ /* Hide the scrollbar track */
+        /*}*/
+
+        /* Define scrollbar thumb styles */
+        /*.view::-webkit-scrollbar-thumb {
+            background-color: #236154;*/ /* Adjust the color as needed */
+            /*border-radius: 12px;
+        }*/
+
+    .view::-webkit-scrollbar {
+        width: 0.5em;
+    }
+
+    .view::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+    .view::-webkit-scrollbar-thumb {
+        background-color: #236154;
+        border-radius: 12px;
     }
 
     table {
@@ -68,7 +96,6 @@
         font-size: 15px;
         font-weight: 500;
         width: max-content;
-        white-space: nowrap;
         color: #3A6C6C;
     }
 

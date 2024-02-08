@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Add New User</title>
-    <script src="/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script type="text/javascript">
         $(".submitBtn").click(function () {
     let data = $(this).data("id");
@@ -79,18 +79,20 @@
         }
 
         .cont {
+            width:100%;
+            height:100%;
             display: flex;
             flex-direction: column;
         }
 
         .userbody-content {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             width: 95%;
             height: 90vh;
             background-color: #FFFFFF;
             border-radius: 12px;
-            justify-content: center;
+            padding: 10px;
         }
 
 
@@ -110,8 +112,23 @@
             margin-right: 15px;
             max-height: 500px;
             border: 1px groove #569F9F;
-
         }
+
+        .view {
+            margin-top: 50px;
+            background-color: #EAF6F6;
+            border-radius: 12px;
+            padding: 10px;
+            margin-left: 15px;
+            margin-right: 15px;
+            max-height: 70% !important;
+            border: 1px groove #569F9F;
+            height:60%;
+            overflow: auto;
+        }
+
+             
+            
 
         table {
             border-collapse: collapse;
@@ -258,7 +275,7 @@
                     e.preventDefault();
                     searchVerify();
                 }
-            }); 
+            });
 
             $("#dropdown3").keypress(function (e) {
                 if (e.which === 13) {
@@ -306,50 +323,49 @@
 
 
 </head>
-<body>
+<body style="padding: 0px;">
     <div class="userbody-content">
-        <div class="cont">
-            <div class="heading">Verify Manager</div>
+        <div class="heading">Verify Manager</div>
 
+        <div style="display: flex; flex-direction: row; width: 100%;">
 
-            <div style="display: flex; flex-direction: row; width: 100%;">
-
-                <div style="margin-right: 5px;">
-                    <label>Application No</label>
-                    @*<input class="form-control" id="search" name="search" type="text" value="" "  />*@
-                    <input type="text" id="searchInput" class="box" />
-                </div>
-
-                <div>
-                    <label>User List</label>
-                    @*<input type="text" id="callingViewHiddenField" style="display: none;" />
-                        @{ Html.RenderAction("_FEView", "Home"); }*@
-                    @Html.DropDownList("FEList", new SelectList(HomeController.GetAllUsers()), "--Users--", new { @class = "box", id = "dropdown" })
-                </div>
-
-                <div>
-                    <label>Product</label>
-                    <input type="text" id="callingViewHiddenField" style="display: none;" />
-                    @Html.DropDownList("Product", new SelectList(CPV_Mark3.Controllers.HomeController.GetProductList()), "-- Select --", new { @class = " drop box", id = "dropdown2" })
-                </div>
-
-                <div>
-                    <label>Status</label>
-                    <input type="text" id="callingViewHiddenField" style="display: none;" />
-                    @Html.DropDownList("Status", new SelectList(CPV_Mark3.Controllers.HomeController.GetStatus()), "-- Select --", new { @class = " drop box", id = "dropdown3" })
-                </div>
-
-                @*<div>
-                        <label>User List</label>
-                        <input type="text" id="callingViewHiddenField" style="display: none;" />
-                        @{ Html.RenderAction("_FEView", "Home"); }
-                    </div>*@
-
-                <div style=" width: 150px; margin-left: 5px; margin: 7px 3px 10px 8px;">
-                    <input type="button" id="btnsubmit" value="Search" />
-                </div>
-
+            <div style="margin-right: 5px;">
+                <label>Application No</label>
+                @*<input class="form-control" id="search" name="search" type="text" value="" "  />*@
+                <input type="text" id="searchInput" class="box" />
             </div>
+
+            <div>
+                <label>User List</label>
+                @*<input type="text" id="callingViewHiddenField" style="display: none;" />
+                @{ Html.RenderAction("_FEView", "Home"); }*@
+                @Html.DropDownList("FEList", new SelectList(HomeController.GetAllUsers()), "--Users--", new { @class = "box", id = "dropdown" })
+            </div>
+
+            <div>
+                <label>Product</label>
+                <input type="text" id="callingViewHiddenField" style="display: none;" />
+                @Html.DropDownList("Product", new SelectList(CPV_Mark3.Controllers.HomeController.GetProductList()), "-- Select --", new { @class = " drop box", id = "dropdown2" })
+            </div>
+
+            <div>
+                <label>Status</label>
+                <input type="text" id="callingViewHiddenField" style="display: none;" />
+                @Html.DropDownList("Status", new SelectList(CPV_Mark3.Controllers.HomeController.GetStatus()), "-- Select --", new { @class = " drop box", id = "dropdown3" })
+            </div>
+
+            @*<div>
+                <label>User List</label>
+                <input type="text" id="callingViewHiddenField" style="display: none;" />
+                @{ Html.RenderAction("_FEView", "Home"); }
+            </div>*@
+
+            <div style=" width: 150px; margin-left: 5px; margin: 7px 3px 10px 8px; display: flex; align-items: end;">
+                <input type="button" id="btnsubmit" value="Search" />
+            </div>
+
+        </div>
+
 
             <div class="dis">
                 <div class="view">
@@ -381,7 +397,6 @@
             </div>
 
         </div>
-    </div>
 </body>
 </html>
 

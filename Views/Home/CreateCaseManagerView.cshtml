@@ -9,6 +9,8 @@
 }
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
@@ -39,7 +41,6 @@
         }
 
         .form-horizontal {
-           
             background-color: white;
             border-radius: 12px;
         }
@@ -66,7 +67,6 @@
         }
 
         .SubBtn {
-        
             background-color: #012b2b;
             color: white;
             font-family: 'Jaldi', sans-serif;
@@ -79,10 +79,52 @@
             }
     </style>
     <script>
+
         function updateSelectedRole(selectedRole) {
             document.getElementById('callingViewHiddenField').value = selectedRole;
         }
     </script>
+
+
+    <script>
+        function validateForm() {
+            var requiredFields = ["Application_name", "Application_no", "Company_Name", "Trade_License_Number",
+                "Company_Address", "Landmark", "Landline", "Contacted_Person",
+                "Contacted_Person_Mobile_No", "Operating_Hours", "Emirate", "Product",
+                "Visit_Type", "Client", "Allocation_Date", "FE_Name"];
+
+            var isValid = true;
+
+            for (var i = 0; i < requiredFields.length; i++) {
+                var fieldName = requiredFields[i];
+                var fieldValue = document.getElementById(fieldName).value;
+
+                if (fieldValue.trim() === "") {
+                    isValid = false;
+
+                    // Use SweetAlert to show an alert
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please fill out all required fields!',
+                    });
+
+                    break;
+                }
+            }
+
+            return isValid;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("submit").onclick = function () {
+                return validateForm();
+            };
+        });
+
+
+    </script>
+
 </head>
 
 <div class="bod">
@@ -94,21 +136,17 @@
 
 <div class="form-horizontal">
 
-
     <div class="form-group col-sm-12 col-md-6 col-lg-4">
+        @Html.ValidationMessageFor(model => model.Application_name, "", new { @class = "text-danger" })
         @Html.LabelFor(model => model.Application_name, "Application Name", new { @class = "control-label label" })
         @Html.EditorFor(model => model.Application_name, new { htmlAttributes = new { @class = "form-control box" } })
 
-
-        @Html.ValidationMessageFor(model => model.Application_name, "", new { @class = "text-danger" })
     </div>
 
 
     <div class="form-group col-sm-12 col-md-6 col-lg-4">
         @Html.LabelFor(model => model.Application_no, "Application Number", new { @class = "control-label label" })
         @Html.EditorFor(model => model.Application_no, new { htmlAttributes = new { @class = "form-control box" } })
-
-
         @Html.ValidationMessageFor(model => model.Application_no, "", new { @class = "text-danger" })
     </div>
 
@@ -258,7 +296,7 @@
 
     <div class="form-group" >
         <div class=" col-md-10">
-            <input type="submit" value="Create" class="btn SubBtn" style=" width: 100px; height: 30px;" />
+            <input type="submit" value="Create" class="btn SubBtn" style=" width: 100px; height: 30px;" id="submit" />
         </div>
     </div>
 

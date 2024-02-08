@@ -49,7 +49,7 @@
             flex-direction: column;
             padding-left: 20px;
             width: 100%;
-            height: 90vh;
+            height: 100%;
             background-color: #FFFFFF;
             border-radius: 12px;
             justify-content: center;
@@ -57,12 +57,12 @@
 
         .userbody-content {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             width: 95%;
             height: 90vh;
             background-color: #FFFFFF;
             border-radius: 12px;
-            justify-content: center;
+            padding: 10px;
         }
 
         .dis {
@@ -78,11 +78,30 @@
             padding: 10px;
             margin-left: 15px;
             margin-right: 15px;
-            max-height: 500px;
+            /*max-height: 4500px;*/
+            max-height: 50% !important;
+            max-width: 100%;
             min-width: 1000px;
-            width: max-content;
+            width: 1050px;
             border: 1px groove #569F9F;
+            overflow: auto;
         }
+
+
+            /* Hide the scrollbar track when not actively scrolling */
+            .view::-webkit-scrollbar {
+                width: 0.4em; /* Adjust the width as needed */
+            }
+
+            .view::-webkit-scrollbar-track {
+                background-color: transparent; /* Hide the scrollbar track */
+            }
+
+            /* Define scrollbar thumb styles */
+            .view::-webkit-scrollbar-thumb {
+                background-color: #236154; /* Adjust the color as needed */
+                border-radius: 12px;
+            }
 
         table {
             border-collapse: collapse;
@@ -139,8 +158,8 @@
             background-color: #E3F4F4;
             border-radius: 50px;
             border-style: none;
-            width: 500px;
-            height: 40px;
+            width: 250px;
+            height: 30px;
             margin-top: 7px;
             margin-bottom: 10px;
             border: 0px solid #000;
@@ -161,7 +180,7 @@
             background-color: #236154;
             border-radius: 50px;
             width: 45px;
-            height: 40px;
+            height: 30px;
             border: none;
             border-bottom-left-radius: 0px;
             border-top-left-radius: 0px;
@@ -173,15 +192,20 @@
             background-position: center;
         }
 
-        .placeholder{
+        .placeholder {
             height: 25px;
             opacity: .03;
             border-radius: 12px;
             margin: 5px;
-            
+        }
+
+        .cont {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
     </style>
-    <script src="/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script type="text/javascript">
 
         $(document).ready(function ()
@@ -283,8 +307,8 @@
 
     <style>
         .cssbuttons-io {
-            width: 100px;
-            height: 40px;
+            width: 80px;
+            height: 30px;
             position: relative;
             font-family: 'Jaldi', sans-serif;
             /* font-weight: 500;*/
@@ -312,7 +336,7 @@
                 transition: color 0.4s;
                 display: inline-flex;
                 align-items: center;
-                padding: 0.4em 0em 0.8em 0em;
+                padding: 0.1em 0em 0em 0em;
             }
 
             .cssbuttons-io::before,
@@ -350,29 +374,35 @@
             text-align: left;
             font-weight: 600;
         }
+
+
     </style>
 </head>
-<body>
+<body style="padding: 0px;">
     <div class="userbody-content">
+        <div class="heading">Case Manager</div>
         @using (Html.BeginForm("DisplayCaseManager", "Home", FormMethod.Post))
         {
-            <div class="cont">
-                <div class="heading">Case Manager</div>
-                <div style="display: flex; flex-direction: row; align-items: center;">
-                    <div style="display: flex; flex-direction: row; margin-right: auto; align-items: center;">
-                        <input type="text" id="searchInput" class="search-input" />
-                        <input type="button" id="btnsubmit" />
-                    </div>
 
-                    <button id="createCaseButton" class="cssbuttons-io" type="button">
-                        <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-                            </svg>
-                            Case
-                        </span>
-                    </button>
+            <div style="display: flex; flex-direction: row; align-items: center;">
+                <div style="display: flex; flex-direction: row; margin-right: auto; align-items: center;">
+                    <input type="text" id="searchInput" class="search-input" />
+                    <input type="button" id="btnsubmit" />
                 </div>
+
+                <button id="createCaseButton" class="cssbuttons-io" type="button">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+                        </svg>
+                        Case
+                    </span>
+                </button>
+            </div>
+
+            @*<div class="cont">*@
+
+
                 @*@Html.ActionLink("Add New Case", "CreateCaseManagerView", "Home", new { @class = "btn btn-primary" })*@
 
 
@@ -408,7 +438,7 @@
 
 
 
-            </div>
+            @*</div>*@
 
 
         }

@@ -500,41 +500,106 @@ namespace CPV_Mark3.Controllers
         }
 
 
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult CreateCaseManagerView(FormCollection form)
+        //{
+
+        //    var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //    var users = userManager.Users.ToList();
+
+        //    CPV_DB1Entities db = new CPV_DB1Entities();
+
+        //    CaseTable caseTable = new CaseTable
+        //    {
+        //        Application_name = form["Application_name"],
+        //        Application_no = form["Application_no"],
+        //        Company_Name = form["Company_Name"],
+        //        Trade_License_Number = form["Trade_License_Number"],
+        //        Company_Address = form["Company_Address"],
+        //        Landmark = form["Landmark"],
+        //        Landline = form["Landline"],
+        //        Contacted_Person = form["Contacted_Person"],
+        //        Contacted_Person_Mobile_No = form["Contacted_Person_Mobile_No"],
+        //        Operating_Hours = form["Operating_Hours"],
+        //        Emirate = form["Emirate"],
+        //        Product = form["Product"],
+        //        Visit_Type = form["Visit_Type"],
+        //        Client = form["Client"],
+        //        Allocation_Date = DateTime.TryParse(form["Allocation_Date"], out allocationDate) ? allocationDate : default(DateTime),
+        //        FE_Name = form["FE_Name"],
+        //        Final_Status = "Pending"
+        //    };
+
+        //    db.CaseTables.Add(caseTable);
+        //    db.SaveChanges();
+
+        //    return RedirectToAction("DisplayCaseManager");
+        //}
+
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateCaseManagerView(FormCollection form)
         {
-
-            var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var users = userManager.Users.ToList();
-
-            CPV_DB1Entities db = new CPV_DB1Entities();
-
-            CaseTable caseTable = new CaseTable
+            // Check if all required fields have non-null values
+            if (AllFieldsHaveValues(form))
             {
-                Application_name = form["Application_name"],
-                Application_no = form["Application_no"],
-                Company_Name = form["Company_Name"],
-                Trade_License_Number = form["Trade_License_Number"],
-                Company_Address = form["Company_Address"],
-                Landmark = form["Landmark"],
-                Landline = form["Landline"],
-                Contacted_Person = form["Contacted_Person"],
-                Contacted_Person_Mobile_No = form["Contacted_Person_Mobile_No"],
-                Operating_Hours = form["Operating_Hours"],
-                Emirate = form["Emirate"],
-                Product = form["Product"],
-                Visit_Type = form["Visit_Type"],
-                Client = form["Client"],
-                Allocation_Date = DateTime.TryParse(form["Allocation_Date"], out allocationDate) ? allocationDate : default(DateTime),
-                FE_Name = form["FE_Name"],
-                Final_Status = "Pending"
+                var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var users = userManager.Users.ToList();
+
+                CPV_DB1Entities db = new CPV_DB1Entities();
+
+                CaseTable caseTable = new CaseTable
+                {
+                    Application_name = form["Application_name"],
+                    Application_no = form["Application_no"],
+                    Company_Name = form["Company_Name"],
+                    Trade_License_Number = form["Trade_License_Number"],
+                    Company_Address = form["Company_Address"],
+                    Landmark = form["Landmark"],
+                    Landline = form["Landline"],
+                    Contacted_Person = form["Contacted_Person"],
+                    Contacted_Person_Mobile_No = form["Contacted_Person_Mobile_No"],
+                    Operating_Hours = form["Operating_Hours"],
+                    Emirate = form["Emirate"],
+                    Product = form["Product"],
+                    Visit_Type = form["Visit_Type"],
+                    Client = form["Client"],
+                    Allocation_Date = DateTime.TryParse(form["Allocation_Date"], out var allocationDate) ? allocationDate : default(DateTime),
+                    FE_Name = form["FE_Name"],
+                    Final_Status = "Pending"
+                };
+
+                db.CaseTables.Add(caseTable);
+                db.SaveChanges();
+
+                return RedirectToAction("DisplayCaseManager");
+            }
+            else
+            {
+                // Handle the case where not all fields have non-null values
+                ModelState.AddModelError("", "All fields must have non-null values.");
+                // You might want to return to the view with an error message or take appropriate action.
+                return View();
+            }
+        }
+        private bool AllFieldsHaveValues(FormCollection form)
+        {
+            // Define the names of all required fields
+            var requiredFields = new List<string>
+            {
+                "Application_name", "Application_no", "Company_Name", "Trade_License_Number",
+                "Company_Address", "Landmark", "Landline", "Contacted_Person",
+                "Contacted_Person_Mobile_No", "Operating_Hours", "Emirate", "Product",
+                "Visit_Type", "Client", "Allocation_Date", "FE_Name"
+                // Add other required fields as needed
             };
 
-            db.CaseTables.Add(caseTable);
-            db.SaveChanges();
-
-            return RedirectToAction("DisplayCaseManager");
+                    // Check if all required fields have non-null values
+            return requiredFields.All(fieldName => !string.IsNullOrEmpty(form[fieldName]));
         }
 
         public static List<SelectListItem> GetEmiratesList()
