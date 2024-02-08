@@ -99,43 +99,7 @@
             })
 
         })
-
-
-
-        // Get the text content or value of the first column cell
-        //var valueOfFirstColumn = firstColumnCell;
-
-        //// Log the value
-        //console.log(valueOfFirstColumn);
     });
-
-
-        @*$(".callingView1").click(function () {
-            let id = $(this).data("id");
-            alert("hii");
-
-            let fe_name = $("#callingViewHiddenField1").val();
-            console.log(fe_name);
-
-            let url = '@Url.Action("ChangeFE","Home", new { id = "_id_", fe_name = "_fe_name_" })';
-
-
-            url = url.replace("_id_", id);
-            url = url.replace("_fe_name_", fe_name);
-
-            $.ajax({
-                url: url,
-                type: "Post",
-                success: function (result) {
-                    location.reload();
-                    /* alert("Success");*/
-                },
-                error: function (error) {
-                    alert("error")
-                }
-            })
-
-        })*@
    
 </script>
 <script>
