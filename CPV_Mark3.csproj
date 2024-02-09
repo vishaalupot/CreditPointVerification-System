@@ -288,6 +288,7 @@
     <Content Include="Content\Images\dashboard.png" />
     <Content Include="Content\Images\dashboard1.png" />
     <Content Include="Content\Images\dp.jfif" />
+    <Content Include="Content\Images\edit.png" />
     <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\Images\log-out.png" />
     <Content Include="Content\Images\login2.svg" />
@@ -1107,6 +1108,7 @@
     <Content Include="Views\Home\PrintVerifyManager.cshtml" />
     <Content Include="Views\Home\_SearchVerifyManager.cshtml" />
     <Content Include="Views\Home\_ProfilePic.cshtml" />
+    <Content Include="Views\Home\EditCases.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

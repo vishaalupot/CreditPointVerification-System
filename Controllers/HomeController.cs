@@ -912,6 +912,52 @@ namespace CPV_Mark3.Controllers
             return View(caseTable);
         }
 
+
+
+        public ActionResult EditCases(int id)
+        {
+            CPV_DB1Entities db = new CPV_DB1Entities();
+            CaseTable caseTable = db.CaseTables.Find(id);
+            return View(caseTable);
+        }
+
+        [HttpPost]
+        public ActionResult EditCases(FormCollection form)
+        {
+            CPV_DB1Entities db = new CPV_DB1Entities();
+
+            CaseTable caseTable = db.CaseTables.Find(int.Parse(form["Id"].ToString()));
+
+            caseTable.Application_no= form["Application_no"].ToString();
+            caseTable.Application_name = form["Application_name"].ToString();
+            caseTable.Company_Name = form["Company_Name"].ToString();
+            caseTable.Trade_License_Number = form["Trade_License_Number"].ToString();
+            caseTable.Company_Address = form["Company_Address"].ToString();
+            caseTable.Landmark = form["Landmark"].ToString();
+            caseTable.Landline = form["Landline"].ToString();
+            caseTable.Contacted_Person = form["Contacted_Person"].ToString();
+            caseTable.Contacted_Person_Mobile_No = form["Contacted_Person_Mobile_No"].ToString();
+            caseTable.Operating_Hours = form["Operating_Hours"].ToString();
+            caseTable.Emirate = form["Emirate"].ToString();
+            //caseTable.Validated_Office_Landline = form["Validated_Office_Landline"].ToString();
+            //caseTable.Validated_Office_Landline = form["Validated_Office_Landline"].ToString();
+            //caseTable.Validated_Office_Landline = form["Validated_Office_Landline"].ToString();
+            db.Entry(caseTable).State = System.Data.Entity.EntityState.Modified;
+
+            db.SaveChanges();
+            return RedirectToAction("DisplayCaseManager");
+        }
+
+
+       
+
+
+
+
+
+
+
+
         public IEnumerable<byte[]> GetImageFromDataBase(int Id)
         {
             var q = from data in db.CaseImages where data.Case_Id == Id select data.Image;

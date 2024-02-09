@@ -84,6 +84,7 @@
           <Property Name="TimeStamp" Type="datetime" />
           <Property Name="Image" Type="varbinary(max)" />
           <Property Name="Case_Id" Type="int" />
+          <Property Name="sortNumber" Type="int" />
         </EntityType>
         <EntityType Name="CaseTables">
           <Key>
@@ -305,14 +306,8 @@
         <EntityContainer Name="CPV_DB1Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="C__MigrationHistory" EntityType="CPV_DB1Model.C__MigrationHistory" />
           <EntitySet Name="C__RefactorLog" EntityType="CPV_DB1Model.C__RefactorLog" />
-          <EntitySet Name="CaseImages" EntityType="CPV_DB1Model.CaseImage" />
-          <EntitySet Name="CaseTables" EntityType="CPV_DB1Model.CaseTable" />
           <EntitySet Name="ClientTables" EntityType="CPV_DB1Model.ClientTable" />
           <EntitySet Name="VisitTables" EntityType="CPV_DB1Model.VisitTable" />
-          <AssociationSet Name="FK_CaseImage_CaseTable" Association="CPV_DB1Model.FK_CaseImage_CaseTable">
-            <End Role="CaseTable" EntitySet="CaseTables" />
-            <End Role="CaseImage" EntitySet="CaseImages" />
-          </AssociationSet>
           <EntitySet Name="AspNetRoles" EntityType="CPV_DB1Model.AspNetRole" />
           <EntitySet Name="AspNetUserClaims" EntityType="CPV_DB1Model.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="CPV_DB1Model.AspNetUserLogin" />
@@ -331,6 +326,12 @@
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="CaseImages" EntityType="CPV_DB1Model.CaseImage" />
+          <EntitySet Name="CaseTables" EntityType="CPV_DB1Model.CaseTable" />
+          <AssociationSet Name="FK_CaseImage_CaseTable" Association="CPV_DB1Model.FK_CaseImage_CaseTable">
+            <End Role="CaseTable" EntitySet="CaseTables" />
+            <End Role="CaseImage" EntitySet="CaseImages" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
@@ -348,95 +349,6 @@
           </Key>
           <Property Name="OperationKey" Type="Guid" Nullable="false" />
         </EntityType>
-        <EntityType Name="CaseImage">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
-          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Case_Id" Type="Int32" />
-          <NavigationProperty Name="CaseTable" Relationship="CPV_DB1Model.FK_CaseImage_CaseTable" FromRole="CaseImage" ToRole="CaseTable" />
-        </EntityType>
-        <EntityType Name="CaseTable">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Application_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Application_no" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Company_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Trade_License_Number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Company_Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Landmark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Landline" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Contacted_Person" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Contacted_Person_Mobile_No" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Operating_Hours" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Emirate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Visit_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Client" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Allocation_Date" Type="DateTime" Precision="3" />
-          <Property Name="FE_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Validated_Office_Landline" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Validated_Office_Landline_No" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Validated_Office_Landline_NotReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Source_of_Validated_Number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Office_Location_Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Subject_company_signboard" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Available_OfficeDoor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Different_CompanyNameBoard_Seen" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Different_CompanyNameBoard_Seen_Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Type_Signboard_OnDoor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Name_SocietyBoard" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="SecurityGuard_Building" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ReceptionDesk" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="BusinessActivity_Seen" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="TradeLicense_Displayed" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Setup_of_Office" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Assets_Seen" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="WebsiteAddress_Active" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Nature_of_Business" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Office_observation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="No_Employees_Seen" Type="Int32" />
-          <Property Name="No_Employees_ContactedPerson" Type="Int32" />
-          <Property Name="If_Sister_ConcernCompany" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Co_Owenrship_details" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="External_Audit" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Annual_Revenue" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Applicants_Designation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DoJ_Applicant" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Gross_Salary" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Profit" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Accommodation_Provided" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Applicant_Reports_to" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="AUTHORIZED_SIGNATORY" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Details_Verified_With" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Designation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Orginal_Seen" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Trade_License_captured" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Business_card_captured" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Documents_Captured" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="VAT_RegNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Makani_No" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Name_Neighbor1_feedback" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Name_Neighbor2_feedback" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Name_Security_feedback" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="FE_Decision" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Latitude" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Longitude" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Feedback" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Images" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Verifier_Signature" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Customer_Signature" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Final_Date" Type="DateTime" Precision="3" />
-          <Property Name="Final_Status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CustSign" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="VerifySign1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="VerifySign2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="CaseImages" Relationship="CPV_DB1Model.FK_CaseImage_CaseTable" FromRole="CaseTable" ToRole="CaseImage" />
-        </EntityType>
         <EntityType Name="ClientTable">
           <Key>
             <PropertyRef Name="Id" />
@@ -451,18 +363,6 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Visit_Type" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
         </EntityType>
-        <Association Name="FK_CaseImage_CaseTable">
-          <End Type="CPV_DB1Model.CaseTable" Role="CaseTable" Multiplicity="0..1" />
-          <End Type="CPV_DB1Model.CaseImage" Role="CaseImage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CaseTable">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CaseImage">
-              <PropertyRef Name="Case_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="Id" />
@@ -566,6 +466,108 @@
           <End Type="CPV_DB1Model.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="CPV_DB1Model.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
+        <EntityType Name="CaseImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Case_Id" Type="Int32" />
+          <Property Name="sortNumber" Type="Int32" />
+          <NavigationProperty Name="CaseTable" Relationship="CPV_DB1Model.FK_CaseImage_CaseTable" FromRole="CaseImage" ToRole="CaseTable" />
+        </EntityType>
+        <EntityType Name="CaseTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Application_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Application_no" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Company_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Trade_License_Number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Company_Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Landmark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Landline" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Contacted_Person" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Contacted_Person_Mobile_No" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Operating_Hours" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Emirate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Visit_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Client" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Allocation_Date" Type="DateTime" Precision="3" />
+          <Property Name="FE_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Validated_Office_Landline" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Validated_Office_Landline_No" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Validated_Office_Landline_NotReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Source_of_Validated_Number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Office_Location_Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Subject_company_signboard" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Available_OfficeDoor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Different_CompanyNameBoard_Seen" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Different_CompanyNameBoard_Seen_Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Type_Signboard_OnDoor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Name_SocietyBoard" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SecurityGuard_Building" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ReceptionDesk" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="BusinessActivity_Seen" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TradeLicense_Displayed" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Setup_of_Office" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Assets_Seen" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="WebsiteAddress_Active" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Nature_of_Business" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Office_observation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="No_Employees_Seen" Type="Int32" />
+          <Property Name="No_Employees_ContactedPerson" Type="Int32" />
+          <Property Name="If_Sister_ConcernCompany" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Co_Owenrship_details" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="External_Audit" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Annual_Revenue" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Applicants_Designation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DoJ_Applicant" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Gross_Salary" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Profit" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Accommodation_Provided" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Applicant_Reports_to" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AUTHORIZED_SIGNATORY" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Details_Verified_With" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Designation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Orginal_Seen" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Trade_License_captured" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Business_card_captured" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Documents_Captured" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VAT_RegNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Makani_No" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Name_Neighbor1_feedback" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Name_Neighbor2_feedback" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Name_Security_feedback" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FE_Decision" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Latitude" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Longitude" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Feedback" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Images" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Verifier_Signature" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Customer_Signature" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Final_Date" Type="DateTime" Precision="3" />
+          <Property Name="Final_Status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CustSign" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="VerifySign1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="VerifySign2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CaseImages" Relationship="CPV_DB1Model.FK_CaseImage_CaseTable" FromRole="CaseTable" ToRole="CaseImage" />
+        </EntityType>
+        <Association Name="FK_CaseImage_CaseTable">
+          <End Type="CPV_DB1Model.CaseTable" Role="CaseTable" Multiplicity="0..1" />
+          <End Type="CPV_DB1Model.CaseImage" Role="CaseImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CaseTable">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CaseImage">
+              <PropertyRef Name="Case_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -586,95 +588,6 @@
             <EntityTypeMapping TypeName="CPV_DB1Model.C__RefactorLog">
               <MappingFragment StoreEntitySet="C__RefactorLog">
                 <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CaseImages">
-            <EntityTypeMapping TypeName="CPV_DB1Model.CaseImage">
-              <MappingFragment StoreEntitySet="CaseImages">
-                <ScalarProperty Name="Case_Id" ColumnName="Case_Id" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CaseTables">
-            <EntityTypeMapping TypeName="CPV_DB1Model.CaseTable">
-              <MappingFragment StoreEntitySet="CaseTables">
-                <ScalarProperty Name="VerifySign2" ColumnName="VerifySign2" />
-                <ScalarProperty Name="VerifySign1" ColumnName="VerifySign1" />
-                <ScalarProperty Name="CustSign" ColumnName="CustSign" />
-                <ScalarProperty Name="Final_Status" ColumnName="Final_Status" />
-                <ScalarProperty Name="Final_Date" ColumnName="Final_Date" />
-                <ScalarProperty Name="Customer_Signature" ColumnName="Customer_Signature" />
-                <ScalarProperty Name="Verifier_Signature" ColumnName="Verifier_Signature" />
-                <ScalarProperty Name="Images" ColumnName="Images" />
-                <ScalarProperty Name="Feedback" ColumnName="Feedback" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="FE_Decision" ColumnName="FE_Decision" />
-                <ScalarProperty Name="Name_Security_feedback" ColumnName="Name_Security_feedback" />
-                <ScalarProperty Name="Name_Neighbor2_feedback" ColumnName="Name_Neighbor2_feedback" />
-                <ScalarProperty Name="Name_Neighbor1_feedback" ColumnName="Name_Neighbor1_feedback" />
-                <ScalarProperty Name="Makani_No" ColumnName="Makani_No" />
-                <ScalarProperty Name="VAT_RegNumber" ColumnName="VAT_RegNumber" />
-                <ScalarProperty Name="Documents_Captured" ColumnName="Documents_Captured" />
-                <ScalarProperty Name="Business_card_captured" ColumnName="Business_card_captured" />
-                <ScalarProperty Name="Trade_License_captured" ColumnName="Trade_License_captured" />
-                <ScalarProperty Name="Orginal_Seen" ColumnName="Orginal_Seen" />
-                <ScalarProperty Name="Designation" ColumnName="Designation" />
-                <ScalarProperty Name="Details_Verified_With" ColumnName="Details_Verified_With" />
-                <ScalarProperty Name="AUTHORIZED_SIGNATORY" ColumnName="AUTHORIZED_SIGNATORY" />
-                <ScalarProperty Name="Applicant_Reports_to" ColumnName="Applicant_Reports_to" />
-                <ScalarProperty Name="Accommodation_Provided" ColumnName="Accommodation_Provided" />
-                <ScalarProperty Name="Profit" ColumnName="Profit" />
-                <ScalarProperty Name="Gross_Salary" ColumnName="Gross_Salary" />
-                <ScalarProperty Name="DoJ_Applicant" ColumnName="DoJ_Applicant" />
-                <ScalarProperty Name="Applicants_Designation" ColumnName="Applicants_Designation" />
-                <ScalarProperty Name="Annual_Revenue" ColumnName="Annual_Revenue" />
-                <ScalarProperty Name="External_Audit" ColumnName="External_Audit" />
-                <ScalarProperty Name="Co_Owenrship_details" ColumnName="Co_Owenrship_details" />
-                <ScalarProperty Name="If_Sister_ConcernCompany" ColumnName="If_Sister_ConcernCompany" />
-                <ScalarProperty Name="No_Employees_ContactedPerson" ColumnName="No_Employees_ContactedPerson" />
-                <ScalarProperty Name="No_Employees_Seen" ColumnName="No_Employees_Seen" />
-                <ScalarProperty Name="Office_observation" ColumnName="Office_observation" />
-                <ScalarProperty Name="Nature_of_Business" ColumnName="Nature_of_Business" />
-                <ScalarProperty Name="WebsiteAddress_Active" ColumnName="WebsiteAddress_Active" />
-                <ScalarProperty Name="Assets_Seen" ColumnName="Assets_Seen" />
-                <ScalarProperty Name="Setup_of_Office" ColumnName="Setup_of_Office" />
-                <ScalarProperty Name="TradeLicense_Displayed" ColumnName="TradeLicense_Displayed" />
-                <ScalarProperty Name="BusinessActivity_Seen" ColumnName="BusinessActivity_Seen" />
-                <ScalarProperty Name="ReceptionDesk" ColumnName="ReceptionDesk" />
-                <ScalarProperty Name="SecurityGuard_Building" ColumnName="SecurityGuard_Building" />
-                <ScalarProperty Name="Name_SocietyBoard" ColumnName="Name_SocietyBoard" />
-                <ScalarProperty Name="Type_Signboard_OnDoor" ColumnName="Type_Signboard_OnDoor" />
-                <ScalarProperty Name="Different_CompanyNameBoard_Seen_Reason" ColumnName="Different_CompanyNameBoard_Seen_Reason" />
-                <ScalarProperty Name="Different_CompanyNameBoard_Seen" ColumnName="Different_CompanyNameBoard_Seen" />
-                <ScalarProperty Name="Available_OfficeDoor" ColumnName="Available_OfficeDoor" />
-                <ScalarProperty Name="Subject_company_signboard" ColumnName="Subject_company_signboard" />
-                <ScalarProperty Name="Office_Location_Type" ColumnName="Office_Location_Type" />
-                <ScalarProperty Name="Source_of_Validated_Number" ColumnName="Source_of_Validated_Number" />
-                <ScalarProperty Name="Validated_Office_Landline_NotReason" ColumnName="Validated_Office_Landline_NotReason" />
-                <ScalarProperty Name="Validated_Office_Landline_No" ColumnName="Validated_Office_Landline_No" />
-                <ScalarProperty Name="Validated_Office_Landline" ColumnName="Validated_Office_Landline" />
-                <ScalarProperty Name="FE_Name" ColumnName="FE_Name" />
-                <ScalarProperty Name="Allocation_Date" ColumnName="Allocation_Date" />
-                <ScalarProperty Name="Client" ColumnName="Client" />
-                <ScalarProperty Name="Visit_Type" ColumnName="Visit_Type" />
-                <ScalarProperty Name="Product" ColumnName="Product" />
-                <ScalarProperty Name="Emirate" ColumnName="Emirate" />
-                <ScalarProperty Name="Operating_Hours" ColumnName="Operating_Hours" />
-                <ScalarProperty Name="Contacted_Person_Mobile_No" ColumnName="Contacted_Person_Mobile_No" />
-                <ScalarProperty Name="Contacted_Person" ColumnName="Contacted_Person" />
-                <ScalarProperty Name="Landline" ColumnName="Landline" />
-                <ScalarProperty Name="Landmark" ColumnName="Landmark" />
-                <ScalarProperty Name="Company_Address" ColumnName="Company_Address" />
-                <ScalarProperty Name="Trade_License_Number" ColumnName="Trade_License_Number" />
-                <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
-                <ScalarProperty Name="Application_no" ColumnName="Application_no" />
-                <ScalarProperty Name="Application_name" ColumnName="Application_name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -771,6 +684,96 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="CaseImages">
+            <EntityTypeMapping TypeName="CPV_DB1Model.CaseImage">
+              <MappingFragment StoreEntitySet="CaseImages">
+                <ScalarProperty Name="sortNumber" ColumnName="sortNumber" />
+                <ScalarProperty Name="Case_Id" ColumnName="Case_Id" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CaseTables">
+            <EntityTypeMapping TypeName="CPV_DB1Model.CaseTable">
+              <MappingFragment StoreEntitySet="CaseTables">
+                <ScalarProperty Name="VerifySign2" ColumnName="VerifySign2" />
+                <ScalarProperty Name="VerifySign1" ColumnName="VerifySign1" />
+                <ScalarProperty Name="CustSign" ColumnName="CustSign" />
+                <ScalarProperty Name="Final_Status" ColumnName="Final_Status" />
+                <ScalarProperty Name="Final_Date" ColumnName="Final_Date" />
+                <ScalarProperty Name="Customer_Signature" ColumnName="Customer_Signature" />
+                <ScalarProperty Name="Verifier_Signature" ColumnName="Verifier_Signature" />
+                <ScalarProperty Name="Images" ColumnName="Images" />
+                <ScalarProperty Name="Feedback" ColumnName="Feedback" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="FE_Decision" ColumnName="FE_Decision" />
+                <ScalarProperty Name="Name_Security_feedback" ColumnName="Name_Security_feedback" />
+                <ScalarProperty Name="Name_Neighbor2_feedback" ColumnName="Name_Neighbor2_feedback" />
+                <ScalarProperty Name="Name_Neighbor1_feedback" ColumnName="Name_Neighbor1_feedback" />
+                <ScalarProperty Name="Makani_No" ColumnName="Makani_No" />
+                <ScalarProperty Name="VAT_RegNumber" ColumnName="VAT_RegNumber" />
+                <ScalarProperty Name="Documents_Captured" ColumnName="Documents_Captured" />
+                <ScalarProperty Name="Business_card_captured" ColumnName="Business_card_captured" />
+                <ScalarProperty Name="Trade_License_captured" ColumnName="Trade_License_captured" />
+                <ScalarProperty Name="Orginal_Seen" ColumnName="Orginal_Seen" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="Details_Verified_With" ColumnName="Details_Verified_With" />
+                <ScalarProperty Name="AUTHORIZED_SIGNATORY" ColumnName="AUTHORIZED_SIGNATORY" />
+                <ScalarProperty Name="Applicant_Reports_to" ColumnName="Applicant_Reports_to" />
+                <ScalarProperty Name="Accommodation_Provided" ColumnName="Accommodation_Provided" />
+                <ScalarProperty Name="Profit" ColumnName="Profit" />
+                <ScalarProperty Name="Gross_Salary" ColumnName="Gross_Salary" />
+                <ScalarProperty Name="DoJ_Applicant" ColumnName="DoJ_Applicant" />
+                <ScalarProperty Name="Applicants_Designation" ColumnName="Applicants_Designation" />
+                <ScalarProperty Name="Annual_Revenue" ColumnName="Annual_Revenue" />
+                <ScalarProperty Name="External_Audit" ColumnName="External_Audit" />
+                <ScalarProperty Name="Co_Owenrship_details" ColumnName="Co_Owenrship_details" />
+                <ScalarProperty Name="If_Sister_ConcernCompany" ColumnName="If_Sister_ConcernCompany" />
+                <ScalarProperty Name="No_Employees_ContactedPerson" ColumnName="No_Employees_ContactedPerson" />
+                <ScalarProperty Name="No_Employees_Seen" ColumnName="No_Employees_Seen" />
+                <ScalarProperty Name="Office_observation" ColumnName="Office_observation" />
+                <ScalarProperty Name="Nature_of_Business" ColumnName="Nature_of_Business" />
+                <ScalarProperty Name="WebsiteAddress_Active" ColumnName="WebsiteAddress_Active" />
+                <ScalarProperty Name="Assets_Seen" ColumnName="Assets_Seen" />
+                <ScalarProperty Name="Setup_of_Office" ColumnName="Setup_of_Office" />
+                <ScalarProperty Name="TradeLicense_Displayed" ColumnName="TradeLicense_Displayed" />
+                <ScalarProperty Name="BusinessActivity_Seen" ColumnName="BusinessActivity_Seen" />
+                <ScalarProperty Name="ReceptionDesk" ColumnName="ReceptionDesk" />
+                <ScalarProperty Name="SecurityGuard_Building" ColumnName="SecurityGuard_Building" />
+                <ScalarProperty Name="Name_SocietyBoard" ColumnName="Name_SocietyBoard" />
+                <ScalarProperty Name="Type_Signboard_OnDoor" ColumnName="Type_Signboard_OnDoor" />
+                <ScalarProperty Name="Different_CompanyNameBoard_Seen_Reason" ColumnName="Different_CompanyNameBoard_Seen_Reason" />
+                <ScalarProperty Name="Different_CompanyNameBoard_Seen" ColumnName="Different_CompanyNameBoard_Seen" />
+                <ScalarProperty Name="Available_OfficeDoor" ColumnName="Available_OfficeDoor" />
+                <ScalarProperty Name="Subject_company_signboard" ColumnName="Subject_company_signboard" />
+                <ScalarProperty Name="Office_Location_Type" ColumnName="Office_Location_Type" />
+                <ScalarProperty Name="Source_of_Validated_Number" ColumnName="Source_of_Validated_Number" />
+                <ScalarProperty Name="Validated_Office_Landline_NotReason" ColumnName="Validated_Office_Landline_NotReason" />
+                <ScalarProperty Name="Validated_Office_Landline_No" ColumnName="Validated_Office_Landline_No" />
+                <ScalarProperty Name="Validated_Office_Landline" ColumnName="Validated_Office_Landline" />
+                <ScalarProperty Name="FE_Name" ColumnName="FE_Name" />
+                <ScalarProperty Name="Allocation_Date" ColumnName="Allocation_Date" />
+                <ScalarProperty Name="Client" ColumnName="Client" />
+                <ScalarProperty Name="Visit_Type" ColumnName="Visit_Type" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="Emirate" ColumnName="Emirate" />
+                <ScalarProperty Name="Operating_Hours" ColumnName="Operating_Hours" />
+                <ScalarProperty Name="Contacted_Person_Mobile_No" ColumnName="Contacted_Person_Mobile_No" />
+                <ScalarProperty Name="Contacted_Person" ColumnName="Contacted_Person" />
+                <ScalarProperty Name="Landline" ColumnName="Landline" />
+                <ScalarProperty Name="Landmark" ColumnName="Landmark" />
+                <ScalarProperty Name="Company_Address" ColumnName="Company_Address" />
+                <ScalarProperty Name="Trade_License_Number" ColumnName="Trade_License_Number" />
+                <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
+                <ScalarProperty Name="Application_no" ColumnName="Application_no" />
+                <ScalarProperty Name="Application_name" ColumnName="Application_name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

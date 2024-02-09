@@ -77,6 +77,18 @@
                 background-color: #024444;
                 color: white;
             }
+
+        .bckBtn {
+            background-color: #012b2b;
+            color: white;
+            font-family: 'Jaldi', sans-serif;
+            font-size: 15px;
+        }
+
+            .bckBtn:hover {
+                background-color: #024444;
+                color: white;
+            }
     </style>
     <script>
 
@@ -128,7 +140,9 @@
 </head>
 
 <div class="bod">
-    <div class="heading">Create Case</div>
+
+        <div class="heading">Create Case</div>
+    
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
@@ -297,6 +311,9 @@
     <div class="form-group" >
         <div class=" col-md-10">
             <input type="submit" value="Create" class="btn SubBtn" style=" width: 100px; height: 30px;" id="submit" />
+            <a href="@Url.Action("DisplayCaseManager", "Home")">
+                <input type="button" value="Go Back" class=" btn bckBtn" />
+            </a>
         </div>
     </div>
 

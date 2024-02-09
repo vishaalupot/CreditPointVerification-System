@@ -11,8 +11,7 @@ namespace CPV_Mark3.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class CaseTable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,9 +21,6 @@ namespace CPV_Mark3.Models
         }
     
         public int Id { get; set; }
-
-
-        [Required(ErrorMessage = "Application Name is required.")]
         public string Application_name { get; set; }
         public string Application_no { get; set; }
         public string Company_Name { get; set; }

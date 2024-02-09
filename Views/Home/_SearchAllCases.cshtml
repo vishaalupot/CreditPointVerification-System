@@ -75,10 +75,20 @@
         white-space: nowrap;
         color: #3A6C6C;
     }
+
+    .editCase {
+        width: 15px;
+        height: 15px;
+        margin: 0px 2px;
+        cursor: pointer;
+    }
+
 </style>
 <script src="/Scripts/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+
+        
 
          $(".submitBtn").click(function () {
              let data = $(this).data("id");
@@ -155,7 +165,12 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Application_no, new { @class = "tablecont" }) </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Application_no, new { @class = "tablecont" })
+                        <a href="@Url.Action("EditCases", "Home", new { id = item.Id })">
+                            <img src="~/Content/Images/edit.png" class="editCase" data-id='@item.Id'>
+                        </a>
+                    </td>
                     <td>@Html.DisplayFor(modelItem => item.Application_name, new { @class = "tablecont" }) </td>
                     <td>@Html.DisplayFor(modelItem => item.Company_Name, new { @class = "tablecont" }) </td>
                     <td>@Html.DisplayFor(modelItem => item.Product, new { @class = "tablecont" }) </td>

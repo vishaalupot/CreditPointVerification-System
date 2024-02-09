@@ -18,6 +18,7 @@ namespace CPV_Mark3.Models
         public Nullable<System.DateTime> TimeStamp { get; set; }
         public byte[] Image { get; set; }
         public Nullable<int> Case_Id { get; set; }
+        public Nullable<int> sortNumber { get; set; }
     
         public virtual CaseTable CaseTable { get; set; }
     }

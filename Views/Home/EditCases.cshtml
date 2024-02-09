@@ -1,0 +1,330 @@
+﻿
+@{
+    ViewBag.Title = "EditCases";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model  CPV_Mark3.Models.CaseTable
+<head>
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+
+        .form-horizontal {
+            width: 100%;
+            padding: 50px;
+        }
+
+        .form-control {
+            font-size: 1.5rem !important;
+            font-family: 'Jaldi', sans-serif;
+        }
+
+        body {
+            font-size: 15px;
+            font-weight: 100;
+        }
+
+        .space {
+            padding: 40px;
+            scroll-behavior: smooth;
+            overflow: auto; /* Enable both horizontal and vertical scrollbars if needed */
+            height: 100vh;
+        }
+
+        .bod {
+            width: 95%;
+            height: 90vh;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .heading {
+            color: #3A6C6C;
+            font-size: 40px;
+            font-family: 'Jaldi', sans-serif;
+            text-align: left;
+            padding-left: 10px;
+            font-weight: 600;
+        }
+
+        .label {
+            color: #857F7F;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 15px;
+            white-space: pre-line !important;
+        }
+
+        .box {
+            background-color: #E3F4F4;
+            border-style: none;
+            width: 300px;
+            height: 30px;
+            margin-top: 7px;
+            margin-bottom: 10px;
+            border: 1px groove #569F9F;
+        }
+
+        input, select, textarea {
+            font-size: 12px;
+            max-width: 1000px;
+        }
+
+        .SubBtn {
+            background-color: #012b2b;
+            color: white;
+            font-family: 'Jaldi', sans-serif;
+            font-size: 15px;
+        }
+
+            .SubBtn:hover {
+                background-color: #024444;
+                color: white;
+            }
+
+        .ChngBtn {
+            background-color: #012b2b;
+            color: white;
+            font-family: 'Jaldi', sans-serif;
+            font-size: 15px;
+            width: 100px;
+            height: 30px
+        }
+
+            .ChngBtn:hover {
+                background-color: #024444;
+                color: white;
+            }
+
+        .bckBtn {
+            background-color: #012b2b;
+            color: white;
+            font-family: 'Jaldi', sans-serif;
+            font-size: 15px;
+            width: 100px;
+            height: 30px
+        }
+
+            .bckBtn:hover {
+                background-color: #024444;
+                color: white;
+            }
+
+        
+    </style>
+    <script src="/bundles/jquery?v=2u0aRenDpYxArEyILB59ETSCA2cfQkSMlxb6jbMBqf81"></script>
+
+    <script src="/bundles/bootstrap?v=ESck_wvaWCiF5JsitLMh765lhMnw7BVBtZE-YUTa4Ns1"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+
+<div class="bod">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="row space">
+
+        <div class="heading">Edit Cases</div>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Application_no, "Application Number", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Application_no, new { @class = "form-control box"})
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Application_name, "Application Name", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Application_name, new { @class = "form-control box" })
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Company_Name, "Company Name", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Company_Name, new { @class = "form-control box" })
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Trade_License_Number, "Trade License Number", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Trade_License_Number, new { @class = "form-control box" })
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Company_Address, "Company Address", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Company_Address, new { @class = "form-control box"})
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Landmark, "Landmark", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Landmark, new { @class = "form-control box" })
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Landline, "Landline", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Landline, new { @class = "form-control box"})
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Contacted_Person, "Contacted Person", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Contacted_Person, new { @class = "form-control box" })
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Contacted_Person_Mobile_No, "Contacted Person Mobile No", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Contacted_Person_Mobile_No, new { @class = "form-control box" })
+            </div>
+        </div>
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Operating_Hours, "Operating Hours", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Operating_Hours, new { @class = "form-control box"})
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Emirate, "Emirate", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Emirate, new SelectList(CPV_Mark3.Controllers.HomeController.GetEmiratesList(), "Value", "Text"), "-- Select --", new { @class = "form-control drop box" })
+            </div>
+        </div>
+
+        @*<div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Product, "Product", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Product, new SelectList(CPV_Mark3.Controllers.HomeController.GetProductList()), "-- Select --", new { @class = "form-control drop box" })
+            </div>
+        </div>*@
+
+        @*<div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Visit_Type, "Visit Type", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Visit_Type, new SelectList(CPV_Mark3.Controllers.HomeController.GetVisitList()), "-- Select --", new { @class = "form-control drop box" })
+            </div>
+        </div>
+
+        <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Client, "Client", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Client, new SelectList(CPV_Mark3.Controllers.HomeController.GetClientList()), "-- Select --", new { @class = "form-control drop box" })
+            </div>
+        </div>*@
+
+        @*<div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Allocation_Date, "Client", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.EditorFor(model => model.Allocation_Date, new { htmlAttributes = new { @class = "form-control box", @Value = DateTime.Now.ToString("yyyy-MM-ddTHH:mm") } })
+            </div>
+        </div>*@
+
+        @*<div class="form-group  col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.FE_Name, "FE Name", htmlAttributes: new { @class = "control-label label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.Client, new SelectList(CPV_Mark3.Controllers.HomeController.GetClientList()), "-- Select --", new { @class = "form-control drop box" })
+            </div>
+        </div>*@
+
+
+        <div class="form-group" >
+            <div >
+                <input type="submit" value="Submit" class="btn SubBtn" style="width:100px; height: 30px " />
+                <a href="@Url.Action("DisplayCaseManager", "Home")">
+                    <input type="button" value="Go Back" class=" btn bckBtn" />
+                </a>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
