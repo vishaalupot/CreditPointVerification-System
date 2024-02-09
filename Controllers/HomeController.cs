@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CPV_Mark3.Controllers
 {
@@ -239,6 +241,7 @@ namespace CPV_Mark3.Controllers
             {
                 //Dashboard data dynamically refresh
                 CPV_DB1Entities db = new CPV_DB1Entities();
+               
                 List<CaseTable> caseTable = db.CaseTables.ToList();
 
                 List<int> Dashdata = new List<int>();
@@ -885,16 +888,18 @@ namespace CPV_Mark3.Controllers
             // ViewData.Model = caseTable;
 
             //Added code below
-            List<byte[]> imageList = GetImageFromDataBase(id).ToList();
+            //List<byte[]> imageList = GetImageFromDataBase(id).ToList();
+            List<CaseImage> imageList = GetImageFromDBwithID(id).ToList();
 
-            List<string> base64Images = new List<string>();
+            List<(int,string)> base64Images = new List<(int, string)>();
 
             if (imageList.Any())
             {
                 foreach (var imageData in imageList)
                 {
-                    string base64Image = Convert.ToBase64String(imageData);
-                    base64Images.Add(base64Image);
+                    string base64Image = Convert.ToBase64String(imageData.Image);
+                    int Id = imageData.Id;
+                    base64Images.Add(( Id, base64Image));
                 }
 
                 ViewBag.Images = base64Images;
@@ -961,9 +966,18 @@ namespace CPV_Mark3.Controllers
         public IEnumerable<byte[]> GetImageFromDataBase(int Id)
         {
             var q = from data in db.CaseImages where data.Case_Id == Id select data.Image;
+            //var q2 = db.CaseTables.Find(Id);
 
             return q.ToList();
 
+        }
+
+        public IEnumerable<CaseImage> GetImageFromDBwithID(int Id)
+        {
+            var q = db.CaseImages
+                    .Where(data => data.Case_Id == Id);                   
+
+            return q.ToList();
         }
 
 
@@ -1136,8 +1150,43 @@ namespace CPV_Mark3.Controllers
         [HttpPost]
         public ActionResult _ImagePosition(string imageList)
         {
-           // var lst = JsonConvert.DeserializeObject<List<string>>(imageList);
-            var lst2 = JsonConvert.SerializeObject(imageList).ToArray();
+         
+            List<object> lst = JsonConvert.DeserializeObject<List<object>>(imageList);
+          
+
+            List<ImageList> images = new List<ImageList>();
+
+
+            foreach (JObject item in lst)
+            {
+                string id = (string)item["id"];
+
+                JObject position = (JObject)item["initialPosition"];
+                int top = (int)position["top"];
+                int left = (int)position["left"];
+
+                ImageList image = new ImageList();
+                image.id = id;
+                image.initialPosition = new Point(top, left);
+                images.Add(image);
+
+                
+            }
+
+            images = images.OrderBy(i => i.initialPosition.X)
+                      .ThenBy(i => i.initialPosition.Y)
+                      .ToList();
+
+            // Assign sort numbers
+            int sortNumber = 1;
+            foreach (ImageList image in images)
+            {
+                image.sortNumber = sortNumber;
+                sortNumber++;
+            }
+
+
+
             return Json(new { msg = "ok" });
         }
 
@@ -1158,5 +1207,10 @@ namespace CPV_Mark3.Controllers
         public List<UserDto> Users { get; set; }
     }
 
-   
+    public class ImageList
+    {
+        public string id { get; set; }
+        public Point initialPosition { get; set; }
+        public int sortNumber {get;set; }
+    }
 }
