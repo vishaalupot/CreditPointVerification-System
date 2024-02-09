@@ -1087,6 +1087,14 @@ namespace CPV_Mark3.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult _ImagePosition(string imageList)
+        {
+           // var lst = JsonConvert.DeserializeObject<List<string>>(imageList);
+            var lst2 = JsonConvert.SerializeObject(imageList).ToArray();
+            return Json(new { msg = "ok" });
+        }
+
        
 
     }
