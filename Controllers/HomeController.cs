@@ -891,7 +891,7 @@ namespace CPV_Mark3.Controllers
             //List<byte[]> imageList = GetImageFromDataBase(id).ToList();
             List<CaseImage> imageList = GetImageFromDBwithID(id).ToList();
 
-            List<(int,string)> base64Images = new List<(int, string)>();
+            List<(int,string, int)> base64Images = new List<(int, string, int)>();
 
             if (imageList.Any())
             {
@@ -899,10 +899,11 @@ namespace CPV_Mark3.Controllers
                 {
                     string base64Image = Convert.ToBase64String(imageData.Image);
                     int Id = imageData.Id;
-                    base64Images.Add(( Id, base64Image));
+                    int sortNum = imageData.sortNumber.Value;
+                    base64Images.Add(( Id, base64Image, sortNum));
                 }
 
-                ViewBag.Images = base64Images;
+                ViewBag.Images = base64Images.OrderBy(o => o.Item3).ToList() ;
                 return View(caseTable);
                 //string imageBase64 = Convert.ToBase64String(images);
                 //ViewBag.ImageBase64 = imageBase64;
@@ -965,7 +966,7 @@ namespace CPV_Mark3.Controllers
 
         public IEnumerable<byte[]> GetImageFromDataBase(int Id)
         {
-            var q = from data in db.CaseImages where data.Case_Id == Id select data.Image;
+            var q = from data in db.CaseImages orderby data.sortNumber where data.Case_Id == Id select data.Image;
             //var q2 = db.CaseTables.Find(Id);
 
             return q.ToList();
@@ -1161,28 +1162,50 @@ namespace CPV_Mark3.Controllers
             {
                 string id = (string)item["id"];
 
-                JObject position = (JObject)item["initialPosition"];
-                int top = (int)position["top"];
-                int left = (int)position["left"];
+                JObject initalposition = (JObject)item["initialPosition"];
+                JObject position = (JObject)item["position"];
+
+                int top = (int)initalposition["top"];
+                int left = (int)initalposition["left"];
+
+                if (!(position is null))
+                {
+                    top = (int)position["top"];
+                    left = (int)position["left"];
+
+                }
+                
+                            
 
                 ImageList image = new ImageList();
                 image.id = id;
                 image.initialPosition = new Point(top, left);
+                image.position = new Point(top, left);
                 images.Add(image);
 
                 
             }
+
+            
 
             images = images.OrderBy(i => i.initialPosition.X)
                       .ThenBy(i => i.initialPosition.Y)
                       .ToList();
 
             // Assign sort numbers
-            int sortNumber = 1;
+            int sortNumber = 0;
             foreach (ImageList image in images)
             {
                 image.sortNumber = sortNumber;
                 sortNumber++;
+
+                int idfrom = int.Parse(image.id);
+                CaseImage img = db.CaseImages.Find(idfrom);
+
+                img.sortNumber = sortNumber;
+                db.Entry(img).State = EntityState.Modified;
+                db.SaveChanges();
+                
             }
 
 
@@ -1211,6 +1234,7 @@ namespace CPV_Mark3.Controllers
     {
         public string id { get; set; }
         public Point initialPosition { get; set; }
+        public Point position { get; set; }
         public int sortNumber {get;set; }
     }
 }

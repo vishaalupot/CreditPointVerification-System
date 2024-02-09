@@ -251,7 +251,6 @@
 
             $("#ChngBtn").on("click", function () {
 
-
                 data = { imageList: JSON.stringify(imageList).toString() };
                 console.log(data);
                 $.ajax({
@@ -1090,7 +1089,7 @@
                 <div id="imageContainer" class="col-md-10">
                     @{
                         int i = 0;
-                        List<(int, string)> imageslist = (List<(int, string)>)ViewBag.Images;
+                        List<(int, string, int)> imageslist = (List<(int, string, int)>)ViewBag.Images;
                     }
                     @foreach (var img in imageslist)
                     {
