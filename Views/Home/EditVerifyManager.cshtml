@@ -180,37 +180,21 @@
 
     <script src="/bundles/bootstrap?v=ESck_wvaWCiF5JsitLMh765lhMnw7BVBtZE-YUTa4Ns1"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>*@
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script>
-        jQuery.noConflict();
+    <script type="text/javascript">
+
+       
 
 
-        /* initializeImagePositions()*/
 
-        //Correct code
-        //jQuery(function ($) {
-        //$(".draggable-image").draggable({
-        //    containment: "parent", // Restrict dragging to the parent container
-        //    stop: function (event, ui) {
-        //        // Handle the stop event after dragging
-        //        var imageId = $(this).attr("id");
-
-        //        // Calculate absolute position relative to the container
-        //        var containerOffset = $("#imageContainer").offset();
-        //        var absolutePosition = {
-        //            top: $(this).position().top,
-        //            left: $(this).position().left
-        //        };
-
-        //        // Send the image ID and absolute position to the server for saving
-        //        alert(imageId + "<----->" + JSON.stringify(absolutePosition));
-
-        //    }
-        //    });
+       /* jQuery.noConflict();*/
+         
 
 
         jQuery(function ($) {
+
             // Initialize an array to store image information
             var imageList = [];
 
@@ -245,20 +229,23 @@
                     var updatedImage = imageList.find(image => image.id === imageId);
                     updatedImage.position = absolutePosition;
 
-                    console.log(imageList);
+                    //console.log(imageList);
                 }
             });
 
             $("#ChngBtn").on("click", function () {
 
                 data = { imageList: JSON.stringify(imageList).toString() };
-                console.log(data);
+               // console.log(data);
                 $.ajax({
                     url: '@Url.Action("_ImagePosition","Home")',
                     type: "POST",
                     data: data,
                     success: function (response) {
-                        console.log(response);
+                        //console.log(response);
+                        let url = '@Url.Action("_ImageContainer","Home", new { id = Model.Id })';
+                        $("#imageContainer").load(url);
+
                     },
                     error: function (error) {
                         console.error(error);
@@ -1087,27 +1074,28 @@
                     </div>
                 </div>
                 <div id="imageContainer" class="col-md-10">
-                    @{
-                        int i = 0;
-                        List<(int, string, int)> imageslist = (List<(int, string, int)>)ViewBag.Images;
-                    }
-                    @foreach (var img in imageslist)
-                    {
-                        i++;
-                        @*<img id="image_@Guid.NewGuid().ToString()" class="draggable-image" src="data:image/png;base64,@base64Image" alt="Image" style="width: 250px; height: 250px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />*@
-                        @*<img id="image_@i.ToString()" class="draggable-image" src="data:image/png;base64,@base64Image" alt="Image" style="width: 250px; height: 250px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />*@
-                        <img id="@img.Item1.ToString()" class="draggable-image" src="data:image/png;base64,@img.Item2" alt="Image" style="width: 250px; height: 250px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />
-                    }
+                    @Html.Action("_ImageContainer", new { id = Model.Id })
+                    @*@{
+
+                            List<(int, string, int)> imageslist = (List<(int, string, int)>)ViewBag.Images;
+                        }*@
+                    @*@foreach (var img in imageslist)
+                        {*@
+
+                    @*<img id="image_@Guid.NewGuid().ToString()" class="draggable-image" src="data:image/png;base64,@base64Image" alt="Image" style="width: 250px; height: 250px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />*@
+                    @*<img id="image_@i.ToString()" class="draggable-image" src="data:image/png;base64,@base64Image" alt="Image" style="width: 250px; height: 250px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />*@
+                    @*<img id="@img.Item1" class="draggable-image" src="data:image/png;base64,@img.Item2" alt="Image" style="width: 250px; height: 250px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />*@
+                    @*}*@
 
 
                     @*@foreach (var base64Image in ViewBag.Images)
-        {
-            <img src="data:image/png;base64,@base64Image" alt="Image" class="draggable-image" style="width: 300px; height: 300px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />
-        }*@
+                        {
+                            <img src="data:image/png;base64,@base64Image" alt="Image" class="draggable-image" style="width: 300px; height: 300px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />
+                        }*@
 
-                    <div class="form-group">
-                        <input type="button" value="Save Changes" class="btn ChngBtn" id="ChngBtn" />
-                    </div>
+                    @*<div class="form-group">
+                            <input type="button" value="Save Changes" class="btn ChngBtn" id="ChngBtn" />
+                        </div>*@
                 </div>
 
 

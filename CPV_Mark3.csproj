@@ -1109,6 +1109,7 @@
     <Content Include="Views\Home\_SearchVerifyManager.cshtml" />
     <Content Include="Views\Home\_ProfilePic.cshtml" />
     <Content Include="Views\Home\EditCases.cshtml" />
+    <Content Include="Views\Home\_ImageContainer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

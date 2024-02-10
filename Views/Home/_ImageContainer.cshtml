@@ -1,0 +1,27 @@
+﻿@*@model IEnumerable<CPV_Mark3.Models.CaseImage>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+
+@{
+
+    List<(int, string, int)> imageslist = (List<(int, string, int)>)ViewBag.Images;
+}
+
+@foreach (var img in imageslist)
+{
+
+    <img id="@img.Item1" class="draggable-image" src="data:image/png;base64,@img.Item2" alt="Image" style="width: 250px; height: 250px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />
+}
+
+
+
+<div class="form-group">
+    <input type="button" value="Save Changes" class="btn ChngBtn" id="ChngBtn" />
+</div>
+
+

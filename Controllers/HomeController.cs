@@ -834,8 +834,10 @@ namespace CPV_Mark3.Controllers
             caseTable.WebsiteAddress_Active = form["WebsiteAddress_Active"].ToString();
             caseTable.Nature_of_Business = form["Nature_of_Business"].ToString();
             caseTable.Office_observation = form["Office_observation"].ToString();
-            caseTable.No_Employees_Seen = int.Parse(form["No_Employees_Seen"].ToString());
-            caseTable.No_Employees_ContactedPerson = int.Parse(form["No_Employees_ContactedPerson"].ToString());
+            if(form["No_Employees_Seen"].ToString() != "")
+                caseTable.No_Employees_Seen = int.Parse(form["No_Employees_Seen"].ToString());
+            if(form["No_Employees_ContactedPerson"].ToString() != "")
+                caseTable.No_Employees_ContactedPerson = int.Parse(form["No_Employees_ContactedPerson"].ToString());
             caseTable.If_Sister_ConcernCompany = form["If_Sister_ConcernCompany"].ToString();
             caseTable.Co_Owenrship_details = form["Co_Owenrship_details"].ToString();
             caseTable.External_Audit = form["External_Audit"].ToString();
@@ -865,14 +867,16 @@ namespace CPV_Mark3.Controllers
             //caseTable.Images = form["Images"].ToString();
             //caseTable.Verifier_Signature = form["Verifier_Signature"].ToString();
             //caseTable.Customer_Signature = form["Customer_Signature"].ToString();
-            caseTable.Final_Date = DateTime.TryParse(form["Final_Date"], out allocationDate) ? allocationDate : default(DateTime);
-            //caseTable.Final_Status = form["Final_Status"].ToString();
+            if (DateTime.TryParse(form["Final_Date"], out allocationDate))
+                caseTable.Final_Date = allocationDate;
+                //caseTable.Final_Date = DateTime.TryParse(form["Final_Date"], out allocationDate) ? allocationDate : default(DateTime);
+                //caseTable.Final_Status = form["Final_Status"].ToString();
             caseTable.ReceptionDesk = form["ReceptionDesk"].ToString();
             caseTable.Different_CompanyNameBoard_Seen_Reason = form["Different_CompanyNameBoard_Seen_Reason"].ToString();
             //caseTable.Application_name = form["Application_name"].ToString();
             //caseTable.Application_name = form["Application_name"].ToString();
 
-            db.Entry(caseTable).State = System.Data.Entity.EntityState.Modified;
+            db.Entry(caseTable).State = EntityState.Modified;
 
             db.SaveChanges();
             return RedirectToAction("DisplayVerifyManager");
@@ -881,7 +885,7 @@ namespace CPV_Mark3.Controllers
 
         public ActionResult EditVerifyManager(int id)
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+           // CPV_DB1Entities db = new CPV_DB1Entities();
 
             //CaseTable caseTable = db.CaseTables.Where(w => w.Id == id).First();
             CaseTable caseTable = db.CaseTables.Find(id);
@@ -899,7 +903,7 @@ namespace CPV_Mark3.Controllers
                 {
                     string base64Image = Convert.ToBase64String(imageData.Image);
                     int Id = imageData.Id;
-                    int sortNum = imageData.sortNumber.Value;
+                    int sortNum = imageData.sortNumber ?? 0;
                     base64Images.Add(( Id, base64Image, sortNum));
                 }
 
@@ -1213,6 +1217,37 @@ namespace CPV_Mark3.Controllers
             return Json(new { msg = "ok" });
         }
 
+        public ActionResult _ImageContainer(int id)
+        {
+        
+            List<CaseImage> imageList = GetImageFromDBwithID(id).ToList();
+
+            List<(int, string, int)> base64Images = new List<(int, string, int)>();
+            ViewBag.Id = id; 
+
+            if (imageList.Any())
+            {
+                foreach (var imageData in imageList)
+                {
+                    string base64Image = Convert.ToBase64String(imageData.Image);
+                    int Id = imageData.Id;
+                    int sortNum = imageData.sortNumber ?? 0;
+                    base64Images.Add((Id, base64Image, sortNum));
+                }
+
+                ViewBag.Images = base64Images.OrderBy(o => o.Item3).ToList();
+                return PartialView();
+               
+            }
+            else
+            {
+                ViewBag.Images = base64Images;
+                ViewBag.ErrorMessage = "No images found for the specified ID.";
+                return PartialView();
+            }
+                        
+            
+        }
        
 
     }
