@@ -393,7 +393,8 @@ namespace CPV_Mark3.Controllers
             }
             else
             {
-                return HttpNotFound(); // or any other appropriate response
+                //return HttpNotFound(); // or any other appropriate response
+                return View();
             }
 
         }

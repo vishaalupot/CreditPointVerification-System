@@ -885,7 +885,7 @@ namespace CPV_Mark3.Controllers
 
         public ActionResult EditVerifyManager(int id)
         {
-           // CPV_DB1Entities db = new CPV_DB1Entities();
+            CPV_DB1Entities db = new CPV_DB1Entities();
 
             //CaseTable caseTable = db.CaseTables.Where(w => w.Id == id).First();
             CaseTable caseTable = db.CaseTables.Find(id);
