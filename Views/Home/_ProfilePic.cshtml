@@ -110,7 +110,7 @@
             <div class="img">
                 @Html.TextBox("ImageFile", null, new { type = "file", @class = "form-control", accept = "image/*", capture = "camera", multiple = "multiple", style = "display: none;" })
                 <label for="ImageFile" class="image-label">
-                    <img src="@Url.Action("DisplayProfilePic", "Home", new { snr = @User.Identity.GetUserId() })" alt="Profile Picture"  class="dp"/>
+                    <img src="@Url.Action("DisplayProfilePic", "Home", new { snr = @User.Identity.GetUserId() })" alt="Profile Picture"  class="dp" onerror="this.src='@Url.Content("~/Content/Images/placeholder.png")'"/>
                 </label>
             </div>
             <div id="overlay-content">
