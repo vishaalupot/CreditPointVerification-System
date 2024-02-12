@@ -13,6 +13,8 @@ namespace CPV_Mark3.Models
         public string UserRole { get; set; }
         public string Status { get; set; }
 
+        public string EmpCode { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

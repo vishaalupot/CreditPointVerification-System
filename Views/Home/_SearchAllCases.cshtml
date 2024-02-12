@@ -118,7 +118,7 @@
               let url = '@Url.Action("DeleteCase")';
               let ajaxdata = { id : data };
               //url = url.replace("_id_", data);
-              alert(ajaxdata);
+             /* alert(ajaxdata);*/
              $.ajax({
                  url: url,
                  data: ajaxdata,
@@ -128,8 +128,8 @@
                     /* alert("Success");*/
                  },
                  error: function (error) {
-
-                     alert("error")
+                     location.reload();
+                     /*alert("error")*/
                  }
              })
 

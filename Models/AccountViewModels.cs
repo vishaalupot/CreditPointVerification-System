@@ -26,6 +26,9 @@ namespace CPV_Mark3.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [Display(Name = "Employee Code")]
+        public string EmpCode { get; set; }
+
         //[Required]
         //[StringLength(25, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 5)]
         [Display(Name = "FullName")]

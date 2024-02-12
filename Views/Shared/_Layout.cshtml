@@ -34,10 +34,10 @@
             display: flex;
             flex-direction: column; /* Set the direction to column */
             align-items: center; /* Optional: Center the items horizontally */
-            overflow:auto;
+            overflow: auto;
         }
 
-        /* Hide the scrollbar track when not actively scrolling */
+            /* Hide the scrollbar track when not actively scrolling */
             .nav-bar::-webkit-scrollbar {
                 width: 0em; /* Adjust the width as needed */
             }
@@ -46,7 +46,7 @@
                 background-color: transparent; /* Hide the scrollbar track */
             }
 
-        /* Define scrollbar thumb styles */
+            /* Define scrollbar thumb styles */
             .nav-bar::-webkit-scrollbar-thumb {
                 background-color: #888; /* Adjust the color as needed */
             }
@@ -89,7 +89,9 @@
         }
 
 
-
+        .collapse {
+            transition: height 0.5s ease-out; /* You can adjust the duration and timing function as needed */
+        }
 
         .normal-text-link:focus {
             color: inherit;
@@ -172,7 +174,6 @@
             padding: 10px 10px;
             width: 170px;
             font-weight: 200;
-           
             color: white;
             cursor: pointer;
         }
@@ -289,7 +290,7 @@
             height: 150px;
             border-radius: 75px;
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            cursor:pointer;
+            cursor: pointer;
         }
 
         .welcomeName {
@@ -345,7 +346,14 @@
 
         });
     </script>
-
+    <script>
+        $(document).ready(function () {
+            $('.nav-cont').on('click', function () {
+                // Close all other open collapses
+                $('.nav-cont.collapse.show').not($(this).siblings('.collapse')).collapse('hide');
+            });
+        });
+    </script>
 
 </head>
 <body>
@@ -370,31 +378,40 @@
                             <div style="padding-left: 25px;">@Html.ActionLink("Dashboard", "Index", "Home", null, new { @class = "normal-text-link" })</div>
                         </div>
                     </li>
+                    @{
+                        if (User.IsInRole("Admin") || User.IsInRole("Supervisor"))
+                        {
+                            <li>
+                                <div class="nav-cont" data-bs-toggle="collapse" href="#dashboardCollapse2" aria-expanded="false" aria-controls="dashboardCollapse">
+                                    <img src="~/Content/Images/op.png" alt="Image 1" class="nav-icons image" />
+                                    @*<img src="~/Content/Images/dashboard1.png" alt="Image 1" class="nav-icons image1" />*@
+                                    <div style="padding-left: 25px;">Administrator</div>
+                                </div>
+                                <div class="nav-cont collapse" id="dashboardCollapse2">
+                                    <div class="sub">
+                                        <ul>
+                                            @{
+                                                if (User.IsInRole("Admin"))
+                                                {
+                                                    <li>
+                                                        @Html.ActionLink("User Manager", "Register", "Home", null, new { @class = "normal-text-link" })
+                                                    </li>
+                                                }
+                                            }
+                                            <li>@Html.ActionLink("Add New Product", "AddNewProductView", "Home", null, new { @class = "normal-text-link" })</li>
 
-                    <li>
-                        <div class="nav-cont" data-bs-toggle="collapse" href="#dashboardCollapse2" aria-expanded="false" aria-controls="dashboardCollapse">
-                            <img src="~/Content/Images/op.png" alt="Image 1" class="nav-icons image" />
-                            @*<img src="~/Content/Images/dashboard1.png" alt="Image 1" class="nav-icons image1" />*@
-                        <div style="padding-left: 25px;">Administrator</div>
-                        </div>
-                        <div class="nav-cont collapse" id="dashboardCollapse2">
-                            <div class="sub">
-                                <ul>
-                                    <li>
-                                        @Html.ActionLink("User Master", "Register", "Home", null, new { @class = "normal-text-link" })
-                                    </li>
-                                    @*<li>@Html.ActionLink("User Master", "UserView1", "Home", new { @class = "normal-text-link" })</li>*@
-                                    <li>@Html.ActionLink("Add New Product", "AddNewProductView", "Home", null, new { @class = "normal-text-link" })</li>
-                                    @*<li>@Html.ActionLink("Verify Image", "NewProductView", "Home", new { @class = "normal-text-link" })</li>*@
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+
                     <li>
                         <div class="nav-cont" data-bs-toggle="collapse" href="#dashboardCollapse3" aria-expanded="false" aria-controls="dashboardCollapse">
                             <img src="~/Content/Images/admin.png" alt="Image 1" class="nav-icons image" />
                             @*<img src="~/Content/Images/dashboard1.png" alt="Image 1" class="nav-icons image1" />*@
-                        <div style="padding-left: 25px;">Operations</div>
+                            <div style="padding-left: 25px;">Operations</div>
                         </div>
                         <div class="nav-cont collapse" id="dashboardCollapse3">
                             <div class="sub">
@@ -402,9 +419,9 @@
                                     @*<li>@Html.ActionLink("Upload Allocation", "UploadAllocation", "Home", new { @class = "normal-text-link" })</li>*@
                                     <li>@Html.ActionLink("Case Manager", "DisplayCaseManager", "Home", null, new { @class = "normal-text-link" })</li>
                                     <li>@Html.ActionLink("Verify Manager", "DisplayVerifyManager", "Home", null, new { @class = "normal-text-link" })</li>
-                                    <li>@Html.ActionLink("Send Cases", "CasesReports", "Home", null, new { @class = "normal-text-link" })</li>
+                                    <li>@Html.ActionLink("Download Reports", "CasesReports", "Home", null, new { @class = "normal-text-link" })</li>
                                     @*<li>@Html.ActionLink("Verify Transfer", "FETransfer", "Home", new { @class = "normal-text-link" })</li>*@
-                                    <li>@Html.ActionLink("Verify Transfer", "FETransfer", "Home", null, new { @class = "normal-text-link", hidefocus = "hidefocus" })</li>
+                                    <li>@Html.ActionLink("Case Transfer", "FETransfer", "Home", null, new { @class = "normal-text-link", hidefocus = "hidefocus" })</li>
                                 </ul>
                             </div>
                         </div>

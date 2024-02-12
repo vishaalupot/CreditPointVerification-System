@@ -38,6 +38,7 @@ namespace CPV_Mark3.Models
         public string Status { get; set; }
         public string UserRole { get; set; }
         public byte[] Images { get; set; }
+        public string EmpCode { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }

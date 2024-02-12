@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CPV_Mark3.Models;
-using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 
 namespace CPV_Mark3.Controllers
 {
@@ -618,11 +618,35 @@ namespace CPV_Mark3.Controllers
             return emiratesList;
         }
 
+        //public static List<string> GetStatus()
+        //{
+        //    CPV_DB1Entities db = new CPV_DB1Entities();
+        //    return db.CaseTables.Select(s => s.Final_Status).ToList();
+        //}
+
         public static List<string> GetStatus()
         {
             CPV_DB1Entities db = new CPV_DB1Entities();
-            return db.ProductTables.Select(s => s.ProductStatus).ToList();
+
+            // Get distinct Final_Status values from the database
+            var statusList = db.CaseTables.Select(s => s.Final_Status).Distinct().ToList();
+
+            // Add default values if they are not already present
+            AddDefaultStatusIfNotExists(statusList, "Pending");
+            AddDefaultStatusIfNotExists(statusList, "PDA Captured");
+            AddDefaultStatusIfNotExists(statusList, "Final Captured");
+
+            return statusList;
         }
+
+        private static void AddDefaultStatusIfNotExists(List<string> statusList, string defaultStatus)
+        {
+            if (!statusList.Contains(defaultStatus))
+            {
+                statusList.Add(defaultStatus);
+            }
+        }
+
 
         public static List<string> GetProductList()
         {
@@ -1016,7 +1040,7 @@ namespace CPV_Mark3.Controllers
                     Status = model.Status,
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,
-
+                    EmpCode = model.EmpCode
                 };
 
                 model.UserRole = model.InitialRole;
@@ -1248,7 +1272,9 @@ namespace CPV_Mark3.Controllers
                         
             
         }
-       
+
+
+
 
     }
 

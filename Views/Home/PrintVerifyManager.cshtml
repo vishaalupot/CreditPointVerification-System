@@ -7,25 +7,74 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto:300,400,500,700" />
-    <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet" />
-    <script src="/Scripts/jquery-3.3.1.min.js"></script>
-    <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="/Scripts/umd/popper.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
+    <script src="https://unpkg.com/html2pdf.js/dist/html2pdf.bundle.js"></script>
 
+
+
+
+
+    <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.saveBtn').addEventListener('click', function () {
+            initializeMapAndSavePDF();
+        });
+    });
+
+    function initializeMapAndSavePDF() {
+        // Wait for the Google Maps script to load
+        google.maps.event.addDomListenerOnce(window, 'load', function () {
+            // Now initialize the map and save the PDF
+            initializeMap();
+            setTimeout(saveAsPDF, 1000); // Add a delay to ensure the map is fully loaded
+        });
+    }
+
+    function initializeMap() {
+        var lat = @Model.Latitude;
+        var longi = @Model.Longitude;
+
+        var latlng = new google.maps.LatLng(lat, longi);
+        var myOptions = {
+            zoom: 14,
+            zoomControl: false,
+            scaleControl: false,
+            scrollwheel: false,
+            disableDoubleClickZoom: true,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById("map"), myOptions);
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(lat, longi),
+            map: map,
+        });
+    }
+
+    function saveAsPDF() {
+        var element = document.querySelector('.print-page');
+        var filename = '@Model.Application_no' + '-' + '@Model.Company_Name' + '.pdf';
+        var options = { filename: filename };
+
+        html2pdf(element, options);
+    }
+    </script>
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
         @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
         .print-page table tbody th {
             border: solid 1px black;
+            background-color: #ddd;
         }
 
         .print-page table tr td {
@@ -52,11 +101,33 @@
         .print {
             display: flex;
             justify-content: center;
+            flex-direction: column;
+            align-items: center;
         }
+
+        .saveBtn {
+            background-color: #024444;
+            color: white;
+            font-family: 'Jaldi', sans-serif;
+            font-size: 20px;
+            cursor: pointer;
+            width: 100px;
+            height: 50px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+            .saveBtn:hover {
+                background-color: #012b2b;
+                color: white;
+            }
     </style>
 </head>
 <body>
     <div class="print">
+        <div>
+            <input type="button" value="Save" class="saveBtn" onclick="saveAsPDF()"/>
+        </div>
         <div class="print-page">
             <table>
                 <thead>
@@ -429,7 +500,7 @@
                         <td>
                             @foreach (var base64Image in ViewBag.Images)
                             {
-                                <img src="data:image/png;base64,@base64Image" alt="Image" style="width: 100px; height: 100px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />
+                                <img src="data:image/png;base64,@base64Image" alt="Image" style="width: 300px; height: 300px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />
                             }
                         </td>
                         
@@ -451,6 +522,8 @@
 
 
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU&callback=Function.prototype"></script>
+        
+        
         <script type="text/javascript">
 
 
