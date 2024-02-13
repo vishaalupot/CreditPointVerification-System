@@ -968,7 +968,7 @@ namespace CPV_Mark3.Controllers
             caseTable.Different_CompanyNameBoard_Seen_Reason = form["Different_CompanyNameBoard_Seen_Reason"].ToString();
             //caseTable.Application_name = form["Application_name"].ToString();
             //caseTable.Application_name = form["Application_name"].ToString();
-
+            caseTable.Final_Status = "Final Captured";
             db.Entry(caseTable).State = EntityState.Modified;
 
             db.SaveChanges();
