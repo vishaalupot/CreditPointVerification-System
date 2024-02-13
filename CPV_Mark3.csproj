@@ -291,6 +291,7 @@
     <Content Include="Content\Images\dp.jfif" />
     <Content Include="Content\Images\edit.png" />
     <Content Include="Content\Images\loading.gif" />
+    <Content Include="Content\Images\loading1.gif" />
     <Content Include="Content\Images\log-out.png" />
     <Content Include="Content\Images\login2.svg" />
     <Content Include="Content\Images\logo.png" />

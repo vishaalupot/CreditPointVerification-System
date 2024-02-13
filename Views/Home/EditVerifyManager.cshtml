@@ -120,6 +120,18 @@
                 background-color: #024444;
                 color: white;
             }
+
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+            background: rgba(255,255,255,0.8);
+            padding: 20px;
+            border-radius: 5px;
+            display: none;
+        }
     </style>
     @*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU"></script>*@
     <script>
@@ -195,7 +207,10 @@
 
         jQuery(function ($) {
 
+            $("#divLoading").hide();
+            $("#Loaded").show();
             // Initialize an array to store image information
+            
             var imageList = [];
 
             $(".draggable-image").each(function () {
@@ -234,7 +249,8 @@
             });
 
             $("#ChngBtn").on("click", function () {
-
+                $("#divLoading").show();
+                $("#Loaded").hide();
                 data = { imageList: JSON.stringify(imageList).toString() };
                // console.log(data);
                 $.ajax({
@@ -243,6 +259,8 @@
                     data: data,
                     success: function (response) {
                         //console.log(response);
+                        $("#divLoading").hide();
+                        $("#Loaded").show();
                         let url = '@Url.Action("_ImageContainer","Home", new { id = Model.Id })';
                         $("#imageContainer").load(url);
 
@@ -1074,13 +1092,20 @@
                     </div>
                 </div>
                 <div id="imageContainer" class="col-md-10">
-                    @Html.Action("_ImageContainer", new { id = Model.Id })
+                    <div id="divLoading">
+                        <!-- Loading spinner GIF -->
+                        <img src="~/Content/Images/loading1.gif" alt="Loading...">
+                    </div>
+                    <div id="Loaded">
+                        @Html.Action("_ImageContainer", new { id = Model.Id })
+                    </div>
+                    
                     @*@{
 
-                            List<(int, string, int)> imageslist = (List<(int, string, int)>)ViewBag.Images;
-                        }*@
+            List<(int, string, int)> imageslist = (List<(int, string, int)>)ViewBag.Images;
+        }*@
                     @*@foreach (var img in imageslist)
-                        {*@
+        {*@
 
                     @*<img id="image_@Guid.NewGuid().ToString()" class="draggable-image" src="data:image/png;base64,@base64Image" alt="Image" style="width: 250px; height: 250px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />*@
                     @*<img id="image_@i.ToString()" class="draggable-image" src="data:image/png;base64,@base64Image" alt="Image" style="width: 250px; height: 250px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />*@
@@ -1089,13 +1114,13 @@
 
 
                     @*@foreach (var base64Image in ViewBag.Images)
-                        {
-                            <img src="data:image/png;base64,@base64Image" alt="Image" class="draggable-image" style="width: 300px; height: 300px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />
-                        }*@
+        {
+            <img src="data:image/png;base64,@base64Image" alt="Image" class="draggable-image" style="width: 300px; height: 300px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />
+        }*@
 
                     @*<div class="form-group">
-                            <input type="button" value="Save Changes" class="btn ChngBtn" id="ChngBtn" />
-                        </div>*@
+            <input type="button" value="Save Changes" class="btn ChngBtn" id="ChngBtn" />
+        </div>*@
                 </div>
 
 
