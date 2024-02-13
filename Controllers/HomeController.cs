@@ -239,19 +239,84 @@ namespace CPV_Mark3.Controllers
             }
             else
             {
-                //Dashboard data dynamically refresh
-                CPV_DB1Entities db = new CPV_DB1Entities();
+                //CPV_DB1Entities db = new CPV_DB1Entities();
                
+                //List<CaseTable> caseTable = db.CaseTables.ToList();
+
+                //List<int> Dashdata = new List<int>();
+
+                //DateTime startOfDay = DateTime.Today;
+                //DateTime endOfDay = DateTime.Today.AddDays(1).AddTicks(-1);
+
+                //List<CaseTable> totalcase = caseTable
+                //    .Where(w => w.Allocation_Date >= startOfDay && w.Allocation_Date <= endOfDay)
+                //    .ToList();
+                
+                //int donecase = totalcase.Where(w => w.Final_Status == "Final_Status").Count();                
+                //int newcase = totalcase.Where(w => w.Final_Status == "Pending").Count();
+                //int overdueCase = totalcase.Where(w => w.Final_Status == "").Count();
+
+                //Dashdata.Add(totalcase.Count());
+                //Dashdata.Add(donecase);
+                //Dashdata.Add(newcase);
+                //Dashdata.Add(overdueCase);
+
+                //var json = JsonConvert.SerializeObject(Dashdata);
+
+                //ViewBag.DashData = json;
+
+                //return View(caseTable);
+
+
+                CPV_DB1Entities db = new CPV_DB1Entities();
+
+                List<int> DashMonth1 = new List<int>();
+                List<int> DashMonth2 = new List<int>();
                 List<CaseTable> caseTable = db.CaseTables.ToList();
 
-                List<int> Dashdata = new List<int>();
-                //var data = new List<int>() { 90, 25, 30, 10 };
+                List<CaseTable> totalcaseMonthly = caseTable.ToList();
+                int pendingcaseMonthly = totalcaseMonthly.Where(w => w.Final_Status == "Pending").Count();
 
-                List<CaseTable> totalcase = caseTable.Where(w => w.Allocation_Date < DateTime.Today.AddDays(10)).ToList();
-                int donecase = totalcase.Where(w => w.Final_Status == "Final_Status").Count();                
+                DashMonth1.Add(totalcaseMonthly.Count());
+                DashMonth2.Add(pendingcaseMonthly);
+
+                var jsonMonth1 = JsonConvert.SerializeObject(DashMonth1);
+                var jsonMonth2 = JsonConvert.SerializeObject(DashMonth2);
+
+                ViewBag.DashMonth1 = jsonMonth1;
+                ViewBag.DashMonth2 = jsonMonth2;
+
+                List<int> Dashdata = new List<int>();
+
+                // Retrieve total data without date or time limit
+                List<CaseTable> totalcaseAll = caseTable.ToList();
+
+                int donecaseAll = totalcaseAll.Where(w => w.Final_Status == "Final_Status").Count();
+                int newcaseAll = totalcaseAll.Where(w => w.Final_Status == "Pending").Count();
+                int overdueCaseAll = totalcaseAll.Where(w => w.Final_Status == "").Count();
+
+                Dashdata.Add(totalcaseAll.Count());
+                Dashdata.Add(donecaseAll);
+                Dashdata.Add(newcaseAll);
+                Dashdata.Add(overdueCaseAll);
+
+                var jsonAll = JsonConvert.SerializeObject(Dashdata);
+
+                ViewBag.DashDataAll = jsonAll;
+
+                // Retrieve data with date filter
+                DateTime startOfDay = DateTime.Today;
+                DateTime endOfDay = DateTime.Today.AddDays(1).AddTicks(-1);
+
+                List<CaseTable> totalcase = caseTable
+                    .Where(w => w.Allocation_Date >= startOfDay && w.Allocation_Date <= endOfDay)
+                    .ToList();
+
+                int donecase = totalcase.Where(w => w.Final_Status == "Final_Status").Count();
                 int newcase = totalcase.Where(w => w.Final_Status == "Pending").Count();
                 int overdueCase = totalcase.Where(w => w.Final_Status == "").Count();
-                //int overDue = 
+
+                Dashdata.Clear(); // Clear the list for new data
 
                 Dashdata.Add(totalcase.Count());
                 Dashdata.Add(donecase);
@@ -262,7 +327,11 @@ namespace CPV_Mark3.Controllers
 
                 ViewBag.DashData = json;
 
+                
+
                 return View(caseTable);
+
+
             }
 
         }

@@ -4,7 +4,9 @@
 @{
     ViewBag.Title = "Home Page";
 }
-
+@{
+    var groupedData = Model.GroupBy(m => m.FE_Name);
+}
 
 <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2022.1.301/styles/kendo.common.min.css" />
 <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2022.1.301/styles/kendo.default.min.css" />
@@ -36,7 +38,6 @@
         display: flex;
         flex-direction: row;
         overflow: auto;
-
     }
 
         .body-content::-webkit-scrollbar {
@@ -47,7 +48,7 @@
             background-color: transparent; /* Hide the scrollbar track */
         }
 
-    /* Define scrollbar thumb styles */
+        /* Define scrollbar thumb styles */
         .body-content::-webkit-scrollbar-thumb {
             background-color: #888; /* Adjust the color as needed */
         }
@@ -122,7 +123,6 @@
 
 
     .body-cont3 {
-      
         width: 85%; /* Adjust width as needed */
         height: max-content;
         margin: 20px 0px 20px 25px;
@@ -254,8 +254,8 @@
         position: relative;
         /*height: 10vw;*/ /* 20% of the viewport height */
         /*width: 10vw;*/ /* 20% of the viewport width */
-        height:25%;
-        width:115%;
+        height: 25%;
+        width: 115%;
         /*max-height: 138px;*/ /* Set a maximum height if needed */
         /*max-width: 135px;*/ /* Set a maximum width if needed */
         border-radius: 50%;
@@ -295,8 +295,8 @@
         background-color: white;
         border-radius: 12px;
         /*width: 600px;*/
-        width:95%;
-       /* height: 175px;*/
+        width: 95%;
+        /* height: 175px;*/
         height: 40%;
         border: 1px groove #CBD5E0;
         margin: 10px 10px;
@@ -310,8 +310,8 @@
         border-radius: 12px;
         /*width: 460px;*/
         width: 85%;
-       /* height: 225px;*/
-       height: 45%;
+        /* height: 225px;*/
+        height: 45%;
         margin: 10px 10px;
         border: 1px groove #CBD5E0;
         display: flex;
@@ -336,7 +336,7 @@
         /*width: 250px;
         height: 420px;*/
         width: 25%;
-        height:92%;
+        height: 92%;
         border: 1px groove #CBD5E0;
         margin: 10px 10px;
         display: flex;
@@ -350,7 +350,6 @@
         border-radius: 12px;
         width: 15vh;
         height: 25vh;
-        
         margin: 10px 10px;
         border: 1px groove #CBD5E0;
         display: flex;
@@ -427,9 +426,8 @@
         font-size: 14px;
         font-family: 'Jaldi', sans-serif;
         font-weight: 600;
-        padding:4px 0px;
+        padding: 4px 0px;
     }
-
 </style>
 
 <style>
@@ -620,7 +618,8 @@
                                     datasets: [{
                                         type: 'bar',
                                         label: 'Total Cases',
-                                        data: [12, 19, 3, 5, 2, 13],
+                                        data: @ViewBag.DashMonth1,
+                                        //    [12, 19, 3, 5, 2, 13],
                                         backgroundColor: [
                                             '#165DFF',
                                         ],
@@ -628,7 +627,8 @@
                                     }, {
                                         type: 'bar',
                                         label: 'Completed Cases',
-                                        data: [10, 9, 8, 2, 1, 7],
+                                        data: @ViewBag.DashMonth2,
+                                        //    [10, 9, 8, 2, 1, 7],
                                         backgroundColor: [
                                             '#14C9C9',
                                         ],
@@ -660,12 +660,12 @@
                             </tr>
 
 
-                            @foreach (var model in Model)
+                            @foreach (var group in groupedData)
                             {
                                 <tr>
-                                    <td class="name-head">@(model?.FE_Name ?? "N/A")</td>
-                                    <td> @*@(model?.Application_no ?? "N/A")*@ </td>
-                                    <td>@*@(model?.Final_Status ?? "N/A")*@</td>
+                                    <td class="name-head">@group.Key</td>
+                                    <td class="name-head">@group.Count()</td>
+                                    <td class="name-head">@group.Count(m => m.Final_Status == "Pending")</td>
                                 </tr>
                             }
 
@@ -711,22 +711,19 @@
 
     </div>
 
-    
+
 
 </div>
 
 
 <script>
-
     window.addEventListener('load', function () {
         var circleLoader1 = document.getElementById('circle-loader-wrap1');
        // circleLoader1.classList.remove('animate-once'); // Remove the class to disable animation
     });
 
-
     let circularProgressBars1 = document.querySelectorAll(".circular-progress1");
-    let progressEndValues1 = [52, 20, 25, 7];
-    @*let progressEndValues1 = '@Html.Action("DailyDashboard","Home")';*@
+    let progressEndValues1 = @ViewBag.DashData;
     let colors1 = ["#17ABFF", "#580058", "#004d06", "#ca0000"]; // Example colors for each progress bar
 
     let firstProgressBar1 = circularProgressBars1[0];
@@ -737,7 +734,7 @@
         let progressValue1 = 0;
         let progressEndValue1 = progressEndValues1[index1];
         let color1 = colors1[index1];
-        let speed1 = 100;
+        let speed1 = 80; // Adjust this value to control the animation speed. Higher value = slower animation
 
         valueContainer1.style.color = color1;
 
@@ -750,7 +747,7 @@
         )`;
 
             if (progressValue1 < progressEndValue1) {
-                requestAnimationFrame(update);
+                setTimeout(update, speed1); // Use setTimeout to control the animation speed
             }
         };
 
@@ -760,21 +757,20 @@
     circularProgressBars1.forEach((progressBar1, index1) => {
         updateProgressBar(progressBar1, index1);
     });
-
 </script>
+
 
 
 @*Daily stats JS*@
 <script>
-
     window.addEventListener('load', function () {
         var circleLoader = document.getElementById('circle-loader-wrap');
         //circleLoader.classList.remove('animate-once'); // Remove the class to disable animation
     });
 
-
     let circularProgressBars = document.querySelectorAll(".circular-progress");
-    let progressEndValues = [47, 20, 11, 6];
+    let progressEndValues = @ViewBag.DashDataAll;
+    //    [47, 20, 11, 6];
     let colors = ["#17ABFF", "#580058", "#004d06", "#ca0000"]; // Example colors for each progress bar
 
     let firstProgressBar = circularProgressBars[0];
@@ -785,7 +781,7 @@
         let progressValue = 0;
         let progressEndValue = progressEndValues[index];
         let color = colors[index];
-        let speed = 100;
+        let speed = 30; // Adjust this value to control the animation speed. Higher value = slower animation
 
         valueContainer.style.color = color;
 
@@ -793,12 +789,12 @@
             progressValue++;
             valueContainer.textContent = `${progressValue}`;
             progressBar.style.background = `conic-gradient(
-            ${color} ${(progressValue / firstProgressEndValue) * 360}deg,
-            #ffffff ${(progressValue / firstProgressEndValue) * 360}deg
-        )`;
+                ${color} ${(progressValue / firstProgressEndValue) * 360}deg,
+                #ffffff ${(progressValue / firstProgressEndValue) * 360}deg
+            )`;
 
             if (progressValue < progressEndValue) {
-                requestAnimationFrame(update);
+                setTimeout(update, speed); // Use setTimeout to control the animation speed
             }
         };
 
@@ -808,5 +804,4 @@
     circularProgressBars.forEach((progressBar, index) => {
         updateProgressBar(progressBar, index);
     });
-
 </script>
