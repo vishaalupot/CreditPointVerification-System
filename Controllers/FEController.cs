@@ -82,8 +82,12 @@ namespace CPV_Mark3.Controllers
             caseTable.WebsiteAddress_Active = form["WebsiteAddress_Active"].ToString();
             caseTable.Nature_of_Business = form["Nature_of_Business"].ToString();
             caseTable.Office_observation = form["Office_observation"].ToString();
-            caseTable.No_Employees_Seen = int.Parse(form["No_Employees_Seen"].ToString());
-            caseTable.No_Employees_ContactedPerson = int.Parse(form["No_Employees_ContactedPerson"].ToString());
+            //caseTable.No_Employees_Seen = int.Parse(form["No_Employees_Seen"].ToString());
+            //caseTable.No_Employees_ContactedPerson = int.Parse(form["No_Employees_ContactedPerson"].ToString());
+            if (form["No_Employees_Seen"].ToString() != "")
+                caseTable.No_Employees_Seen = int.Parse(form["No_Employees_Seen"].ToString());
+            if (form["No_Employees_ContactedPerson"].ToString() != "")
+                caseTable.No_Employees_ContactedPerson = int.Parse(form["No_Employees_ContactedPerson"].ToString());
             caseTable.If_Sister_ConcernCompany = form["If_Sister_ConcernCompany"].ToString();
             caseTable.Co_Owenrship_details = form["Co_Owenrship_details"].ToString();
             caseTable.External_Audit = form["External_Audit"].ToString();

@@ -66,9 +66,9 @@
                     let res = dataURL;
 
                     if (res == 1) {
-                        alert("Upload Successful!");
+                        /*alert("Upload Successful!");*/
                     } else {
-                        alert("Photo not saved! Please try again.");
+                        location.reload();
                     }
                 },
                 error: function (xhr, status, error) {

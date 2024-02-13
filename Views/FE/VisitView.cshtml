@@ -851,7 +851,9 @@
                             </div>
                         </div>
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Feedback, new { htmlAttributes = new { @class = "form-control Fbox" } })
+                            @Html.TextAreaFor(model => model.Feedback, new { @class = "form-control Fbox", @style = "width: 400px; height: 200px; padding-top: 0;" })
+
+                            @*@Html.EditorFor(model => model.Feedback, new { htmlAttributes = new { @class = "form-control Fbox" } })*@
                             @Html.ValidationMessageFor(model => model.Feedback, "", new { @class = "text-danger" })
                         </div>
                     </div>
