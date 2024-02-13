@@ -1,7 +1,8 @@
-﻿@using Microsoft.AspNet.Identity
+﻿
+@using Microsoft.AspNet.Identity
+@using CPV_Mark3.Models
 <html>
 <head>
-    @*<script src="/Scripts/jquery-3.4.1.min.js"></script>*@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photo Upload - Derby CPV - DDC1</title>
@@ -105,19 +106,24 @@
 </head>
 <body>
     <div>
-        @using (Html.BeginForm("_ProfilePic", "Home",null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("_ProfilePic", "Home", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <div class="img">
                 @Html.TextBox("ImageFile", null, new { type = "file", @class = "form-control", accept = "image/*", capture = "camera", multiple = "multiple", style = "display: none;" })
                 <label for="ImageFile" class="image-label">
-                    <img src="@Url.Action("DisplayProfilePic", "Home", new { snr = @User.Identity.GetUserId() })" alt="Profile Picture"  class="dp" onerror="this.src='@Url.Content("~/Content/Images/placeholder.png")'"/>
+                    <img src="@Url.Action("DisplayProfilePic", "Home", new { snr = @User.Identity.GetUserId() })" alt="Profile Picture" class="dp" onerror="this.src='@Url.Content("~/Content/Images/placeholder.png")'" />
                 </label>
             </div>
             <div id="overlay-content">
                 <div class="blue-half">
                     <div class="desc" style="display: flex;flex-direction: column; align-items:center;">
                         <div class="headname">@User.Identity.GetUserName()</div>
-                        <div class="headrole">Admin</div>
+                        @{ 
+                            CPV_DB1Entities db = new CPV_DB1Entities();
+                            string userrole = db.AspNetUsers.Find(User.Identity.GetUserId()).UserRole;
+                            
+                        }
+                        <div class="headrole">@userrole</div>
                     </div>
                     <div class="desc" style="display: flex;      flex-direction: column; align-items:center;">
                         <input type="button" class="homebtn" value="Save or Exit" id="close" onclick="uploadImage('@User.Identity.GetUserId()');" />
@@ -125,7 +131,7 @@
                 </div>
             </div>
         }
-        </div>
+    </div>
 </body>
 </html>
 

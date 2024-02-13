@@ -1024,6 +1024,7 @@ namespace CPV_Mark3.Controllers
             return View(caseTable);
         }
 
+
         [HttpPost]
         public ActionResult EditCases(FormCollection form)
         {
@@ -1182,7 +1183,13 @@ namespace CPV_Mark3.Controllers
         [HttpPost]
         public ActionResult _ProfilePic(HttpPostedFileBase file, string snr)
         {
-             if (file == null)
+
+            
+
+            var userRole = db.AspNetUsers.Find(User.Identity.GetUserId());
+            ViewBag.userRole = userRole.UserRole;
+
+            if (file == null)
             {
                 ModelState.AddModelError("", "Please attached a file.");
             }
@@ -1223,7 +1230,8 @@ namespace CPV_Mark3.Controllers
 
         public ActionResult _ProfilePic()
         {
-
+            var userRole = db.AspNetUsers.Find(User.Identity.GetUserId());
+            ViewBag.userRole = userRole.UserRole;
             return PartialView();
         }
 
