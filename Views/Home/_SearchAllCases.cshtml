@@ -92,7 +92,7 @@
 
          $(".submitBtn").click(function () {
              let data = $(this).data("id");
-             let url = '@Url.Action("DisplayCaseManager","Home", new { id = "_id_" })';
+             let url = '@Url.Action("searchCases", "Home", new { id = "_id_" })';
               url = url.replace("_id_", data);
 
              $.ajax({

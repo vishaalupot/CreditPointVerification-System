@@ -740,7 +740,7 @@
         valueContainer1.style.color = color1;
 
         let update = () => {
-            progressValue1++;
+
             valueContainer1.textContent = `${progressValue1}`;
             progressBar1.style.background = `conic-gradient(
             ${color1} ${(progressValue1 / firstProgressEndValue1) * 360}deg,
@@ -750,6 +750,8 @@
             if (progressValue1 < progressEndValue1) {
                 setTimeout(update, speed1); // Use setTimeout to control the animation speed
             }
+
+            progressValue1++;
         };
 
         update();
@@ -787,7 +789,7 @@
         valueContainer.style.color = color;
 
         let update = () => {
-            progressValue++;
+           
             valueContainer.textContent = `${progressValue}`;
             progressBar.style.background = `conic-gradient(
                 ${color} ${(progressValue / firstProgressEndValue) * 360}deg,
@@ -797,6 +799,8 @@
             if (progressValue < progressEndValue) {
                 setTimeout(update, speed); // Use setTimeout to control the animation speed
             }
+
+            progressValue++;
         };
 
         update();

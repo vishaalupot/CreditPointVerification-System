@@ -229,9 +229,9 @@ namespace CPV_Mark3.Controllers
         public ActionResult Index()
         {
             //return View();
-            
 
-            
+
+
 
             if (User.IsInRole("FE"))
             {
@@ -240,7 +240,7 @@ namespace CPV_Mark3.Controllers
             else
             {
                 //CPV_DB1Entities db = new CPV_DB1Entities();
-               
+
                 //List<CaseTable> caseTable = db.CaseTables.ToList();
 
                 //List<int> Dashdata = new List<int>();
@@ -251,7 +251,7 @@ namespace CPV_Mark3.Controllers
                 //List<CaseTable> totalcase = caseTable
                 //    .Where(w => w.Allocation_Date >= startOfDay && w.Allocation_Date <= endOfDay)
                 //    .ToList();
-                
+
                 //int donecase = totalcase.Where(w => w.Final_Status == "Final_Status").Count();                
                 //int newcase = totalcase.Where(w => w.Final_Status == "Pending").Count();
                 //int overdueCase = totalcase.Where(w => w.Final_Status == "").Count();
@@ -291,8 +291,8 @@ namespace CPV_Mark3.Controllers
                 // Retrieve total data without date or time limit
                 List<CaseTable> totalcaseAll = caseTable.ToList();
 
-                int donecaseAll = totalcaseAll.Where(w => w.Final_Status == "Final_Status").Count();
-                int newcaseAll = totalcaseAll.Where(w => w.Final_Status == "Pending").Count();
+                int donecaseAll = totalcaseAll.Where(w => w.Final_Status == "Final Captured").Count();
+                int newcaseAll = totalcaseAll.Where(w => w.Final_Status == "Pending" || w.Final_Status == "PDA Captured").Count();
                 int overdueCaseAll = totalcaseAll.Where(w => w.Final_Status == "").Count();
 
                 Dashdata.Add(totalcaseAll.Count());
@@ -312,8 +312,8 @@ namespace CPV_Mark3.Controllers
                     .Where(w => w.Allocation_Date >= startOfDay && w.Allocation_Date <= endOfDay)
                     .ToList();
 
-                int donecase = totalcase.Where(w => w.Final_Status == "Final_Status").Count();
-                int newcase = totalcase.Where(w => w.Final_Status == "Pending").Count();
+                int donecase = totalcase.Where(w => w.Final_Status == "Final Captured").Count();
+                int newcase = totalcase.Where(w => w.Final_Status == "Pending" || w.Final_Status == "PDA Captured").Count();
                 int overdueCase = totalcase.Where(w => w.Final_Status == "").Count();
 
                 Dashdata.Clear(); // Clear the list for new data
@@ -467,7 +467,25 @@ namespace CPV_Mark3.Controllers
             return View(cases);
         }
 
-       
+        [HttpPost]
+        public ActionResult searchCases(int id)
+        {
+
+            CPV_DB1Entities db = new CPV_DB1Entities();
+            List<CaseTable> cases = db.CaseTables.ToList();
+            CaseTable caseTable = db.CaseTables.Find(id);
+
+            //caseTable.Final_Status = " ";
+
+            caseTable.Final_Status = "Pending";
+            caseTable.Final_Date = null;
+
+            db.Entry(caseTable).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+
+            return View(cases);
+
+        }
 
         [HttpPost]
         public ActionResult DeleteCase(int id)
