@@ -57,6 +57,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.saveBtn').addEventListener('click', function () {
             initializeMapAndSavePDF();
+
         });
     });
     function initializeMap() {
@@ -91,14 +92,15 @@
     html2pdf(element, options);
         }
 
-    function initializeMapAndSavePDF() {
-        // Wait for the Google Maps script to load
-        google.maps.event.addDomListenerOnce(window, 'load', function () {
-            // Now initialize the map and save the PDF
-            initializeMap();
-            setTimeout(saveAsPDF, 1000); // Add a delay to ensure the map is fully loaded
-        });
-    }
+        function initializeMapAndSavePDF() {
+            google.maps.event.addDomListenerOnce(window, 'load', function () {
+                initializeMap();
+                google.maps.event.addListenerOnce(map, 'tilesloaded', function () {
+                    saveAsPDF();
+                });
+            });
+        }
+
 
 
 

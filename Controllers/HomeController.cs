@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CPV_Mark3.Models;
+using DocumentFormat.OpenXml.Math;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OfficeOpenXml;
 
 
 namespace CPV_Mark3.Controllers
@@ -365,6 +367,70 @@ namespace CPV_Mark3.Controllers
             ViewBag.Message = "Your application description page.";
             return View();
 
+        }
+
+        public ActionResult UploadCases()
+        {
+
+            return View();
+
+        }
+
+
+        [HttpPost]
+        public ActionResult UploadCases(HttpPostedFileBase file)
+        {
+            if (file != null && file.ContentLength > 0)
+            {
+                try
+                {
+                    using (var package = new ExcelPackage(file.InputStream))
+                    {
+                        ExcelPackage.LicenseContext = LicenseContext.NonCommercial; 
+
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                        int rowCount = worksheet.Dimension.Rows;
+
+                        for (int row = 1; row <= rowCount; row++)
+                        {
+                            var caseEntity = new CaseTable
+                            {
+                                Application_name = worksheet.Cells[row, 1].Value?.ToString(),
+                                Application_no = worksheet.Cells[row, 2].Value?.ToString(),
+                                Company_Name = worksheet.Cells[row, 3].Value?.ToString(),
+                                Trade_License_Number = worksheet.Cells[row, 4].Value?.ToString(),
+                                Company_Address = worksheet.Cells[row, 5].Value?.ToString(),
+                                Landmark = worksheet.Cells[row, 6].Value?.ToString(),
+                                Landline = worksheet.Cells[row, 7].Value?.ToString(),
+                                Contacted_Person = worksheet.Cells[row, 8].Value?.ToString(),
+                                Contacted_Person_Mobile_No = worksheet.Cells[row, 9].Value?.ToString(),
+                                Operating_Hours = worksheet.Cells[row, 10].Value?.ToString(),
+                                Emirate = worksheet.Cells[row, 11].Value?.ToString(),
+                                Product = worksheet.Cells[row, 12].Value?.ToString(),
+                                Visit_Type = worksheet.Cells[row, 13].Value?.ToString(),
+                                Client = worksheet.Cells[row, 14].Value?.ToString(),
+                                Allocation_Date = DateTime.Now,
+                                Final_Status = "Pending"
+                            };
+
+                            db.CaseTables.Add(caseEntity);
+                        }
+
+                        db.SaveChanges();
+                    }
+                    ViewBag.Message = "File uploaded successfully.";
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Error = $"Error: {ex.Message}";
+                }
+            }
+            else
+            {
+                ViewBag.Error = "Please upload a valid Excel file.";
+            }
+
+            return View();
         }
 
         public ActionResult PrintVerifyManager(int id)

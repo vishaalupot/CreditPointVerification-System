@@ -1059,6 +1059,7 @@
     <Content Include="Views\Home\_ProfilePic.cshtml" />
     <Content Include="Views\Home\EditCases.cshtml" />
     <Content Include="Views\Home\_ImageContainer.cshtml" />
+    <Content Include="Views\Home\UploadCases.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

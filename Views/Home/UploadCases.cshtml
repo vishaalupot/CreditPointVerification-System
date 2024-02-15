@@ -1,0 +1,266 @@
+﻿
+@{
+    ViewBag.Title = "UploadCases";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $("#btnUploadFile").click(function () {
+
+            var client = $("#client").val();
+            var product = $("#product").val();
+            var verification_type = $("#verification_type").val();
+
+            if (client == "") {
+                swal("Oops", "Please select client name", "error")
+                return false;
+            }
+            else if (product == "") {
+                swal("Oops", "Please select product", "error")
+                return false;
+            }
+            else if ($("#excelfile").val() != "") {
+                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+                if (!regex.test($("#excelfile").val().toLowerCase())) {
+                    swal("Oops", "Please remove special character from your selected excel file!", "error")
+                    return false;
+                }
+                else {
+                    UploadSelectedExcelsheet(client, product);
+                }
+            }
+            else {
+                swal("Oops", "Please select a Excel file!", "error")
+                return false;
+            }
+        });
+
+        function UploadSelectedExcelsheet(client, product) {
+            $("#divLoading").show();
+            var data = new FormData();
+            var i = 0;
+            var fl = $("#excelfile").get(0).files[0];
+            if (fl != undefined) {
+                data.append("file", fl);
+                data.append("client", client);
+                data.append("product", product);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/UploadExcelsheet",
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (response) {
+                    $("#divLoading").hide();
+                    if (response.Status == "Success") {
+                        swal("Success!", response.Total, "success");
+                    }
+                    else if (response.Status == "Fail") {
+                        swal("Oops", response.Total, "error")
+                    }
+                    else {
+                        swal("Oops", response.Total, "error")
+                    }
+                },
+                error: function (response) {
+                    $("#divLoading").hide();
+                    swal("Oops", response.Total, "error")
+                    return false;
+                }
+            });
+        }
+    </script>
+
+    <style>
+
+        @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+        @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+        .userbody-content {
+            display: flex;
+            flex-direction: column;
+            width: 95%;
+            height: 90vh;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            padding: 10px;
+            overflow: hidden;
+            justify-content:center;
+        }
+
+        .heading {
+            color: #3A6C6C;
+            font-size: 45px;
+            font-family: 'Jaldi', sans-serif;
+            text-align: left;
+            font-weight: 600;
+            text-align:center;
+        }
+
+
+        .file-upload-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .inner-margin {
+            margin-bottom: 20px;
+
+        }
+
+        /* Style the file input label */
+        .file-label {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            cursor: pointer;
+            background-color: #2B5D87;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        /* Hide the default file input */
+        .hidden-input {
+            display: none;
+            cursor:pointer;
+        }
+
+        /* Style the mandatory asterisk */
+        .mandatory {
+            color: red;
+            margin-left: 5px;
+        }
+
+        /* Style the upload button */
+        .button-container {
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background-color: #3A6C6C;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            font-family: 'Jaldi', sans-serif;
+            width: 100px;
+            height:40px;
+            padding:0;
+        }
+
+            /* Optional: Add hover effect */
+            .btn-primary:hover {
+                background-color: #1E3636;
+            }
+
+            .filebutton{
+
+            }
+
+        .drop-container {
+            position: relative;
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px dashed #555;
+            color: #444;
+            cursor: pointer;
+            transition: background .2s ease-in-out, border .2s ease-in-out;
+        }
+
+            .drop-container:hover {
+                background: #eee;
+                border-color: #111;
+            }
+
+                .drop-container:hover .drop-title {
+                    color: #222;
+                }
+
+        .drop-title {
+            color: #444;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            transition: color .2s ease-in-out;
+        }
+
+    </style>
+</head>
+<body  style="padding: 0px;">
+
+
+    <div class="userbody-content">
+        <div class="heading">Upload Cases</div>
+       
+
+        <div style="display: flex;  flex-direction: column;">
+            @using (Html.BeginForm("UploadCases", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @*<div>
+                    <input type="file" name="file" id="file" accept=".xlsx, .xls" class="filebutton" />
+                    <input type="submit" value="Upload" />
+                </div>*@
+
+
+
+            <label for="images" class="drop-container" id="dropcontainer">
+                <span class="drop-title">Drop files here</span>
+                or
+                <input type="file" name="file" id="file" accept=".xlsx, .xls" class="filebutton" required>
+                <input type="submit" value="Upload" class="btn btn-primary btn-block">
+
+                @*<input type="file" name="file"    />*@
+            </label>
+
+            }
+
+
+            @*<div class="file-upload-container">
+            <div class="inner-margin">
+                <label for="excelfile" class="file-label">
+                    Select file (*.xls, *.xlsx) <span class="mandatory">*</span>
+                    <input class="hidden-input" id="excelfile" name="excelfile" type="file" accept=".xlsx, .xls" style="padding: 0px 5px;" />
+                </label>
+            </div>
+            <div class="button-container">
+                <button type="submit" id="btnUploadFile" class="btn btn-primary btn-block">Upload</button>
+            </div>
+        </div>*@
+
+
+
+
+            <img src="~/Content/Images/Spreadsheets.gif" style="width: 400px; height: 400px; display: flex; align-items:center; visibility:hidden;" />
+
+
+
+        </div>
+        
+
+    </div>
+
+
+</body>
+</html>

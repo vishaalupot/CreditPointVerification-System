@@ -96,5 +96,7 @@ namespace CPV_Mark3.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CaseImage> CaseImages { get; set; }
+
+       
     }
 }
