@@ -195,14 +195,14 @@
                     <td>@Html.DisplayFor(modelItem => item.Final_Status) </td>
                     <td>@Html.DisplayFor(modelItem => item.Visit_Type) </td>
                     <td>
-                        <a href="@Url.Action("EditVerifyManager", "Home", new { id = item.Id })">
+                        <a href='@Url.Action("EditVerifyManager", "Home", new { id = item.Id })' target="_blank" >
                             <img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' @*class="submitBtn"*@ />
                         </a>
                         @*<img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />*@
                         @*@Html.ActionLink("Go to Page", "EditVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
                     </td>
                     <td>
-                        <a href="@Url.Action("PrintVerifyManager", "Home", new { id = item.Id })">
+                        <a href='@Url.Action("PrintVerifyManager", "Home", new { id = item.Id })' target="_blank">
                             <img src="~/Content/Images/printer.png" style="width: 25px; height: 25px; cursor: pointer;" data-id='@item.Id'  />
                         </a>
                         @*@Html.ActionLink("Print", "PrintVerifyManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary", target = "_blank" })*@

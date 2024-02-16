@@ -216,7 +216,9 @@
                     <div>
                         @foreach (var base64Image in ViewBag.Images)
                         {
-                            <img src="data:image/png;base64,@base64Image" alt="Image" style="width: 100px; height: 100px;" />
+                            <img src="data:image/png;base64,@base64Image" alt="Image" style="max-width: 200px; max-height: 200px;" />
+
+
                         }
                     </div>
                 </div>

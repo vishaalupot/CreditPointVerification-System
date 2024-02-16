@@ -311,7 +311,7 @@
         /*width: 460px;*/
         width: 85%;
         /* height: 225px;*/
-        height: 45%;
+        height: 25vh;
         margin: 10px 10px;
         border: 1px groove #CBD5E0;
         display: flex;
@@ -343,7 +343,23 @@
         justify-content: center;
         flex-direction: column;
         padding: 10px;
+        overflow: auto;
+
     }
+
+        .stat3::-webkit-scrollbar {
+            width: 0.4em; /* Adjust the width as needed */
+        }
+
+        .stat3::-webkit-scrollbar-track {
+            background-color: transparent; /* Hide the scrollbar track */
+        }
+
+    /* Define scrollbar thumb styles */
+        .stat3::-webkit-scrollbar-thumb {
+            background-color: #236154; /* Adjust the color as needed */
+            border-radius: 12px;
+        }
 
     .stat1-below {
         background-color: #2D6980;
@@ -606,38 +622,81 @@
                 </div>
 
                 <div style="display: flex; flex-direction: row;">
+                    @*<div class="stat1">
+            <canvas id="myChart" style="width: 600px !important;"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <script>
+                const ctx = document.getElementById('myChart');
+
+                new Chart(ctx, {
+                    data: {
+                        datasets: [{
+                            type: 'bar',
+                            label: 'Total Cases',
+                            data: @ViewBag.DashMonth1,
+                            //    [12, 19, 3, 5, 2, 13],
+                            backgroundColor: [
+                                '#165DFF',
+                            ],
+
+
+                        }, {
+                            type: 'bar',
+                            label: 'Completed Cases',
+                            data: @ViewBag.DashMonth2,
+                            //    [10, 9, 8, 2, 1, 7],
+                            backgroundColor: [
+                                '#14C9C9',
+                            ],
+                        }],
+                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                    },
+
+                });
+
+            </script>
+        </div>*@
+
+
                     <div class="stat1">
                         <canvas id="myChart" style="width: 600px !important;"></canvas>
                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
                         <script>
-                            const ctx = document.getElementById('myChart');
+        const ctx = document.getElementById('myChart');
 
-                            new Chart(ctx, {
-                                data: {
-                                    datasets: [{
-                                        type: 'bar',
-                                        label: 'Total Cases',
-                                        data: @ViewBag.DashMonth1,
-                                        //    [12, 19, 3, 5, 2, 13],
-                                        backgroundColor: [
-                                            '#165DFF',
-                                        ],
-
-                                    }, {
-                                        type: 'bar',
-                                        label: 'Completed Cases',
-                                        data: @ViewBag.DashMonth2,
-                                        //    [10, 9, 8, 2, 1, 7],
-                                        backgroundColor: [
-                                            '#14C9C9',
-                                        ],
-                                    }],
-                                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-                                },
-
-                            });
-
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    label: 'Total Cases',
+                    data: @ViewBag.DashMonth1,
+                    backgroundColor: '#165DFF',
+                    borderWidth: 0,  // Remove border lines
+                }, {
+                    label: 'Completed Cases',
+                    data: @ViewBag.DashMonth2,
+                    backgroundColor: '#14C9C9',
+                    borderWidth: 0,  // Remove border lines
+                }],
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+            },
+            options: {
+                scales: {
+                    x: {
+                        grid: {
+                            display: false  // Hide vertical grid lines
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false  // Hide horizontal grid lines
+                        }
+                    }
+                }
+            }
+        });
                         </script>
                     </div>
 

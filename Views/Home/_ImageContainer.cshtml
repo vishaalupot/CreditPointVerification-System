@@ -17,12 +17,34 @@
         location.reload();
     }
 </script>
+<style>
+    .image-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(30%, 1fr)); /* Adjust the percentage based on your preference */
+        gap: 10px;
+    }
 
-@foreach (var img in imageslist)
+    .draggable-image {
+        max-width: 100%;
+        max-height: 100%;
+        border: 0.5px groove #148888;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+</style>
+
+<div class="image-grid">
+    @foreach (var img in imageslist)
+    {
+        <img id="@img.Item1" class="draggable-image" src="data:image/png;base64,@img.Item2" alt="Image" />
+    }
+</div>
+
+@*@foreach (var img in imageslist)
 {
 
-    <img id="@img.Item1" class="draggable-image" src="data:image/png;base64,@img.Item2" alt="Image" style="width: 250px; height: 250px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />
-}
+    <img id="@img.Item1" class="draggable-image" src="data:image/png;base64,@img.Item2" alt="Image" style="max-width: 400px; max-height: 400px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />
+}*@
 
 
 

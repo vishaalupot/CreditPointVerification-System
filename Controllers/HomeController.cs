@@ -435,6 +435,18 @@ namespace CPV_Mark3.Controllers
 
         public ActionResult PrintVerifyManager(int id)
         {
+            byte[][] imagesData = GetSignFromDataBase(id);
+
+            if (imagesData != null && imagesData.Length == 3)
+            {
+                string[] base64Images1 = imagesData.Select(imageData => Convert.ToBase64String(imageData)).ToArray();
+
+                string[] imageSrcs = base64Images1.Select(base64Image => string.Format("data:image/png;base64,{0}", base64Image)).ToArray();
+
+                ViewBag.ImageSrcs = imageSrcs;
+                ViewBag.Id = id;
+            }
+
             CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = db.CaseTables.Find(id);
             List<byte[]> imageList = GetImageFromDataBase(id).ToList();
@@ -451,10 +463,6 @@ namespace CPV_Mark3.Controllers
 
                 ViewBag.Images = base64Images;
                 return View(caseTable);
-                //string imageBase64 = Convert.ToBase64String(images);
-                //ViewBag.ImageBase64 = imageBase64;
-
-                //ViewBag.Images = images;
             }
             else
             {
@@ -464,6 +472,37 @@ namespace CPV_Mark3.Controllers
             return View(caseTable);
         }
 
+
+        public byte[][] GetSignFromDataBase(int Id)
+        {
+            var q = from data in db.CaseTables where data.Id == Id select data.CustSign;
+            var q2 = from data in db.CaseTables where data.Id == Id select data.VerifySign1;
+            var q3 = from data in db.CaseTables where data.Id == Id select data.VerifySign2;
+
+            string base64String = q.FirstOrDefault();
+            string base64String2 = q2.FirstOrDefault();
+            string base64String3 = q3.FirstOrDefault();
+
+
+            if ((base64String != null) || (base64String2 != null) || (base64String3 != null))
+            {
+                byte[] custSign = Convert.FromBase64String(base64String);
+                byte[] verifySign1 = Convert.FromBase64String(base64String2);
+                byte[] verifySign2 = Convert.FromBase64String(base64String3);
+
+                return new byte[][] { custSign, verifySign1, verifySign2 };
+            }
+            else
+            {
+                // Handle the case when base64String is null, e.g., return an empty byte array or throw an exception.
+                // Example: return new byte[0];
+                // Or, throw new InvalidOperationException("Base64String is null");
+                return null;
+            }
+
+
+
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
