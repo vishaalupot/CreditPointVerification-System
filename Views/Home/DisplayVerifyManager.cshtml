@@ -301,6 +301,14 @@
                 var query2 = $("#dropdown").val();
                 var query3 = $("#dropdown2").val();
                 var query4 = $("#dropdown3").val();
+                var query5 = $("#date").val();
+
+                //    if (query5.trim() === "") {
+                //        query5 = "01-01-2001";
+                ///*        alert(query5);*/
+                //    }
+            /*alert(query5);*/
+
                 var url = '@Url.Action("_SearchVerifyManager", "Home")';
                 //url = url.replace("_query_", query);
                 //url = url.replace("_query2_", query2);
@@ -314,7 +322,8 @@
                         query: query,
                         query2: query2,
                         query3: query3,
-                        query4: query4
+                        query4: query4,
+                        query5: query5
                     },
                     type: "Post",
                     success: function (result) {
@@ -337,7 +346,7 @@
 
         <div style="display: flex; flex-direction: row; width: 100%;">
 
-            <div style="margin-right: 5px;">
+            <div>
                 <label>Application No</label>
                 @*<input class="form-control" id="search" name="search" type="text" value="" "  />*@
                 <input type="text" id="searchInput" class="box" />
@@ -346,7 +355,7 @@
             <div>
                 <label>User List</label>
                 @*<input type="text" id="callingViewHiddenField" style="display: none;" />
-                @{ Html.RenderAction("_FEView", "Home"); }*@
+            @{ Html.RenderAction("_FEView", "Home"); }*@
                 @Html.DropDownList("FEList", new SelectList(HomeController.GetAllUsers()), "--Users--", new { @class = "box", id = "dropdown" })
             </div>
 
@@ -367,6 +376,14 @@
                 <input type="text" id="callingViewHiddenField" style="display: none;" />
                 @{ Html.RenderAction("_FEView", "Home"); }
             </div>*@
+
+            <div>
+                <label>Status Date</label>
+                <input type="date" id="date" name="date" class = "drop box">
+            </div>
+
+           
+
 
             <div style=" width: 150px; margin-left: 5px; margin: 7px 3px 10px 8px; display: flex; align-items: end;">
                 <input type="button" id="btnsubmit" value="Search" />

@@ -13,10 +13,43 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU&callback=Function.prototype"></script>
+   
+    <script>
 
+           function sendHtml() {
+               var $prints = document.getElementById('print');//$("#print");
+               
+               var printHtml = $prints.outerHTML;
+               var htmldata = new File([printHtml], { type: 'text/html' });
+               //var encodedHtml = encodeURIComponent(printHtml);
+               //printHtml = "";
+               var formdata = new FormData();
+               console.log(htmldata)
+               formdata.append('htmldata', htmldata);
+               //console.log($prints.length); // should be 1 if found
+               var url = '@Url.Action("PdfSharpConvert", "Home")';
+
+            $.ajax({
+                url: url,
+                type: "POST",                
+                data: formdata,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.error("vish", error);
+                }
+            });
+
+
+        }
+
+
+    </script>
 
     <script type="text/javascript">
-
 
      var map;
      function ShowErrorPopup() {
@@ -48,6 +81,7 @@
     <script src="https://unpkg.com/html2pdf.js/dist/html2pdf.bundle.js"></script>
 
     <script type="text/javascript">
+
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.saveBtn').addEventListener('click', function () {
             initializeMapAndSavePDF();
@@ -123,6 +157,7 @@
             /*width: 100%;*/
             page-break-inside: avoid;
         }
+
         tr {
             page-break-inside: avoid;
         }
@@ -135,7 +170,7 @@
             table tr td {
                 text-align: center;
                 font-family: 'Jaldi', sans-serif;
-/*                width: 100%;*/
+                /*                width: 100%;*/
             }
 
             table tr th {
@@ -171,9 +206,9 @@
 </head>
 <body>
     <div style="display:flex; justify-content:center; align-items: center;">
-        <input type="button" value="Save" class="saveBtn" onclick="saveAsPDF()" />
+        <input type="button" value="Save" class="saveBtn" @*onclick="saveAsPDF()"*@ onclick="sendHtml()" />
     </div>
-    <div class="print">
+    <div id="print">
         <div class="pdf" style="display: flex; justify-content:center; align-items:center;">
             <div class="print-page">
                 <table>
@@ -544,12 +579,27 @@
 
                         </tr>
                         <tr>
-                            @foreach (var base64Image in ViewBag.Images)
+                            @{
+                                var images = ViewBag.Images; // Assuming ViewBag.Images is a list of base64 images
+                            }
+
+                            @for (int i = 0; i < images.Count; i += 3)
                             {
-                                <td style="text-align: center; vertical-align: top; padding: 10px;">
+                            <tr>
+                                @for (int j = i; j < i + 3 && j < images.Count; j++)
+                                {
+                                    <td style="text-align: center; vertical-align: top; padding: 10px;">
+                                        <img src="data:image/png;base64,@images[j]" alt="Image" style="max-width: 400px; max-height: 400px; margin: 10px 5px; border: 0.5px groove black; padding: 20px;" />
+                                    </td>
+                                }
+                            </tr>
+                        }
+                            @*@foreach (var base64Image in ViewBag.Images)
+                            {
+<td style="text-align: center; vertical-align: top; padding: 10px;">
                                     <img src="data:image/png;base64,@base64Image" alt="Image" style="max-width: 200px; max-height: 200px; margin: 10px 5px; border: 0.5px groove black; padding: 20px;" />
                                 </td>
-                            }
+                            }*@
                         </tr>
 
                         <tr>
@@ -580,6 +630,13 @@
 
                     </tbody>
                 </table>
+            </div>
+
+
+            <div class="prints">
+                <h1>edasdasD</h1>
+                <h1>edasdasD</h1>
+                <h1>edasdasD</h1>
             </div>
         </div>
 

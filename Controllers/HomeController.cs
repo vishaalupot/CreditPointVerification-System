@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -28,6 +29,56 @@ namespace CPV_Mark3.Controllers
         //private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+
+        [HttpPost]
+        public ActionResult PdfSharpConvert(HttpPostedFileBase htmldata)
+        //public ActionResult PdfSharpConvert()
+        {
+            //string html = htmldata["html"].ToString();
+            //string html = "<html></html>";
+            string htmlContent = "";
+            if (htmldata != null && htmldata.ContentLength > 0)
+            {
+                // Read the content of the Blob
+                using (var reader = new StreamReader(htmldata.InputStream))
+                {
+                    htmlContent = reader.ReadToEnd();
+
+                    // Handle the HTML content on the server-side
+                    // You can process, convert, or save the HTML content here
+
+                    // For demonstration purposes, let's just return a simple message
+                    return Content("HTML received successfully on the server.");
+                }
+            }
+
+
+            byte[] pdfBytes;
+
+            // Check if htmlContent is not null or empty before processing
+            if (!string.IsNullOrEmpty(htmlContent))
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    var pdf = TheArtOfDev.HtmlRenderer.PdfSharp.PdfGenerator.GeneratePdf(htmlContent, PdfSharp.PageSize.A4);
+                    pdf.Save(ms);
+                    pdfBytes = ms.ToArray();
+                }
+
+                // Assuming PrintVerifyManager is a model or data needed for your view
+                // Replace 'PrintVerifyManager' with the appropriate data or model for your scenario
+                 ; // Replace this with the actual instantiation or retrieval of your model/data
+                return View();
+            }
+            else
+            {
+                // Handle the case where htmlContent is null or empty
+                // You may want to return an error view or take appropriate action
+                return Content("Error: HTML content is missing.");
+            }
+        }
+
+       
 
         public ActionResult CasesReports()
         {
@@ -134,16 +185,14 @@ namespace CPV_Mark3.Controllers
         }
 
         [HttpPost]
-        public ActionResult _SearchVerifyManager(string query, string query2, string query3, string query4)
+        public ActionResult _SearchVerifyManager(string query, string query2, string query3, string query4, string query5)
         {
             CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
 
             var results = db.CaseTables.ToList();
 
-
-
-
+            //DateTime searchDate = DateTime.Parse(query5);
 
             if (query != "" || query2 != ""|| query3 != ""|| query4 != "")
             {
@@ -160,6 +209,21 @@ namespace CPV_Mark3.Controllers
             {
                 results = db.CaseTables.ToList();
             }
+
+            
+
+            //if(query5 != null)
+            //{
+            //    var dateResults = results
+            //    .Where(item => item.Final_Date == searchDate)
+            //    .ToList();
+
+            //    return PartialView("_SearchVerifyManager", dateResults);
+            //}
+
+
+            
+
 
             return PartialView("_SearchVerifyManager", results);
         }
@@ -1080,20 +1144,14 @@ namespace CPV_Mark3.Controllers
             caseTable.Latitude = form["Latitude"].ToString();
             caseTable.Longitude = form["Longitude"].ToString();
             caseTable.Feedback = form["Feedback"].ToString();
-            //caseTable.Images = form["Images"].ToString();
-            //caseTable.Verifier_Signature = form["Verifier_Signature"].ToString();
-            //caseTable.Customer_Signature = form["Customer_Signature"].ToString();
             if (DateTime.TryParse(form["Final_Date"], out allocationDate))
                 caseTable.Final_Date = allocationDate;
-                //caseTable.Final_Date = DateTime.TryParse(form["Final_Date"], out allocationDate) ? allocationDate : default(DateTime);
-                //caseTable.Final_Status = form["Final_Status"].ToString();
             caseTable.ReceptionDesk = form["ReceptionDesk"].ToString();
             caseTable.Different_CompanyNameBoard_Seen_Reason = form["Different_CompanyNameBoard_Seen_Reason"].ToString();
-            //caseTable.Application_name = form["Application_name"].ToString();
-            //caseTable.Application_name = form["Application_name"].ToString();
             caseTable.Final_Status = "Final Captured";
+            caseTable.Final_Date = DateTime.Now;
             db.Entry(caseTable).State = EntityState.Modified;
-
+            
             db.SaveChanges();
             return RedirectToAction("DisplayVerifyManager");
         }
