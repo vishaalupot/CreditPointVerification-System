@@ -302,7 +302,7 @@
                         </tr>
                         <tr>
                             <th>Landmark</th>
-                            <td @*colspan="4">*@@Model.Landmark</td>
+                            <td @*colspan="4">*@ @Model.Landmark</td>
                         </tr>
                         <tr>
                             <th>Landline</th>
@@ -613,25 +613,62 @@
                             <td @*colspan="4"*@>@Model.Feedback</td>
                         </tr>
                         <tr>
-                            @*<td colspan="2">
-                                <input id="lati" type="hidden" />
-                                <input id="langi" type="hidden" />
-                                <div id="map" style="width:350px; height: 350px; display: inline-block"></div>
-                            </td>*@
+                            <th colspan="2" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Location</th>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <img id="mapImage" />
+
+                                <script>
+                                   const imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center=@Model.Latitude,@Model.Longitude&zoom=16&scale=false&size=900x600&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid|color:red|label:|@Model.Latitude,@Model.Longitude&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU";
+
+                                   const imgElement = document.getElementById("mapImage");
+
+                                   // Set the crossOrigin attribute
+                                   imgElement.crossOrigin = "Anonymous";
+
+                                   // Load the image
+                                   imgElement.src = imageUrl;
+
+                                   // Wait for the image to load and then convert to base64
+                                   imgElement.onload = function () {
+                                       setTimeout(function () {
+                                           convertImageToBase64();
+                                       }, 1000); // Adjust the delay as needed
+                                   };
+
+                                   function convertImageToBase64() {
+                                       const canvas = document.createElement("canvas");
+                                       const ctx = canvas.getContext("2d");
+                                       canvas.width = imgElement.width;
+                                       canvas.height = imgElement.height;
+                                       ctx.drawImage(imgElement, 0, 0, imgElement.width, imgElement.height);
+
+                                       // Get base64 data URL
+                                       const base64Data = canvas.toDataURL("image/jpeg", 0.8); // Specify the image format and quality
+                                       console.log("Base64 Image:", base64Data);
+
+                                       // Display the compressed image
+                                       imgElement.src = base64Data;
+                                   }
+                                </script>
+
+                            </td>
+
                         </tr>
                         <tr>
                             <th colspan="2" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Images</th>
 
                         </tr>
-                  
-                            @{
-                                var images = ViewBag.Images; // Assuming ViewBag.Images is a list of base64 images
-                            }
 
-                            @for (int i = 0; i < images.Count; i += 3)
-                            {
+                        @{
+                            var images = ViewBag.Images; // Assuming ViewBag.Images is a list of base64 images
+                        }
+
+                        @for (int i = 0; i < images.Count; i += 2)
+                        {
                             <tr>
-                                @for (int j = i; j < i + 3 && j < images.Count; j++)
+                                @for (int j = i; j < i + 2 && j < images.Count; j++)
                                 {
                                     <td style="text-align: center; vertical-align: top; padding: 10px;">
                                         <img src="data:image/png;base64,@images[j]" alt="Image" style="max-width: 200px; height: auto; margin: 10px 5px; border: 0.5px groove black; padding: 20px; " />
@@ -639,78 +676,24 @@
                                 }
                             </tr>
                         }
-                            @*@foreach (var base64Image in ViewBag.Images)
-                            {
-<td style="text-align: center; vertical-align: top; padding: 10px;">
-                                    <img src="data:image/png;base64,@base64Image" alt="Image" style="max-width: 200px; max-height: 200px; margin: 10px 5px; border: 0.5px groove black; padding: 20px;" />
-                                </td>
-                            }*@
-                
 
                         <tr>
                             <th colspan="2" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Signatures</th>
 
                         </tr>
                         <tr>
-                            @*<td>
-                                    @Html.Action("DisplaySign", "FE", new { id = Model.Id })
-                                </td>*@
-
-
                             @if (ViewBag.ImageSrcs != null && ViewBag.ImageSrcs.Length > 0)
                             {
-                                foreach (var imageSrc in ViewBag.ImageSrcs)
-                                {
-                                    <td style="text-align: center; vertical-align: top; padding: 10px;">
-                                        <img src="@imageSrc" alt="Signature" style="border: none; width: 200px; height: 200px;" />
-                                    </td>
-                                }
-                            }
-
-
-                        </tr>
-
-                        <tr>
-                            <td colspan="2">
-                                <img id="mapImage" width="900" height="600" />
-
-                                <script>
-                                    const imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center=@Model.Latitude,@Model.Longitude&zoom=16&scale=false&size=900x600&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid|color:red|label:|@Model.Latitude,@Model.Longitude&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU";
-
-                                    const imgElement = document.getElementById("mapImage");
-
-                                    // Set the crossOrigin attribute
-                                    imgElement.crossOrigin = "Anonymous";
-
-                                    // Load the image
-                                    imgElement.src = imageUrl;
-
-                                    // Wait for the image to load and then convert to base64
-                                    imgElement.onload = function () {
-                                        setTimeout(function () {
-                                            convertImageToBase64();
-                                        }, 1000); // Adjust the delay as needed
-                                    };
-
-                                    function convertImageToBase64() {
-                                        const canvas = document.createElement("canvas");
-                                        const ctx = canvas.getContext("2d");
-                                        canvas.width = imgElement.width;
-                                        canvas.height = imgElement.height;
-                                        ctx.drawImage(imgElement, 0, 0, imgElement.width, imgElement.height);
-
-                                        // Get base64 data URL
-                                        const base64Data = canvas.toDataURL("image/jpeg", 0.8); // Specify the image format and quality
-                                        console.log("Base64 Image:", base64Data);
-
-                                        // Display the compressed image
-                                        imgElement.src = base64Data;
+                                <td colspan="2" style="text-align: center; vertical-align: top; padding: 10px;">
+                                    @foreach (var imageSrc in ViewBag.ImageSrcs)
+                                    {
+                                        <img src="@imageSrc" alt="Signature" style="border: none; max-width: 200px; height: auto;" />
                                     }
-                                </script>
-
-                            </td>
-
+                                </td>
+                            }
                         </tr>
+
+
                     </tbody>
                 </table>
             </div>
