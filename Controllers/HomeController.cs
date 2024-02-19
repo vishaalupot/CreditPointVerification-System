@@ -191,8 +191,7 @@ namespace CPV_Mark3.Controllers
             CaseTable caseTable = new CaseTable();
 
             var results = db.CaseTables.ToList();
-
-            //DateTime searchDate = DateTime.Parse(query5);
+            
 
             if (query != "" || query2 != ""|| query3 != ""|| query4 != "")
             {
@@ -210,19 +209,36 @@ namespace CPV_Mark3.Controllers
                 results = db.CaseTables.ToList();
             }
 
-            
 
-            //if(query5 != null)
+
+            //if (query5 != "")
             //{
+            //    DateTime searchDate = DateTime.Parse(query5);
             //    var dateResults = results
-            //    .Where(item => item.Final_Date == searchDate)
+            //    .Where(item => item.Allocation_Date == searchDate)
             //    .ToList();
 
             //    return PartialView("_SearchVerifyManager", dateResults);
             //}
 
+            if (DateTime.TryParse(query5, out DateTime searchDate))
+            {
+                // Successfully parsed, proceed with filtering
+                var dateResults = results
+                    .Where(item => item.Allocation_Date.HasValue && item.Allocation_Date.Value.Date == searchDate.Date)
+                    .ToList();
 
-            
+                return PartialView("_SearchVerifyManager", dateResults);
+            }
+            else
+            {
+                // Handle invalid date format
+                // You can return an error message or handle it in another way
+                return PartialView("_SearchVerifyManager", results);
+            }
+
+
+
 
 
             return PartialView("_SearchVerifyManager", results);
