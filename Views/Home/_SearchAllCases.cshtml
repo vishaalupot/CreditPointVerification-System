@@ -18,12 +18,14 @@
         background-color: #EAF6F6;
         border-radius: 12px;
         padding: 10px;
-        margin-left: 0px;
-        margin-right: 0px;
-        max-height: 500px;
+        margin-right: 15px;
+        /*max-height: 4500px;*/
+        max-height: 60% !important;
+        max-width: 100%;
         min-width: 1000px;
         width: 1050px;
         border: 1px groove #569F9F;
+        overflow: auto;
     }
 
     table {
@@ -183,17 +185,11 @@
                     <td>
 
                         @Html.HiddenFor(modelItem => item.Id)
-                        @*<button type="button" data-id='@item.Id' class="btn btn-primary submitBtn">Send to PDA</button>*@
 
                         <img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="submitBtn" />
-
-
-                        @*@Html.ActionLink("Send to PDA", "CreateCaseManagerView", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
-                        @*@Html.ActionLink("Delete", "DisplayCaseManager", "Home", new { id = item.Id }, new { @class = "btn btn-primary" })*@
                     </td>
                     <td>
                         <img src="~/Content/Images/trash.png" style="width: 25px; height: 25px; cursor: pointer;" data-id='@item.Id' class="deleteBtn" />
-                        @*<button type="button" data-id='@item.Id' class="btn btn-primary deleteBtn">Delete</button>*@
                     </td>
                 </tr>
 
