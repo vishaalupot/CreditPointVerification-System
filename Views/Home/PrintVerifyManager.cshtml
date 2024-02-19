@@ -152,19 +152,19 @@
 
     </script>-->
 
-<script>
+    <script>
 
 
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-        function initializeMapAndSavePDF() {
-            alert("hi");
-            generatePDF();
-        }
-    });
+            function initializeMapAndSavePDF() {
+                alert("hi");
+                generatePDF();
+            }
+        });
 
 
-</script>
+    </script>
 
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
@@ -229,22 +229,24 @@
     </style>
 
 
-<script>
-    function generatePDF() {
-        alert("Map image is loaded. Generating PDF...");
+    <script>
+        function generatePDF() {
+            alert("Map image is loaded. Generating PDF...");
 
-        var pdfElement = document.getElementById('print');
+            var pdfElement = document.getElementById('print');
 
-        html2pdf(pdfElement, {
-            margin: 10,
-            filename: 'FormattedPdf.pdf',
-            image: { type: 'jpeg', quality: 1 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        });
-    }
+            html2pdf(pdfElement, {
+                margin: 10,
+                filename: 'FormattedPdf.pdf',
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            });
+        }
 
-</script>
+    </script>
+
+   
 
 </head>
 <body>
@@ -670,8 +672,44 @@
 
                         <tr>
                             <td colspan="2">
-                                <img src="https://maps.googleapis.com/maps/api/staticmap?center=@Model.Latitude,@Model.Longitude&zoom=16&scale=false&size=900x600&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid|color:red|label:|@Model.Latitude,@Model.Longitude&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU"  />
+                                <img id="mapImage" width="900" height="600" />
+
+                                <script>
+                                    const imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center=@Model.Latitude,@Model.Longitude&zoom=16&scale=false&size=900x600&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid|color:red|label:|@Model.Latitude,@Model.Longitude&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU";
+
+                                    const imgElement = document.getElementById("mapImage");
+
+                                    // Set the crossOrigin attribute
+                                    imgElement.crossOrigin = "Anonymous";
+
+                                    // Load the image
+                                    imgElement.src = imageUrl;
+
+                                    // Wait for the image to load and then convert to base64
+                                    imgElement.onload = function () {
+                                        setTimeout(function () {
+                                            convertImageToBase64();
+                                        }, 1000); // Adjust the delay as needed
+                                    };
+
+                                    function convertImageToBase64() {
+                                        const canvas = document.createElement("canvas");
+                                        const ctx = canvas.getContext("2d");
+                                        canvas.width = imgElement.width;
+                                        canvas.height = imgElement.height;
+                                        ctx.drawImage(imgElement, 0, 0, imgElement.width, imgElement.height);
+
+                                        // Get base64 data URL
+                                        const base64Data = canvas.toDataURL("image/jpeg", 0.8); // Specify the image format and quality
+                                        console.log("Base64 Image:", base64Data);
+
+                                        // Display the compressed image
+                                        imgElement.src = base64Data;
+                                    }
+                                </script>
+
                             </td>
+
                         </tr>
                     </tbody>
                 </table>
