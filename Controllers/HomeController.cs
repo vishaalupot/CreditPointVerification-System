@@ -4,12 +4,11 @@ using System.Data.Entity;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CPV_Mark3.Models;
-using DocumentFormat.OpenXml.Math;
+using iText.Kernel.Pdf;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -31,26 +30,26 @@ namespace CPV_Mark3.Controllers
 
 
         [HttpPost]
-        public ActionResult PdfSharpConvert(HttpPostedFileBase htmldata)
+        public ActionResult PdfSharpConvert(string htmldata)
         //public ActionResult PdfSharpConvert()
         {
             //string html = htmldata["html"].ToString();
             //string html = "<html></html>";
             string htmlContent = "";
-            if (htmldata != null && htmldata.ContentLength > 0)
-            {
-                // Read the content of the Blob
-                using (var reader = new StreamReader(htmldata.InputStream))
-                {
-                    htmlContent = reader.ReadToEnd();
+            //if (htmldata != null && htmldata.ContentLength > 0)
+            //{
+            //    // Read the content of the Blob
+            //    using (var reader = new StreamReader(htmldata.InputStream))
+            //    {
+            //        htmlContent = reader.ReadToEnd();
 
-                    // Handle the HTML content on the server-side
-                    // You can process, convert, or save the HTML content here
+            //        // Handle the HTML content on the server-side
+            //        // You can process, convert, or save the HTML content here
 
-                    // For demonstration purposes, let's just return a simple message
-                    return Content("HTML received successfully on the server.");
-                }
-            }
+            //        // For demonstration purposes, let's just return a simple message
+            //        return Content("HTML received successfully on the server.");
+            //    }
+            //}
 
 
             byte[] pdfBytes;
@@ -77,8 +76,6 @@ namespace CPV_Mark3.Controllers
                 return Content("Error: HTML content is missing.");
             }
         }
-
-       
 
         public ActionResult CasesReports()
         {
