@@ -111,7 +111,6 @@
 
 </style>
 <div>
-
             @if (Model != null && Model.Count() > 0)
             {
                 <table id="CaseTable">
@@ -124,7 +123,6 @@
                         <td class="tableHead">FE Name</td>
                         <td class="tableHead">Allocation Date	</td>
                         <td class="tableHead">Type</td>
-                        <!-- Add other columns as needed -->
                     </tr>
 
                     @foreach (var item in Model)
@@ -135,15 +133,9 @@
                                 @{ Html.RenderAction("_FEView", "Home"); }
                             </td>
                             <td>
-                                @*<button type="button" data-id='@item.Id' id="changeBtn" class="btn btn-primary changeBtn callingView">Change</button>*@
-
                                 <img src="~/Content/Images/send.png" style="width: 20px; height: 20px; cursor: pointer;" data-id='@item.Id' class="changeBtn callingView" />
-
                             </td>
-                            <td>
-                                @item.Application_no
-                               
-                            </td>
+                            <td>@item.Application_no</td>
                             <td>@item.Application_name</td>
                             <td>@item.Company_Address</td>
                             <td>@item.FE_Name</td>
@@ -154,7 +146,4 @@
                 </table>
             }
             </div>
-            </div>
-           
-
-        </div>
+        

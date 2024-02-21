@@ -9,7 +9,6 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $("#btnUploadFile").click(function () {
@@ -206,62 +205,24 @@
             text-align: center;
             transition: color .2s ease-in-out;
         }
-
     </style>
 </head>
 <body  style="padding: 0px;">
-
-
     <div class="userbody-content">
         <div class="heading">Upload Cases</div>
-       
-
         <div style="display: flex;  flex-direction: column;">
             @using (Html.BeginForm("UploadCases", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
-                @*<div>
-                    <input type="file" name="file" id="file" accept=".xlsx, .xls" class="filebutton" />
-                    <input type="submit" value="Upload" />
-                </div>*@
-
-
-
             <label for="images" class="drop-container" id="dropcontainer">
                 <span class="drop-title">Drop files here</span>
                 or
                 <input type="file" name="file" id="file" accept=".xlsx, .xls" class="filebutton" required>
                 <input type="submit" value="Upload" class="btn btn-primary btn-block">
-
-                @*<input type="file" name="file"    />*@
             </label>
 
             }
-
-
-            @*<div class="file-upload-container">
-            <div class="inner-margin">
-                <label for="excelfile" class="file-label">
-                    Select file (*.xls, *.xlsx) <span class="mandatory">*</span>
-                    <input class="hidden-input" id="excelfile" name="excelfile" type="file" accept=".xlsx, .xls" style="padding: 0px 5px;" />
-                </label>
-            </div>
-            <div class="button-container">
-                <button type="submit" id="btnUploadFile" class="btn btn-primary btn-block">Upload</button>
-            </div>
-        </div>*@
-
-
-
-
             <img src="~/Content/Images/Spreadsheets.gif" style="width: 400px; height: 400px; display: flex; align-items:center; visibility:hidden;" />
-
-
-
         </div>
-        
-
     </div>
-
-
 </body>
 </html>

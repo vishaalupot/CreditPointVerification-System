@@ -62,25 +62,24 @@
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
         @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
-        .print-page table tbody th {
+        .print-page table th {
             border: solid 1px black;
             background-color: #ddd;
             width: 50px;
+
         }
 
         .print-page table tr td {
             border: solid 1px black;
-            /*width: 100%;*/
-            page-break-inside: avoid;
-        }
-
-        tr {
-            page-break-inside: avoid;
+            text-align: left;
+            padding-left:5px;
         }
 
         table {
             border-collapse: collapse;
             width: 700px;
+            table-layout: fixed;
+            page-break-inside: avoid;
         }
 
             table tr td {
@@ -136,12 +135,13 @@
                 page-break-inside: avoid;
             }
 
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <script>
        function generatePDF() {
-    // Show SweetAlert indicating PDF generation
+   
     Swal.fire({
         title: 'Generating PDF',
         text: 'Map image is loaded. Please wait...',
@@ -153,11 +153,12 @@
 
     var pdfElement = document.getElementById('print');
 
-    html2pdf(pdfElement, {
+           html2pdf(pdfElement, {
+         useCORS: true, 
         margin: 10,
         filename: '@Model.Application_no' + '-' + '@Model.Application_name' + '.pdf',
         image: { type: 'jpeg', quality: 1 },
-        html2canvas: { scale: 2 },
+        html2canvas: { scale: 1 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     }).then(() => {
         // Close SweetAlert upon successful PDF generation
@@ -172,8 +173,6 @@
         });
     });
 }
-
-
     </script>
 
 </head>
@@ -184,10 +183,10 @@
     <div>
         <div class="pdf" style="display: flex; justify-content:center; align-items:center;">
             <div class="print-page" id="print">
-                <table style="width: 700px;">
+                <table style="width: 700px; table-layout: fixed;" class="pdf">
                     <thead>
-                        <tr>
-                            <td colspan="2">
+                        <tr >
+                            <td colspan="2" style="text-align:center;">
                                 <img src="~/Content/images/verify-logo.png" />
                             </td>
                         </tr>
@@ -545,7 +544,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <img id="mapImage" />
+                                <img id="mapImage" style="width: 300px; height: 300px; display: flex; justify-content: center" />
 
                                 <script>
                                    const imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center=@Model.Latitude,@Model.Longitude&zoom=16&scale=false&size=900x600&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid|color:red|label:|@Model.Latitude,@Model.Longitude&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU";
@@ -610,15 +609,27 @@
 
                         </tr>
                         <tr>
-                            @if (ViewBag.ImageSrcs != null && ViewBag.ImageSrcs.Length > 0)
-                            {
-                                <td colspan="2" style="text-align: center; vertical-align: top; padding: 10px;">
-                                    @foreach (var imageSrc in ViewBag.ImageSrcs)
-                                    {
-                                        <img src="@imageSrc" alt="Signature" style="border: none; max-width: 200px; height: auto;" />
-                                    }
-                                </td>
-                            }
+                            <td colspan="2" style="text-align: center; vertical-align: top; padding: 10px; border: 1px solid black;">
+                                @if (ViewBag.ImageSrcs != null && ViewBag.ImageSrcs.Length > 0)
+                                {
+                                    <div style="display: flex; justify-content: space-around;">
+                                        @for (int i = 0; i < ViewBag.ImageSrcs.Length; i++)
+                                        {
+                                            var imageName = i == 0 ? "Customer Signature" : "Verifier Signature";
+                                            var imageSrc = ViewBag.ImageSrcs[i];
+
+                                            <figure style="text-align: center;">
+                                                <img src="@imageSrc" alt="@imageName" style="border: none; max-width: 200px; height: auto;" />
+                                                <figcaption>@imageName</figcaption>
+                                            </figure>
+                                        }
+                                    </div>
+                                }
+                            </td>
+
+
+
+
                         </tr>
                     </tbody>
                 </table>
