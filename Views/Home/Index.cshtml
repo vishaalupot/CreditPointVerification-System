@@ -14,6 +14,28 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://kendo.cdn.telerik.com/2022.1.301/js/kendo.all.min.js"></script>
 <script src="/Scripts/jquery-3.4.1.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".feList").on("click", function () {
+            let fename = $(this).find('td').first().text();
+
+            $.ajax({
+                url: '@Url.Action("DisplayFeCount", "Home")?feName=' + fename,
+                type: 'GET',
+                success: function (res) {
+                    $('#overlayFe').html(res);
+                    $('#overlayFe').fadeIn(200);
+
+                }
+            });
+
+        });      
+
+    })
+
+</script>
+
 <style>
     @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
     @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
@@ -385,8 +407,20 @@
         width: 100%;
     }
 
-    td, th {
+    table thead{
+        position: sticky;
+    }
+
+    td{
         border: 0.5px solid #67919F;
+        text-align: left;
+        border-top: none; /* Remove top border */
+        border-right: none; /* Remove right border */
+        border-left: none; /* Remove left border */
+    }
+
+    th {
+        border: none;
         text-align: left;
         border-top: none; /* Remove top border */
         border-right: none; /* Remove right border */
@@ -443,6 +477,125 @@
         font-family: 'Jaldi', sans-serif;
         font-weight: 600;
         padding: 4px 0px;
+    }
+
+    #overlayFe {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+        
+    }
+
+    /*#overlayfe-content {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 80%;*/ /* Adjust as needed */
+        /*max-height: 80vh;*/ /* Adjust as needed */
+        /*overflow: hidden;*/ /* Hide overflow at the top level */
+        /*background: #fff;*/ /* Adjust background color if needed */
+        /*padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .headerfe {
+        position: sticky;
+        top: 0;
+        background: #fff;*/ /* Adjust background color if needed */
+        /*z-index: 1;
+    }
+
+    .contentfe {
+        flex: 1;
+        overflow-y: auto;*/ /* Enable scrollbar only for the content */
+        /* Additional styles as needed */
+    /*}*/
+
+    /*#overlayfe-content {
+        background-color: white;*/
+        /* width: 350px;
+        height: 390px;*/
+        /*border-radius: 12px;
+        position: absolute;
+        margin-top: 300px;
+        top: 50px;
+        left: 50%;
+        transform: translate(-50%, -50%);*/
+        /*  color: white;*/
+        /*display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        z-index: 10;
+        max-height: 500px;
+        overflow-y: auto;
+    }*/
+    /*#overlayfe-content {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 80%;*/ /* Adjust as needed */
+        /*max-height: 80vh;*/ /* Adjust as needed */
+        /*overflow-y: auto;
+        background: #fff;*/ /* Adjust background color if needed */
+        /*padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }*/
+    #overlayfe-content {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 70%;  
+        max-height: 80vh;  
+        overflow-y: auto;
+        background: #fff;  
+        padding: 0px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .headerfe {        
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 1;
+    }
+
+    .contentfe {                
+        flex: 0;
+        overflow-y: auto;
+    }
+
+       /* #overlayfe-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #overlayfe-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        #overlayfe-content::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+            #overlayfe-content::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }*/
+
+    .feList:hover {
+        background-color: aqua;
     }
 </style>
 
@@ -565,6 +718,8 @@
         background-color: #EEEEEE;
         font-weight: 800;
     }
+
+   
 </style>
 
 <div class="body-content">
@@ -721,8 +876,8 @@
 
                             @foreach (var group in groupedData)
                             {
-                                <tr>
-                                    <td class="name-head">@group.Key</td>
+                                <tr class="feList">
+                                    <td class="name-head feName">@group.Key</td>
                                     <td class="name-head">@group.Count()</td>
                                     <td class="name-head">@group.Count(m => m.Final_Status == "Pending")</td>
                                 </tr>
@@ -771,10 +926,10 @@
 
     </div>
 
-
+</div>
+<div id="overlayFe">
 
 </div>
-
 
 <script>
     window.addEventListener('load', function () {
@@ -869,3 +1024,5 @@
         updateProgressBar(progressBar, index);
     });
 </script>
+
+

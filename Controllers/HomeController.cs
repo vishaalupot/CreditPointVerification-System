@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CPV_Mark3.Models;
-using iText.Kernel.Pdf;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -1544,6 +1543,13 @@ namespace CPV_Mark3.Controllers
             
         }
 
+        public ActionResult DisplayFeCount(string feName)
+        {
+            var cases = db.CaseTables.Where(w => w.FE_Name == feName).ToList();
+            string FeName = db.AspNetUsers.Where(w => w.UserName == feName).First().FullName;
+            ViewBag.feName = feName + $" ({FeName})"; 
+            return PartialView(cases);
+        }
 
 
 
