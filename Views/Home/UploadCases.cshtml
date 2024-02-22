@@ -51,7 +51,7 @@
                 data.append("client", client);
                 data.append("product", product);
             }
-
+            alert("teste");
             $.ajax({
                 type: "POST",
                 url: "/Home/UploadExcelsheet",
@@ -59,6 +59,7 @@
                 processData: false,
                 data: data,
                 success: function (response) {
+                   
                     $("#divLoading").hide();
                     if (response.Status == "Success") {
                         swal("Success!", response.Total, "success");

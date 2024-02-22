@@ -5,7 +5,8 @@
     ViewBag.Title = "Home Page";
 }
 @{
-    var groupedData = Model.GroupBy(m => m.FE_Name);
+    var groupedData = Model.GroupBy(m => m.FE_Name ?? "(New)");
+    
 }
 
 <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2022.1.301/styles/kendo.common.min.css" />

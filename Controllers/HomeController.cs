@@ -467,7 +467,7 @@ namespace CPV_Mark3.Controllers
                         ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
                         int rowCount = worksheet.Dimension.Rows;
 
-                        for (int row = 1; row <= rowCount; row++)
+                        for (int row = 2; row <= rowCount; row++)
                         {
                             var caseEntity = new CaseTable
                             {
@@ -1545,8 +1545,19 @@ namespace CPV_Mark3.Controllers
 
         public ActionResult DisplayFeCount(string feName)
         {
-            var cases = db.CaseTables.Where(w => w.FE_Name == feName).ToList();
-            string FeName = db.AspNetUsers.Where(w => w.UserName == feName).First().FullName;
+            List<CaseTable> cases = db.CaseTables.Where(w => w.FE_Name == feName).ToList();
+            string FeName;
+            if (feName == "(New)")
+            {
+                FeName = "New";
+                feName = "Not Assigned";
+                cases = db.CaseTables.Where(w => w.FE_Name == null || w.FE_Name == "" ).ToList();
+            }
+            else
+            {
+                FeName = db.AspNetUsers.Where(w => w.UserName == feName).First().FullName;
+            }
+             
             ViewBag.feName = feName + $" ({FeName})"; 
             return PartialView(cases);
         }
