@@ -1,5 +1,6 @@
 ﻿@model  CPV_Mark3.Models.CaseTable
 
+
 @{
     var images = ViewBag.Images as byte[][];
 }
@@ -29,8 +30,9 @@
         }
 
         .form-control {
-            font-size: 1.5rem !important;
+            font-size: 1.75rem !important;
             font-family: 'Jaldi', sans-serif;
+            font-weight:500;
         }
 
         body {
@@ -70,9 +72,10 @@
             color: #857F7F;
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            font-size: 18px;
+            font-size: 15px;
             white-space: pre-line !important;
             width: 100px;
+            white-space:nowrap;
         }
 
         .box {
@@ -87,7 +90,7 @@
         }
 
         input, select, textarea {
-            font-size: 16px;
+            font-size: 20px;
             max-width: 1000px;
         }
 
@@ -221,6 +224,22 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+
+
+            $("#searchInput").keypress(function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    $("form").submit();
+                    // Display SweetAlert
+                    Swal.fire({
+                        title: 'Done',
+                        icon: 'success',
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
 
             $("#divLoading").hide();
             $("#Loaded").show();
@@ -451,7 +470,7 @@
                 <div class="form-group  col-sm-12 col-md-4 col-xl-6">
                     <div class="row">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.Contacted_Person_Mobile_No, "Contacted_Person_Mobile_No", htmlAttributes: new { @class = "control-label label" })
+                            @Html.LabelFor(model => model.Contacted_Person_Mobile_No, "Contacted Person Mobile No", htmlAttributes: new { @class = "control-label label" })
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -709,7 +728,19 @@
                         </div>
                     </div>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Setup_of_Office, new { htmlAttributes = new { @class = "form-control box" } })
+
+                        @Html.DropDownListFor(model => model.Setup_of_Office, new List<SelectListItem>
+                           {
+                               new SelectListItem { Text = "NA", Value = "NA" },
+                               new SelectListItem { Text = "Excellent", Value = "Excellent" },
+                               new SelectListItem { Text = "Good", Value = "Good" },
+                               new SelectListItem { Text = "Average", Value = "Average" },
+                               new SelectListItem { Text = "Basic", Value = "Basic" },
+                               new SelectListItem { Text = "Poor", Value = "Poor" },
+                               
+
+                           }, new { @class = "form-control box dropdown-styled" })
+
                         @Html.ValidationMessageFor(model => model.Setup_of_Office, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -1124,27 +1155,6 @@
                             @Html.Action("_ImageContainer", new { id = Model.Id })
                         </div>
 
-                        @*@{
-
-                            List<(int, string, int)> imageslist = (List<(int, string, int)>)ViewBag.Images;
-                        }*@
-                        @*@foreach (var img in imageslist)
-                        {*@
-
-                        @*<img id="image_@Guid.NewGuid().ToString()" class="draggable-image" src="data:image/png;base64,@base64Image" alt="Image" style="width: 250px; height: 250px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />*@
-                        @*<img id="image_@i.ToString()" class="draggable-image" src="data:image/png;base64,@base64Image" alt="Image" style="width: 250px; height: 250px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />*@
-                        @*<img id="@img.Item1" class="draggable-image" src="data:image/png;base64,@img.Item2" alt="Image" style="width: 250px; height: 250px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />*@
-                        @*}*@
-
-
-                        @*@foreach (var base64Image in ViewBag.Images)
-                        {
-                            <img src="data:image/png;base64,@base64Image" alt="Image" class="draggable-image" style="width: 300px; height: 300px; margin: 10px 5px; border: 0.5px groove #148888; padding: 20px;" />
-                        }*@
-
-                        @*<div class="form-group">
-                            <input type="button" value="Save Changes" class="btn ChngBtn" id="ChngBtn" />
-                        </div>*@
                     </div>
 
 
