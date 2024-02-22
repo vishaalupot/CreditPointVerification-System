@@ -89,6 +89,7 @@ namespace CPV_Mark3.Controllers
 
             var results = db.CaseTables
                     .Where(item => item.Final_Status == "Pending")
+                    .OrderByDescending(o => o.Id)
                     .ToList();
             return View(results);
         }
@@ -122,7 +123,7 @@ namespace CPV_Mark3.Controllers
             CaseTable caseTable = new CaseTable();
 
             var results = db.CaseTables
-                    .Where(item => item.Final_Status == "Pending")
+                    .Where(item => item.Final_Status == "Pending").OrderByDescending(o => o.Id)
                     .ToList();
             return PartialView("_SearchCases", results);
 
@@ -141,7 +142,7 @@ namespace CPV_Mark3.Controllers
 
 
             var results = db.CaseTables
-                  .Where(item => item.Final_Status == "Pending")
+                  .Where(item => item.Final_Status == "Pending").OrderByDescending(o => o.Id)
                   .ToList();
 
             if (query != "" || query3 != "")
@@ -150,10 +151,6 @@ namespace CPV_Mark3.Controllers
                    .Where(item => item.Application_no == query || item.FE_Name == query3)
                    .ToList();
             }
-
-
-
-
 
 
 
@@ -169,7 +166,7 @@ namespace CPV_Mark3.Controllers
         {
 
             CPV_DB1Entities db = new CPV_DB1Entities();
-            List<CaseTable> cases = db.CaseTables.ToList();
+            List<CaseTable> cases = db.CaseTables.OrderByDescending(o => o.Id).ToList();
             return PartialView(cases);
         }
 
@@ -177,7 +174,8 @@ namespace CPV_Mark3.Controllers
         {
 
             CPV_DB1Entities db = new CPV_DB1Entities();
-            List<CaseTable> cases = db.CaseTables.ToList();
+            List<CaseTable> cases = db.CaseTables.OrderByDescending(o=>o.Id).ToList();
+            
             return PartialView(cases);
         }
 
@@ -187,7 +185,7 @@ namespace CPV_Mark3.Controllers
             CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
 
-            var results = db.CaseTables.ToList();
+            var results = db.CaseTables.OrderByDescending(o => o.Id).ToList();
             
 
             if (query != "" || query2 != ""|| query3 != ""|| query4 != "")
@@ -197,13 +195,13 @@ namespace CPV_Mark3.Controllers
                                item.FE_Name == query2 ||
                                item.Product == query3 ||
                                item.Final_Status == query4
-                               )
+                               ).OrderByDescending(o => o.Id)
                 .ToList();
 
             }
             else
             {
-                results = db.CaseTables.ToList();
+                results = db.CaseTables.OrderByDescending(o => o.Id).ToList();
             }
 
             if (DateTime.TryParse(query5, out DateTime searchDate))
@@ -249,7 +247,7 @@ namespace CPV_Mark3.Controllers
             CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
 
-            var results = db.CaseTables.ToList();
+            var results = db.CaseTables.OrderByDescending(o => o.Id).ToList();
 
             if (query != "")
             {
@@ -257,12 +255,13 @@ namespace CPV_Mark3.Controllers
                 .Where(item => item.Application_no == query ||
                                item.Application_name == query ||
                                item.Company_Name == query)
+                .OrderByDescending(o => o.Id)
                 .ToList();
 
             }
             else
             {
-                results = db.CaseTables.ToList();
+                results = db.CaseTables.OrderByDescending(o => o.Id).ToList();
             }
 
             return PartialView("_SearchAllCases", results);
@@ -642,7 +641,7 @@ namespace CPV_Mark3.Controllers
         {
 
             CPV_DB1Entities db = new CPV_DB1Entities();
-            List<CaseTable> cases = db.CaseTables.ToList();
+            List<CaseTable> cases = db.CaseTables.OrderByDescending(o => o.Id).ToList();
             return View(cases);
         }
 
@@ -1092,7 +1091,7 @@ namespace CPV_Mark3.Controllers
         public ActionResult DisplayVerifyManager()
         {
             CPV_DB1Entities db = new CPV_DB1Entities();
-            List<CaseTable> cases = db.CaseTables.ToList();
+            List<CaseTable> cases = db.CaseTables.OrderByDescending(o => o.Id).ToList();
             return View(cases);
 
         }
