@@ -63,7 +63,7 @@
             background-color: #FFFFFF;
             border-radius: 12px;
             padding: 10px;
-            overflow:hidden;
+            overflow: hidden;
         }
 
         .dis {
@@ -77,9 +77,8 @@
             background-color: #EAF6F6;
             border-radius: 12px;
             padding: 10px;
-            margin-left: 15px;
             margin-right: 15px;
-            max-height: 4500px;
+            /*max-height: 4500px;*/
             max-height: 60% !important;
             max-width: 100%;
             min-width: 1000px;
@@ -106,7 +105,6 @@
 
         table {
             border-collapse: collapse;
-            width: 100%;
         }
 
             table th {
@@ -140,7 +138,7 @@
             height: 60px;
             font-family: 'Jaldi', sans-serif;
             font-size: 15px;
-            font-weight: 500;
+            font-weight: 600;
             width: max-content;
             color: #3A6C6C;
         }
@@ -370,8 +368,8 @@
 <body style="padding: 0px;">
     <div class="userbody-content">
         <div class="heading">Case Manager</div>
-        @using (Html.BeginForm("DisplayCaseManager", "Home", FormMethod.Post))
-        {
+        @*@using (Html.BeginForm("DisplayCaseManager", "Home", FormMethod.Post))
+        {*@
 
             <div style="display: flex; flex-direction: row; align-items: center;">
                 <div style="display: flex; flex-direction: row; margin-right: 20px; align-items: center;">
@@ -413,19 +411,12 @@
                             </p>
                         </div>
 
-                        <div id="CaseList"></div>
+                        <div id="CaseList">
 
-
-
+                        </div>
                     </div>
                 </div>
-
-
-
-            @*</div>*@
-
-
-        }
+        @*}*@
     </div>
 </body>
 
