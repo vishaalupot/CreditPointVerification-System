@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CPV_Mark3.Models;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -205,31 +206,17 @@ namespace CPV_Mark3.Controllers
                 results = db.CaseTables.ToList();
             }
 
-
-
-            //if (query5 != "")
-            //{
-            //    DateTime searchDate = DateTime.Parse(query5);
-            //    var dateResults = results
-            //    .Where(item => item.Allocation_Date == searchDate)
-            //    .ToList();
-
-            //    return PartialView("_SearchVerifyManager", dateResults);
-            //}
-
             if (DateTime.TryParse(query5, out DateTime searchDate))
             {
-                // Successfully parsed, proceed with filtering
+                DateTime dt = removeTime(searchDate);
                 var dateResults = results
-                    .Where(item => item.Allocation_Date.HasValue && item.Allocation_Date.Value.Date == searchDate.Date)
+                    .Where(item => item.Allocation_Date.HasValue && removeTime(item.Allocation_Date.Value) == dt)
                     .ToList();
 
                 return PartialView("_SearchVerifyManager", dateResults);
             }
             else
             {
-                // Handle invalid date format
-                // You can return an error message or handle it in another way
                 return PartialView("_SearchVerifyManager", results);
             }
 
@@ -241,7 +228,18 @@ namespace CPV_Mark3.Controllers
         }
 
 
-
+        private DateTime removeTime(DateTime? dateTime)
+        {
+            if (dateTime == null)
+            {
+                return DateTime.MinValue;
+            }
+            else
+            {
+                return new DateTime(dateTime.Value.Year, dateTime.Value.Month, dateTime.Value.Day);
+            }
+            
+        }
 
 
 
