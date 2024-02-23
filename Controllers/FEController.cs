@@ -117,10 +117,10 @@ namespace CPV_Mark3.Controllers
             //caseTable.Images = form["Images"].ToString();
             //caseTable.Verifier_Signature = form["Verifier_Signature"].ToString();
             //caseTable.Customer_Signature = form["Customer_Signature"].ToString();
-            //caseTable.Final_Date = DateTime.Now;
+            caseTable.VisitDate = DateTime.Now;
             caseTable.ReceptionDesk = form["ReceptionDesk"].ToString();
             caseTable.Different_CompanyNameBoard_Seen_Reason = form["Different_CompanyNameBoard_Seen_Reason"].ToString();
-            //caseTable.Application_name = form["Application_name"].ToString();
+            caseTable.Less_Emp_Reason = form["Less_Emp_Reason"].ToString();
             //caseTable.Application_name = form["Application_name"].ToString();
 
             db.Entry(caseTable).State = System.Data.Entity.EntityState.Modified;

@@ -204,6 +204,10 @@ namespace CPV_Mark3.Controllers
                 results = db.CaseTables.OrderByDescending(o => o.Id).ToList();
             }
 
+            if(query4 == "Final Captured")
+            {
+
+            }
             if (DateTime.TryParse(query5, out DateTime searchDate))
             {
                 DateTime dt = removeTime(searchDate);
