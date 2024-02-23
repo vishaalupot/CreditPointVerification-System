@@ -93,10 +93,10 @@ namespace CPV_Mark3.Models
         public string CustSign { get; set; }
         public string VerifySign1 { get; set; }
         public string VerifySign2 { get; set; }
+        public Nullable<System.DateTime> VisitDate { get; set; }
+        public string Less_Emp_Reason { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CaseImage> CaseImages { get; set; }
-
-       
     }
 }

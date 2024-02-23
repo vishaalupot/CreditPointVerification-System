@@ -102,28 +102,28 @@
           <Property Name="Contacted_Person" Type="varchar(max)" />
           <Property Name="Contacted_Person_Mobile_No" Type="varchar(max)" />
           <Property Name="Operating_Hours" Type="varchar(max)" />
-          <Property Name="Emirate" Type="varchar" MaxLength="50" />
-          <Property Name="Product" Type="varchar" MaxLength="50" />
-          <Property Name="Visit_Type" Type="varchar" MaxLength="50" />
-          <Property Name="Client" Type="varchar" MaxLength="50" />
+          <Property Name="Emirate" Type="varchar(max)" />
+          <Property Name="Product" Type="varchar(max)" />
+          <Property Name="Visit_Type" Type="varchar(max)" />
+          <Property Name="Client" Type="varchar(max)" />
           <Property Name="Allocation_Date" Type="datetime" />
-          <Property Name="FE_Name" Type="varchar" MaxLength="50" />
-          <Property Name="Validated_Office_Landline" Type="varchar" MaxLength="20" />
+          <Property Name="FE_Name" Type="varchar(max)" />
+          <Property Name="Validated_Office_Landline" Type="varchar(max)" />
           <Property Name="Validated_Office_Landline_No" Type="varchar(max)" />
           <Property Name="Validated_Office_Landline_NotReason" Type="varchar(max)" />
           <Property Name="Source_of_Validated_Number" Type="varchar(max)" />
           <Property Name="Office_Location_Type" Type="varchar(max)" />
-          <Property Name="Subject_company_signboard" Type="varchar" MaxLength="20" />
-          <Property Name="Available_OfficeDoor" Type="varchar" MaxLength="20" />
-          <Property Name="Different_CompanyNameBoard_Seen" Type="varchar" MaxLength="20" />
+          <Property Name="Subject_company_signboard" Type="varchar(max)" />
+          <Property Name="Available_OfficeDoor" Type="varchar(max)" />
+          <Property Name="Different_CompanyNameBoard_Seen" Type="varchar(max)" />
           <Property Name="Different_CompanyNameBoard_Seen_Reason" Type="varchar(max)" />
           <Property Name="Type_Signboard_OnDoor" Type="varchar(max)" />
-          <Property Name="Name_SocietyBoard" Type="varchar" MaxLength="20" />
-          <Property Name="SecurityGuard_Building" Type="varchar" MaxLength="20" />
-          <Property Name="ReceptionDesk" Type="varchar" MaxLength="20" />
-          <Property Name="BusinessActivity_Seen" Type="varchar" MaxLength="20" />
-          <Property Name="TradeLicense_Displayed" Type="varchar" MaxLength="20" />
-          <Property Name="Setup_of_Office" Type="varchar" MaxLength="50" />
+          <Property Name="Name_SocietyBoard" Type="varchar(max)" />
+          <Property Name="SecurityGuard_Building" Type="varchar(max)" />
+          <Property Name="ReceptionDesk" Type="varchar(max)" />
+          <Property Name="BusinessActivity_Seen" Type="varchar(max)" />
+          <Property Name="TradeLicense_Displayed" Type="varchar(max)" />
+          <Property Name="Setup_of_Office" Type="varchar(max)" />
           <Property Name="Assets_Seen" Type="varchar(max)" />
           <Property Name="WebsiteAddress_Active" Type="varchar(max)" />
           <Property Name="Nature_of_Business" Type="varchar(max)" />
@@ -134,19 +134,19 @@
           <Property Name="Co_Owenrship_details" Type="varchar(max)" />
           <Property Name="External_Audit" Type="varchar(max)" />
           <Property Name="Annual_Revenue" Type="varchar(max)" />
-          <Property Name="Applicants_Designation" Type="varchar" MaxLength="100" />
-          <Property Name="DoJ_Applicant" Type="varchar" MaxLength="100" />
-          <Property Name="Gross_Salary" Type="varchar" MaxLength="100" />
-          <Property Name="Profit" Type="varchar" MaxLength="100" />
-          <Property Name="Accommodation_Provided" Type="varchar" MaxLength="100" />
+          <Property Name="Applicants_Designation" Type="varchar(max)" />
+          <Property Name="DoJ_Applicant" Type="varchar(max)" />
+          <Property Name="Gross_Salary" Type="varchar(max)" />
+          <Property Name="Profit" Type="varchar(max)" />
+          <Property Name="Accommodation_Provided" Type="varchar(max)" />
           <Property Name="Applicant_Reports_to" Type="varchar(max)" />
           <Property Name="AUTHORIZED_SIGNATORY" Type="varchar(max)" />
           <Property Name="Details_Verified_With" Type="varchar(max)" />
           <Property Name="Designation" Type="varchar(max)" />
-          <Property Name="Orginal_Seen" Type="varchar" MaxLength="20" />
-          <Property Name="Trade_License_captured" Type="varchar" MaxLength="20" />
-          <Property Name="Business_card_captured" Type="varchar" MaxLength="20" />
-          <Property Name="Documents_Captured" Type="varchar" MaxLength="20" />
+          <Property Name="Orginal_Seen" Type="varchar(max)" />
+          <Property Name="Trade_License_captured" Type="varchar(max)" />
+          <Property Name="Business_card_captured" Type="varchar(max)" />
+          <Property Name="Documents_Captured" Type="varchar(max)" />
           <Property Name="VAT_RegNumber" Type="varchar(max)" />
           <Property Name="Makani_No" Type="varchar(max)" />
           <Property Name="Name_Neighbor1_feedback" Type="varchar(max)" />
@@ -164,6 +164,8 @@
           <Property Name="CustSign" Type="varchar(max)" />
           <Property Name="VerifySign1" Type="varchar(max)" />
           <Property Name="VerifySign2" Type="varchar(max)" />
+          <Property Name="VisitDate" Type="datetime" />
+          <Property Name="Less_Emp_Reason" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="ClientTables">
           <Key>
@@ -408,28 +410,28 @@
           <Property Name="Contacted_Person" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Contacted_Person_Mobile_No" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Operating_Hours" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Emirate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Product" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Visit_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Client" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Emirate" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Product" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Visit_Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Client" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Allocation_Date" Type="DateTime" Precision="3" />
-          <Property Name="FE_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Validated_Office_Landline" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FE_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Validated_Office_Landline" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Validated_Office_Landline_No" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Validated_Office_Landline_NotReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Source_of_Validated_Number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Office_Location_Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Subject_company_signboard" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Available_OfficeDoor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Different_CompanyNameBoard_Seen" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Subject_company_signboard" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Available_OfficeDoor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Different_CompanyNameBoard_Seen" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Different_CompanyNameBoard_Seen_Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Type_Signboard_OnDoor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Name_SocietyBoard" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="SecurityGuard_Building" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ReceptionDesk" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="BusinessActivity_Seen" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="TradeLicense_Displayed" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Setup_of_Office" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name_SocietyBoard" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SecurityGuard_Building" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ReceptionDesk" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BusinessActivity_Seen" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TradeLicense_Displayed" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Setup_of_Office" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Assets_Seen" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="WebsiteAddress_Active" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Nature_of_Business" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -440,19 +442,19 @@
           <Property Name="Co_Owenrship_details" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="External_Audit" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Annual_Revenue" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Applicants_Designation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DoJ_Applicant" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Gross_Salary" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Profit" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Accommodation_Provided" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Applicants_Designation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DoJ_Applicant" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Gross_Salary" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Profit" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Accommodation_Provided" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Applicant_Reports_to" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="AUTHORIZED_SIGNATORY" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Details_Verified_With" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Designation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Orginal_Seen" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Trade_License_captured" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Business_card_captured" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Documents_Captured" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Orginal_Seen" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Trade_License_captured" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Business_card_captured" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Documents_Captured" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="VAT_RegNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Makani_No" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Name_Neighbor1_feedback" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -471,6 +473,8 @@
           <Property Name="VerifySign1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="VerifySign2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CaseImages" Relationship="CPV_DB1Model.FK_CaseImage_CaseTable" FromRole="CaseTable" ToRole="CaseImage" />
+          <Property Name="VisitDate" Type="DateTime" Precision="3" />
+          <Property Name="Less_Emp_Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_CaseImage_CaseTable">
           <End Type="CPV_DB1Model.CaseTable" Role="CaseTable" Multiplicity="0..1" />
@@ -643,6 +647,8 @@
           <EntitySetMapping Name="CaseTables">
             <EntityTypeMapping TypeName="CPV_DB1Model.CaseTable">
               <MappingFragment StoreEntitySet="CaseTables">
+                <ScalarProperty Name="Less_Emp_Reason" ColumnName="Less_Emp_Reason" />
+                <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
                 <ScalarProperty Name="VerifySign2" ColumnName="VerifySign2" />
                 <ScalarProperty Name="VerifySign1" ColumnName="VerifySign1" />
                 <ScalarProperty Name="CustSign" ColumnName="CustSign" />

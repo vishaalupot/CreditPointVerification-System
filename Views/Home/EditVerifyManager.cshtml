@@ -16,6 +16,7 @@
 @{
     Layout = null;
 }
+<html>
 <head>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -32,10 +33,11 @@
         .form-control {
             font-size: 1.75rem !important;
             font-family: 'Jaldi', sans-serif;
-            font-weight:500;
+            font-weight: 600 !important;
         }
 
         body {
+            padding: 0px;
             font-size: 15px;
             font-weight: 100;
             background: linear-gradient(to bottom,#25947a, #236a8b 50%);
@@ -52,8 +54,8 @@
         }
 
         .bod {
-            width: 95%;
-            height: 90vh;
+            width: 98%;
+            height: 95vh;
             background-color: #FFFFFF;
             border-radius: 12px;
             overflow: hidden;
@@ -75,7 +77,7 @@
             font-size: 15px;
             white-space: pre-line !important;
             width: 100px;
-            white-space:nowrap;
+            white-space: nowrap;
         }
 
         .box {
@@ -86,7 +88,7 @@
             margin-top: 7px;
             margin-bottom: 10px;
             border: 1px groove #569F9F;
-            font-weight: 600; 
+            font-weight: 700;
         }
 
         input, select, textarea {
@@ -149,9 +151,8 @@
             display: none;
         }
 
-        .form-control{
+        .form-control {
             height: 40px;
-            
         }
     </style>
     <script>
@@ -343,6 +344,17 @@
                     </div>
                     <div class="col-md-12">
                         @Html.TextBoxFor(model => model.Allocation_Date, new { @class = "form-control box", @readonly = "readonly" })
+                    </div>
+                </div>
+
+                <div class="form-group  col-sm-12 col-md-4 col-xl-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Allocation_Date, "Date & Time of Visit", htmlAttributes: new { @class = "control-label label" })
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        @Html.TextBoxFor(model => model.VisitDate, new { @class = "form-control box", @readonly = "readonly" })
                     </div>
                 </div>
 
@@ -737,7 +749,7 @@
                                new SelectListItem { Text = "Average", Value = "Average" },
                                new SelectListItem { Text = "Basic", Value = "Basic" },
                                new SelectListItem { Text = "Poor", Value = "Poor" },
-                               
+
 
                            }, new { @class = "form-control box dropdown-styled" })
 
@@ -801,6 +813,17 @@
                     </div>                                        <div class="col-md-10">
                         @Html.EditorFor(model => model.No_Employees_Seen, new { htmlAttributes = new { @class = "form-control box" } })
                         @Html.ValidationMessageFor(model => model.No_Employees_Seen, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group  col-sm-12 col-md-4 col-xl-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Less_Emp_Reason, "If Less Employees Seen (Specify Reason)", htmlAttributes: new { @class = "control-label label" })
+                        </div>
+                    </div>                                        <div class="col-md-10">
+                        @Html.EditorFor(model => model.Less_Emp_Reason, new { htmlAttributes = new { @class = "form-control box" } })
+                        @Html.ValidationMessageFor(model => model.Less_Emp_Reason, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -1178,5 +1201,7 @@
         }
     </div>
 </body>
+
+</html>
 
 
