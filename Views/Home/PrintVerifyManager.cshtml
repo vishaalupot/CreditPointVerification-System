@@ -13,17 +13,13 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU&callback=Function.prototype"></script>
     <script>
            function sendHtml() {
-               var $prints = document.getElementById('print');//$("#print");
+               var $prints = document.getElementById('print');
 
                var printHtml = $prints.outerHTML;
                var htmldata = printHtml;
-               //    new File([printHtml], { type: 'text/html' });
-               //var encodedHtml = encodeURIComponent(printHtml);
-               //printHtml = "";
                var formdata = new FormData();
                console.log(htmldata)
                formdata.append('htmldata', htmldata);
-               //console.log($prints.length); // should be 1 if found
                var url = '@Url.Action("PdfSharpConvert", "Home")';
 
             $.ajax({
@@ -89,8 +85,6 @@
             table tr td {
                 text-align: center;
                 font-family: 'Jaldi', sans-serif;
-                /*                width: 100%;*/
-
             }
 
             table tr th {
@@ -160,7 +154,7 @@
 
            html2pdf(pdfElement, {
          useCORS: true, 
-         margin: [0, 10, 0, 10], // [top, right, bottom, left]
+         margin: [0, 10, 0, 10],
             filename: '@Model.Application_no' + '-' + '@Model.Application_name' + '.pdf',
             image: { type: 'jpeg', quality: 1 },
             html2canvas: { scale: 2 },
@@ -395,7 +389,7 @@
                             <th>
                                 Number of Employees as per contacted person
                             </th>
-                            <td @*colspan="4"*@>@Model.No_Employees_ContactedPerson</td>
+                            <td>@Model.No_Employees_ContactedPerson</td>
                         </tr>
                         <tr>
                             <th>
@@ -407,7 +401,7 @@
                             <th>
                                 Group Co. Owenrship details
                             </th>
-                            <td @*colspan="4"*@>@Model.Co_Owenrship_details</td>
+                            <td>@Model.Co_Owenrship_details</td>
                         </tr>
                         <tr>
                             <th>

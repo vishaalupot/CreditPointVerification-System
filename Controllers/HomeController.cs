@@ -188,45 +188,103 @@ namespace CPV_Mark3.Controllers
             var results = db.CaseTables.OrderByDescending(o => o.Id).ToList();
             
 
-            if (query != "" || query2 != ""|| query3 != ""|| query4 != "")
+            //if (query != "" || query2 != ""|| query3 != ""|| query4 != "")
+            //{
+            //    results = db.CaseTables
+            //    .Where(item => item.Application_no == query ||
+            //                   item.FE_Name == query2 ||
+            //                   item.Product == query3 ||
+            //                   item.Final_Status == query4
+            //                   ).OrderByDescending(o => o.Id)
+            //    .ToList();
+
+            //}
+            //else
+            //{
+            //    results = db.CaseTables.OrderByDescending(o => o.Id).ToList();
+            //}
+
+            //if(query4 == "Final Captured")
+            //{
+
+            //}
+            //if (DateTime.TryParse(query5, out DateTime searchDate))
+            //{
+            //    DateTime dt = removeTime(searchDate);
+            //    var dateResults = results
+            //        .Where(item => item.Allocation_Date.HasValue && removeTime(item.Allocation_Date.Value) == dt)
+            //        .ToList();
+
+            //    return PartialView("_SearchVerifyManager", dateResults);
+            //}
+            //else
+            //{
+            //    return PartialView("_SearchVerifyManager", results);
+            //}
+
+            if(query != "")
             {
-                results = db.CaseTables
-                .Where(item => item.Application_no == query ||
-                               item.FE_Name == query2 ||
-                               item.Product == query3 ||
-                               item.Final_Status == query4
-                               ).OrderByDescending(o => o.Id)
-                .ToList();
+                results = results
+                 .Where(item => item.Application_no == query)
+                 .ToList();
 
             }
-            else
+            
+            if(query2 != "")
             {
-                results = db.CaseTables.OrderByDescending(o => o.Id).ToList();
+                results = results
+                 .Where(item => item.FE_Name == query2)
+                 .ToList();
+
+            }
+            
+            if(query3 != "")
+            {
+                results = results
+                 .Where(item => item.Product == query3)
+                 .ToList();
+
             }
 
-            if(query4 == "Final Captured")
+            if (query4 != "")
             {
+                if (DateTime.TryParse(query5, out DateTime searchDate))
+                {
+                    DateTime dt = removeTime(searchDate);
+                    
+                    if(query4 == "Pending")
+                    {
+                        results = results
+                       .Where(item =>item.Final_Status == "Pending" && item.Allocation_Date.HasValue && removeTime(item.Allocation_Date.Value) == dt)
+                       .ToList();
+                    }
 
+                    if (query4 == "PDA Captured")
+                    {
+                        results = results
+                       .Where(item => item.Final_Status == "PDA Captured" && item.VisitDate.HasValue && removeTime(item.VisitDate.Value) == dt)
+                       .ToList();
+                    }
+
+                    if (query4 == "Final Captured")
+                    {
+                        results = results
+                       .Where(item => item.Final_Status == "Final Captured" && item.Final_Date.HasValue && removeTime(item.Final_Date.Value) == dt)
+                       .ToList();
+                    }
+
+
+                }
+                else
+                {
+                    results = results.Where(item => item.Final_Status == query4).ToList();
+                }
             }
-            if (DateTime.TryParse(query5, out DateTime searchDate))
-            {
-                DateTime dt = removeTime(searchDate);
-                var dateResults = results
-                    .Where(item => item.Allocation_Date.HasValue && removeTime(item.Allocation_Date.Value) == dt)
-                    .ToList();
-
-                return PartialView("_SearchVerifyManager", dateResults);
-            }
-            else
-            {
-                return PartialView("_SearchVerifyManager", results);
-            }
-
-
-
-
 
             return PartialView("_SearchVerifyManager", results);
+
+
+
         }
 
 
@@ -1163,10 +1221,13 @@ namespace CPV_Mark3.Controllers
             caseTable.Different_CompanyNameBoard_Seen_Reason = form["Different_CompanyNameBoard_Seen_Reason"].ToString();
             caseTable.Final_Status = "Final Captured";
             caseTable.Final_Date = DateTime.Now;
+            caseTable.Less_Emp_Reason = form["Less_Emp_Reason"].ToString();
             db.Entry(caseTable).State = EntityState.Modified;
             
             db.SaveChanges();
-            return RedirectToAction("DisplayVerifyManager");
+            //return RedirectToAction("DisplayVerifyManager");
+
+            return Content("<script>window.close();</script>");
         }
 
 
