@@ -6,23 +6,26 @@
 }
 @{
     var groupedData = Model.GroupBy(m => m.FE_Name ?? "(New)");
-    
+
 }
 
-<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2022.1.301/styles/kendo.common.min.css" />
-<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2022.1.301/styles/kendo.default.min.css" />
+@*<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2022.1.301/styles/kendo.common.min.css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2022.1.301/styles/kendo.default.min.css" />*@
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://kendo.cdn.telerik.com/2022.1.301/js/kendo.all.min.js"></script>
+@*<script src="https://kendo.cdn.telerik.com/2022.1.301/js/kendo.all.min.js"></script>*@
 <script src="/Scripts/jquery-3.4.1.min.js"></script>
+
+
 
 <script type="text/javascript">
     $(document).ready(function () {
         $(".feList").on("click", function () {
             let fename = $(this).find('td').first().text();
 
+
             $.ajax({
-                url: '@Url.Action("DisplayFeCount", "Home")?feName=' + fename,
+                url: '@Url.Action("DisplayFeCount", "Home")?feName=' + fename + '&stats=none',
                 type: 'GET',
                 success: function (res) {
                     $('#overlayFe').html(res);
@@ -31,11 +34,32 @@
                 }
             });
 
-        });      
+        });
 
-    })
+        $(".dailyStats").on("click", function() {
+            let text = $(this).find("span").first().text();
+            text = text.replaceAll(" ", "");
+            console.log(text);
+             $.ajax({
+                 url: '@Url.Action("DisplayFeCount", "Home")?feName=0&stats=' + text,
+                 type: 'GET',
+                 success: function (res) {
+                     $('#overlayFe').html(res);
+                     $('#overlayFe').fadeIn(200);
+
+     }
+ });
+        })
+        })
+
+
+
+
 
 </script>
+
+
+
 
 <style>
     @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
@@ -367,7 +391,6 @@
         flex-direction: column;
         padding: 10px;
         overflow: auto;
-
     }
 
         .stat3::-webkit-scrollbar {
@@ -378,7 +401,7 @@
             background-color: transparent; /* Hide the scrollbar track */
         }
 
-    /* Define scrollbar thumb styles */
+        /* Define scrollbar thumb styles */
         .stat3::-webkit-scrollbar-thumb {
             background-color: #236154; /* Adjust the color as needed */
             border-radius: 12px;
@@ -408,11 +431,11 @@
         width: 100%;
     }
 
-    table thead{
-        position: sticky;
-    }
+        table thead {
+            position: sticky;
+        }
 
-    td{
+    td {
         border: 0.5px solid #67919F;
         text-align: left;
         border-top: none; /* Remove top border */
@@ -428,18 +451,18 @@
         border-left: none; /* Remove left border */
     }
 
-    tr{
-        cursor:pointer;
+    tr {
+        cursor: pointer;
     }
 
-    tr:first-child td {
-        border-top: none; /* Remove top border for the first row */
-        border-right: none;
-    }
+        tr:first-child td {
+            border-top: none; /* Remove top border for the first row */
+            border-right: none;
+        }
 
-    tr:last-child td {
-        border-bottom: none; /* Remove bottom border for the last row */
-    }
+        tr:last-child td {
+            border-bottom: none; /* Remove bottom border for the last row */
+        }
 
     td:first-child {
         border-left: none; /* Remove left border for the first column */
@@ -492,7 +515,6 @@
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-        
     }
 
     /*#overlayfe-content {
@@ -501,10 +523,10 @@
         left: 50%;
         transform: translate(-50%, -50%);
         max-width: 80%;*/ /* Adjust as needed */
-        /*max-height: 80vh;*/ /* Adjust as needed */
-        /*overflow: hidden;*/ /* Hide overflow at the top level */
-        /*background: #fff;*/ /* Adjust background color if needed */
-        /*padding: 20px;
+    /*max-height: 80vh;*/ /* Adjust as needed */
+    /*overflow: hidden;*/ /* Hide overflow at the top level */
+    /*background: #fff;*/ /* Adjust background color if needed */
+    /*padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         display: flex;
@@ -515,27 +537,27 @@
         position: sticky;
         top: 0;
         background: #fff;*/ /* Adjust background color if needed */
-        /*z-index: 1;
+    /*z-index: 1;
     }
 
     .contentfe {
         flex: 1;
         overflow-y: auto;*/ /* Enable scrollbar only for the content */
-        /* Additional styles as needed */
+    /* Additional styles as needed */
     /*}*/
 
     /*#overlayfe-content {
         background-color: white;*/
-        /* width: 350px;
+    /* width: 350px;
         height: 390px;*/
-        /*border-radius: 12px;
+    /*border-radius: 12px;
         position: absolute;
         margin-top: 300px;
         top: 50px;
         left: 50%;
         transform: translate(-50%, -50%);*/
-        /*  color: white;*/
-        /*display: flex;
+    /*  color: white;*/
+    /*display: flex;
         flex-direction: column;
         justify-content: flex-end;
         z-index: 10;
@@ -548,10 +570,10 @@
         left: 50%;
         transform: translate(-50%, -50%);
         max-width: 80%;*/ /* Adjust as needed */
-        /*max-height: 80vh;*/ /* Adjust as needed */
-        /*overflow-y: auto;
+    /*max-height: 80vh;*/ /* Adjust as needed */
+    /*overflow-y: auto;
         background: #fff;*/ /* Adjust background color if needed */
-        /*padding: 20px;
+    /*padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }*/
@@ -560,10 +582,10 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        max-width: 70%;  
-        max-height: 80vh;  
+        max-width: 70%;
+        max-height: 80vh;
         overflow-y: auto;
-        background: #fff;  
+        background: #fff;
         padding: 0px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -571,19 +593,19 @@
         flex-direction: column;
     }
 
-    .headerfe {        
+    .headerfe {
         position: sticky;
         top: 0;
         background: #fff;
         z-index: 1;
     }
 
-    .contentfe {                
+    .contentfe {
         flex: 0;
         overflow-y: auto;
     }
 
-       /* #overlayfe-content::-webkit-scrollbar {
+    /* #overlayfe-content::-webkit-scrollbar {
             width: 8px;
         }
 
@@ -725,7 +747,9 @@
         font-weight: 800;
     }
 
-   
+    .dailyStats:hover {
+        cursor: pointer;
+    }
 </style>
 
 <div class="body-content">
@@ -746,7 +770,7 @@
                     <div class="stat0">
                         <div class="sub-head">Daily Stats</div>
                         <div style="display: flex; flex-direction: row; justify-content: space-between; padding: 4px 0px;">
-                            <div style="display: flex; flex-direction: column;">
+                            <div style="display: flex; flex-direction: column;" class="dailyStats">
                                 <div class="circular-progress1">
                                     <div class="value-container1">0</div>
                                 </div>
@@ -754,15 +778,15 @@
                             </div>
 
 
-                            <div style="display: flex; flex-direction: column;">
+                            <div style="display: flex; flex-direction: column;" class="dailyStats">
                                 <div class="circular-progress1">
                                     <div class="value-container1">0</div>
                                 </div>
-                                <span style="display: flex; justify-content: center; font-weight: 700; font-size: 12px;">On time</span>
+                                <span style="display: flex; justify-content: center; font-weight: 700; font-size: 12px;">Done Cases</span>
                             </div>
 
 
-                            <div style="display: flex; flex-direction: column;">
+                            <div style="display: flex; flex-direction: column;" class="dailyStats">
                                 <div class="circular-progress1">
                                     <div class="value-container1">0</div>
                                 </div>
@@ -770,7 +794,7 @@
                             </div>
 
 
-                            <div style="display: flex; flex-direction: column;">
+                            <div style="display: flex; flex-direction: column;" class="dailyStats">
                                 <div class="circular-progress1">
                                     <div class="value-container1">0</div>
                                 </div>
@@ -783,40 +807,40 @@
 
                 <div style="display: flex; flex-direction: row;">
                     @*<div class="stat1">
-            <canvas id="myChart" style="width: 600px !important;"></canvas>
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                            <canvas id="myChart" style="width: 600px !important;"></canvas>
+                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-            <script>
-                const ctx = document.getElementById('myChart');
+                            <script>
+                                const ctx = document.getElementById('myChart');
 
-                new Chart(ctx, {
-                    data: {
-                        datasets: [{
-                            type: 'bar',
-                            label: 'Total Cases',
-                            data: @ViewBag.DashMonth1,
-                            //    [12, 19, 3, 5, 2, 13],
-                            backgroundColor: [
-                                '#165DFF',
-                            ],
+                                new Chart(ctx, {
+                                    data: {
+                                        datasets: [{
+                                            type: 'bar',
+                                            label: 'Total Cases',
+                                            data: @ViewBag.DashMonth1,
+                                            //    [12, 19, 3, 5, 2, 13],
+                                            backgroundColor: [
+                                                '#165DFF',
+                                            ],
 
 
-                        }, {
-                            type: 'bar',
-                            label: 'Completed Cases',
-                            data: @ViewBag.DashMonth2,
-                            //    [10, 9, 8, 2, 1, 7],
-                            backgroundColor: [
-                                '#14C9C9',
-                            ],
-                        }],
-                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-                    },
+                                        }, {
+                                            type: 'bar',
+                                            label: 'Completed Cases',
+                                            data: @ViewBag.DashMonth2,
+                                            //    [10, 9, 8, 2, 1, 7],
+                                            backgroundColor: [
+                                                '#14C9C9',
+                                            ],
+                                        }],
+                                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                                    },
 
-                });
+                                });
 
-            </script>
-        </div>*@
+                            </script>
+                        </div>*@
 
 
                     <div class="stat1">
@@ -1008,7 +1032,7 @@
         valueContainer.style.color = color;
 
         let update = () => {
-           
+
             valueContainer.textContent = `${progressValue}`;
             progressBar.style.background = `conic-gradient(
                 ${color} ${(progressValue / firstProgressEndValue) * 360}deg,

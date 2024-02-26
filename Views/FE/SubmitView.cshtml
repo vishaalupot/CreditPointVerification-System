@@ -15,17 +15,12 @@
 
     <script src="/bundles/bootstrap?v=ESck_wvaWCiF5JsitLMh765lhMnw7BVBtZE-YUTa4Ns1"></script>
 
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto:300,400,500,700" />
-    <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet" />
+    @*<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto:300,400,500,700" />
+        <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet" />*@
 
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-    <script src="/Scripts/jquery-3.3.1.min.js"></script>
-    <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-
-    <script src="/Scripts/umd/popper.js"></script>
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
@@ -219,15 +214,22 @@
     </script>
 
     <script>
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
-        }
+        $(document).ready(function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        })
+       
 
         function showPosition(position) {
-            document.getElementById('lat').value = position.coords.latitude;
-            document.getElementById('lang').value = position.coords.longitude
+           
+            
+           // document.getElementById('Latitude').value = 23; // position.coords.latitude;
+            //document.getElementById('Longitude').value = 55; //position.coords.longitude
+            $("#Latitude").val(position.coords.latitude);
+            $("#Longitude").val(position.coords.longitude);
         }
     </script>
 </head>
@@ -271,11 +273,11 @@
                                     Latitude
                                 </div>
                                 @Html.HiddenFor(model => model.Id@*, new { htmlAttributes = new { @id = "snr" } }*@)
-                                @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "box", @id = "lat" } })
+                                @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "box"} })
                                 <div class="head">
                                     Longitude
                                 </div>
-                                @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "box", @id = "lang" } })
+                                @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "box"} })
                             </div>
                             
 

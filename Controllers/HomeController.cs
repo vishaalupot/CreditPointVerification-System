@@ -1605,26 +1605,69 @@ namespace CPV_Mark3.Controllers
             
         }
 
-        public ActionResult DisplayFeCount(string feName)
+        public ActionResult DisplayFeCount(string feName, string stats)
         {
-            List<CaseTable> cases = db.CaseTables.Where(w => w.FE_Name == feName).ToList();
-            string FeName;
-            if (feName == "(New)")
+            if (feName != "0")
             {
-                FeName = "New";
-                feName = "Not Assigned";
-                cases = db.CaseTables.Where(w => w.FE_Name == null || w.FE_Name == "" ).ToList();
+                List<CaseTable> cases = db.CaseTables.Where(w => w.FE_Name == feName).ToList();
+                string FeName;
+                if (feName == "(New)")
+                {
+                    FeName = "New";
+                    feName = "Not Assigned";
+                    cases = db.CaseTables.Where(w => w.FE_Name == null || w.FE_Name == "").ToList();
+                }
+                else
+                {
+                    FeName = db.AspNetUsers.Where(w => w.UserName == feName).First().FullName;
+                }
+
+                ViewBag.feName = feName + $" ({FeName})";
+                return PartialView(cases.OrderBy(o => o.Final_Status != "Pending").ThenBy(t => t.Final_Status).ToList());
             }
             else
             {
-                FeName = db.AspNetUsers.Where(w => w.UserName == feName).First().FullName;
+                DateTime startOfDay = DateTime.Today;
+                DateTime endOfDay = DateTime.Today.AddDays(1).AddTicks(-1);
+                List<CaseTable> totalcase = db.CaseTables
+                    .Where(w => w.Allocation_Date >= startOfDay && w.Allocation_Date <= endOfDay)
+                    .ToList();
+
+              
+               
+                string status;
+                switch (stats)
+                {
+                    case "TotalApplications":
+                        totalcase = totalcase.ToList();
+                        status = "Total Application";
+                        break;
+
+                    case "DoneCases":
+                        totalcase = totalcase.Where(w => w.Final_Status == "Final Captured").ToList();
+                        status = "On Time";
+                        break;
+                    case "UnderProcess":
+                        totalcase = totalcase.Where(w => w.Final_Status == "Pending" || w.Final_Status == "PDA Captured").ToList();
+                        status = "Under Process";
+                        break;
+                    case "OverDue":
+                        totalcase = totalcase.Where(w => w.Final_Status == "").ToList();
+                       status = "Over Due";
+                        break;
+
+                    default :
+                        totalcase = totalcase.ToList();
+                        status = "";
+                        break;
+
+                }
+                ViewBag.feName = status + " (Daily Stats)";
+                return PartialView(totalcase);
             }
-             
-            ViewBag.feName = feName + $" ({FeName})"; 
-            return PartialView(cases.OrderBy(o=>o.Final_Status != "Pending").ThenBy(t=>t.Final_Status).ToList());
         }
 
-
+       
 
     }
 
