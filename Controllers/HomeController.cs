@@ -225,7 +225,7 @@ namespace CPV_Mark3.Controllers
             if(query != "")
             {
                 results = results
-                 .Where(item => item.Application_no == query)
+                 .Where(item => item.Application_no.StartsWith(query))
                  .ToList();
 
             }

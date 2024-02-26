@@ -90,7 +90,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        
+
 
          $(".submitBtn").click(function () {
              let data = $(this).data("id");
@@ -112,31 +112,39 @@
                  })
          })
 
-         $(".deleteBtn").click(function () {
-             let data = $(this).data("id");
+             $(".deleteBtn").click(function () {
+    let data = $(this).data("id");
+    // Display SweetAlert confirmation dialog
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If user confirms, proceed with the deletion
+            let url = '@Url.Action("DeleteCase")';
+            let ajaxdata = { id: data };
 
-              @*let url = '@Url.Action("DeleteCase", "Home", new { id = "_id_" })';*@
-
-
-              let url = '@Url.Action("DeleteCase")';
-              let ajaxdata = { id : data };
-              //url = url.replace("_id_", data);
-             /* alert(ajaxdata);*/
-             $.ajax({
-                 url: url,
-                 data: ajaxdata,
-                 type: "Post",
-                 success: function (result) {
-                     location.reload();
-                    /* alert("Success");*/
-                 },
-                 error: function (error) {
-                     location.reload();
-                     /*alert("error")*/
-                 }
-             })
-
-         })
+            $.ajax({
+                url: url,
+                data: ajaxdata,
+                type: "Post",
+                success: function (result) {
+                    // Reload the page after successful deletion
+                    location.reload();
+                },
+                error: function (error) {
+                    // Reload the page in case of an error
+                    location.reload();
+                }
+            });
+        }
+    });
+});
     });
 </script>
 <script>
@@ -157,6 +165,7 @@
                 <td class="tableHead">Product</td>
                 <td class="tableHead">FE Name</td>
                 <td class="tableHead">Allocation Date</td>
+                <td class="tableHead">Visit Date</td>
                 <td class="tableHead">Final Date</td>
                 <td class="tableHead">Final Status</td>
                 <td class="tableHead">Type</td>
@@ -179,6 +188,7 @@
                     <td>@Html.DisplayFor(modelItem => item.Product, new { @class = "tablecont" }) </td>
                     <td>@Html.DisplayFor(modelItem => item.FE_Name, new { @class = "tablecont" }) </td>
                     <td>@Html.DisplayFor(modelItem => item.Allocation_Date, new { @class = "tablecont" }) </td>
+                    <td>@Html.DisplayFor(modelItem => item.VisitDate, new { @class = "tablecont" }) </td>
                     <td>@Html.DisplayFor(modelItem => item.Final_Date, new { @class = "tablecont" }) </td>
                     <td>@Html.DisplayFor(modelItem => item.Final_Status, new { @class = "tablecont" }) </td>
                     <td>@Html.DisplayFor(modelItem => item.Visit_Type, new { @class = "tablecont" }) </td>

@@ -255,7 +255,6 @@
 
             $("#divLoading").hide();
             $("#Loaded").show();
-            // Initialize an array to store image information
 
             var imageList = [];
 
@@ -316,8 +315,6 @@
                     }
                 });
             });
-
-
         });
     </script>
 
@@ -343,8 +340,6 @@
         <div class="heading">Field Verification Report</div>
 
         @Html.HiddenFor(model => model.Id)
-
-
 
         <br />
         <div class="form-group  col-sm-12 col-md-4 col-xl-3">
@@ -1122,7 +1117,17 @@
                 </div>
             </div>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FE_Decision, new { htmlAttributes = new { @class = "form-control box" } })
+
+                @Html.DropDownListFor(model => model.Validated_Office_Landline, new List<SelectListItem>
+           {
+               new SelectListItem { Text = "NA", Value = "NA" },
+               new SelectListItem { Text = "Satisfactory", Value = "Satisfactory" },
+               new SelectListItem { Text = "Unsatisfactory", Value = "Unsatisfactory" },
+               new SelectListItem { Text = "Refer to the Bank", Value = "Refer to the Bank" },
+
+           }, new { @class = "form-control box dropdown-styled" })
+
+                @*@Html.EditorFor(model => model.FE_Decision, new { htmlAttributes = new { @class = "form-control box" } })*@
                 @Html.ValidationMessageFor(model => model.FE_Decision, "", new { @class = "text-danger" })
             </div>
         </div>
