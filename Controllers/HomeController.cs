@@ -420,8 +420,8 @@ namespace CPV_Mark3.Controllers
                 var jsonMonth1 = JsonConvert.SerializeObject(DashMonth1);
                 var jsonMonth2 = JsonConvert.SerializeObject(DashMonth2);
 
-                ViewBag.DashMonth1 = jsonMonth1;
-                ViewBag.DashMonth2 = jsonMonth2;
+               // ViewBag.DashMonth1 = jsonMonth1;
+                //ViewBag.DashMonth2 = jsonMonth2;
 
                 List<int> Dashdata = new List<int>();
 
