@@ -1621,7 +1621,7 @@ namespace CPV_Mark3.Controllers
             }
              
             ViewBag.feName = feName + $" ({FeName})"; 
-            return PartialView(cases);
+            return PartialView(cases.OrderBy(o=>o.Final_Status != "Pending").ThenBy(t=>t.Final_Status).ToList());
         }
 
 

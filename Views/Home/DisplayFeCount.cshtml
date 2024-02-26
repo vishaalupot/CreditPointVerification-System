@@ -85,8 +85,20 @@
                 </thead>
                
                 <tbody class="contentfe">
+                    @{ 
+                        var firstStatus = "";
+                    }
                     @foreach (var item in Model)
                     {
+                        if (item.Final_Status != firstStatus)
+                        {                            
+                            <tr>
+                                <td colspan="6" style="color:blue; font-weight:bold; font-size:16px">
+                                    @item.Final_Status
+                                </td>
+                            </tr>
+                            firstStatus = item.Final_Status;
+                        }
                         <tr class="caseRow">
                             <td hidden="hidden">
                                 @Html.DisplayFor(modelItem => item.Id)
