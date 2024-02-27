@@ -367,43 +367,12 @@ namespace CPV_Mark3.Controllers
         {
             //return View();
 
-
-
-
             if (User.IsInRole("FE"))
             {
                 return RedirectToAction("FEDash", "FE");
             }
             else
-            {
-                //CPV_DB1Entities db = new CPV_DB1Entities();
-
-                //List<CaseTable> caseTable = db.CaseTables.ToList();
-
-                //List<int> Dashdata = new List<int>();
-
-                //DateTime startOfDay = DateTime.Today;
-                //DateTime endOfDay = DateTime.Today.AddDays(1).AddTicks(-1);
-
-                //List<CaseTable> totalcase = caseTable
-                //    .Where(w => w.Allocation_Date >= startOfDay && w.Allocation_Date <= endOfDay)
-                //    .ToList();
-
-                //int donecase = totalcase.Where(w => w.Final_Status == "Final_Status").Count();                
-                //int newcase = totalcase.Where(w => w.Final_Status == "Pending").Count();
-                //int overdueCase = totalcase.Where(w => w.Final_Status == "").Count();
-
-                //Dashdata.Add(totalcase.Count());
-                //Dashdata.Add(donecase);
-                //Dashdata.Add(newcase);
-                //Dashdata.Add(overdueCase);
-
-                //var json = JsonConvert.SerializeObject(Dashdata);
-
-                //ViewBag.DashData = json;
-
-                //return View(caseTable);
-
+            {              
 
                 CPV_DB1Entities db = new CPV_DB1Entities();
 
@@ -444,14 +413,16 @@ namespace CPV_Mark3.Controllers
                 // Retrieve data with date filter
                 DateTime startOfDay = DateTime.Today;
                 DateTime endOfDay = DateTime.Today.AddDays(1).AddTicks(-1);
+                List<CaseTable> pastoneMo = db.CaseTables.Where(w=>w.Final_Date == null).ToList();
 
                 List<CaseTable> totalcase = caseTable
-                    .Where(w => w.Allocation_Date >= startOfDay && w.Allocation_Date <= endOfDay)
+                    .Where(w => w.Allocation_Date >= startOfDay.AddHours(-48) && w.Allocation_Date <= endOfDay)
                     .ToList();
 
                 int donecase = totalcase.Where(w => w.Final_Status == "Final Captured").Count();
                 int newcase = totalcase.Where(w => w.Final_Status == "Pending" || w.Final_Status == "PDA Captured").Count();
-                int overdueCase = totalcase.Where(w => w.Final_Status == "").Count();
+                int overdueCase = pastoneMo.Where(w => w.Allocation_Date.HasValue && 
+                w.Allocation_Date.Value.AddHours(48) < DateTime.Now && w.Final_Status != "Final Captured").Count();
 
                 Dashdata.Clear(); // Clear the list for new data
 
@@ -1629,11 +1600,11 @@ namespace CPV_Mark3.Controllers
             {
                 DateTime startOfDay = DateTime.Today;
                 DateTime endOfDay = DateTime.Today.AddDays(1).AddTicks(-1);
+                List<CaseTable> pastoneMo = db.CaseTables.Where(w => w.Final_Date == null).ToList();
                 List<CaseTable> totalcase = db.CaseTables
                     .Where(w => w.Allocation_Date >= startOfDay && w.Allocation_Date <= endOfDay)
                     .ToList();
-
-              
+                             
                
                 string status;
                 switch (stats)
@@ -1652,7 +1623,8 @@ namespace CPV_Mark3.Controllers
                         status = "Under Process";
                         break;
                     case "OverDue":
-                        totalcase = totalcase.Where(w => w.Final_Status == "").ToList();
+                        totalcase = pastoneMo.Where(w => w.Allocation_Date.HasValue &&
+                        w.Allocation_Date.Value.AddHours(48) < DateTime.Now && w.Final_Status != "Final Captured").ToList();
                        status = "Over Due";
                         break;
 
@@ -1663,7 +1635,7 @@ namespace CPV_Mark3.Controllers
 
                 }
                 ViewBag.feName = status + " (Daily Stats)";
-                return PartialView(totalcase);
+                return PartialView(totalcase.OrderBy(o => o.Final_Status != "Pending").ThenBy(t => t.Final_Status));
             }
         }
 
