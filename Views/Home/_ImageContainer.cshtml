@@ -44,14 +44,37 @@
         height: 100%;
         object-fit: cover;*/
     }
+
+    .image-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centers content horizontally */
+        margin-bottom: 10px; /* Adjust the margin between image/button pairs as needed */
+    }
+
+    span input[type="button"] {
+        width: 100%;
+        margin-top: 5px; /* Adjust the space between the image and the button */
+        background-color: #ff0000; /* Example background color */
+        color: #ffffff; /* Example text color */
+    }
+
+    span input[type="button"]:hover {
+        width: 100%;
+        margin-top: 5px; /* Adjust the space between the image and the button */
+        background-color: #ff0000; /* Example background color */
+        color: #ffffff; /* Example text color */
+    }
 </style>
 
 <div class="image-grid">
     @foreach (var img in imageslist)
     {
-        @*<div class="grid-item">*@
+        @*<img id="@img.Item1" class="draggable-image" src="data:image/png;base64,@img.Item2" alt="Image" />
+        <span><input type="button" value="delete" /></span>*@
+
             <img id="@img.Item1" class="draggable-image" src="data:image/png;base64,@img.Item2" alt="Image" />
-        @*</div>*@
+            @*<span><input type="button" value="delete" class="btn" /></span>*@
     }
 </div>
 
