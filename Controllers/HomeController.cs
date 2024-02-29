@@ -1552,7 +1552,7 @@ namespace CPV_Mark3.Controllers
             List<(int, string, int)> base64Images = new List<(int, string, int)>();
             ViewBag.Id = id; 
 
-            if (imageList.Any())
+            if (imageList.Any())  
             {
                 foreach (var imageData in imageList)
                 {
@@ -1572,9 +1572,8 @@ namespace CPV_Mark3.Controllers
                 ViewBag.ErrorMessage = "No images found for the specified ID.";
                 return PartialView();
             }
-                        
-            
         }
+
 
         public ActionResult DisplayFeCount(string feName, string stats)
         {

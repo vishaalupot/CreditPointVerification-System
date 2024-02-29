@@ -19,7 +19,9 @@ namespace CPV_Mark3.Controllers
         {
             CPV_DB1Entities db = new CPV_DB1Entities();
             List<CaseTable> cases = db.CaseTables.ToList();
-            cases = cases.Where(w => w.FE_Name == User.Identity.Name && w.Final_Status == "Pending").ToList();
+            cases = cases.Where(w => w.FE_Name == User.Identity.Name && w.Final_Status == "Pending")
+                .OrderByDescending(w => w.Id)
+                .ToList();
             return View(cases);
         }
 
@@ -126,7 +128,7 @@ namespace CPV_Mark3.Controllers
             db.Entry(caseTable).State = System.Data.Entity.EntityState.Modified;
 
             db.SaveChanges();
-            return RedirectToAction("FEDash");
+            return RedirectToAction("SignatureView", new { id = caseTable.Id });
         }
 
 

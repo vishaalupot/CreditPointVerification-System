@@ -479,7 +479,9 @@
                 if (this.classList.toggle("active")) {
                     this.style.borderBottomLeftRadius = "12px";  // Set border-radius when clicked
 
-                    this.style.height = "850px";
+                    this.style.height = "max-content";
+                    this.style.transitionDuration = "1s";
+
                 }
                 else {
                     this.style.height = "150px";

@@ -149,21 +149,25 @@
         }
 
         .Dashbutton {
-            display: inline-block;
-            /* padding: 10px 20px;*/
-            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center; /* padding: 10px 20px;*/
+            font-size: 21px;
             text-align: center;
             text-decoration: none;
             background-color: #236A8B; /* Green background color */
-            background-image: url(../../Content/Images/dash.png);
+            /* background-image: url(../../Content/Images/dash.png);*/
             color: white; /* White text color */
+            border: 1px solid #236A8B; /* Green border */
             border-radius: 4px; /* Rounded corners */
             cursor: pointer;
-            width: 50px;
+            width: 100px;
             height: 50px;
             background-size: 30px;
             background-repeat: no-repeat;
             background-position: center;
+            color: white;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -176,7 +180,7 @@
 
         <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
             <div class="header">Photo View</div>
-            @Html.ActionLink(" ", "FEDash", null, new { @class = "Dashbutton" })
+            @Html.ActionLink("Go Back", "FEDash", null, new { @class = "Dashbutton" })
 
         </div>
 
@@ -198,15 +202,17 @@
 
 
             </div>
-            <div class="container-body" style="display: flex; flex-direction: column;">
+            <div class="container-body" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
 
                 <form id="fileUploadForm" enctype="multipart/form-data">
                     <div class="container" id="divapplicant" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
                         @using (Html.BeginForm("PhotoView", "FE", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
 
-                            <div style="width: 100%; padding: 10px;">@Html.TextBox("ImageFile", null, new { type = "file", @class = "form-control", accept = "image/*", capture = "camera", multiple = "multiple"})</div>
-                            <div style="width: 100%;">&nbsp;<input type="button" onclick="uploadImage(@ViewBag.snr)" value="Upload" class="btn btn-primary btn-block" style="background-color: #236A8B; font-size: 15px;" /> </div>
+                            <div style="width: 100%; padding: 10px;">@Html.TextBox("ImageFile", null, new { type = "file", @class = "form-control", accept = "image/*", capture = "camera", multiple = "multiple" })</div>
+                            <div style="width: 100%;">&nbsp;<input type="button" onclick="uploadImage(@ViewBag.snr)" value="Upload" class="btn btn-block" style="background-color: #236A8B; font-size: 21px; color: white; font-weight:400;" /> </div>
+
+                            <div style="width: 100%;">&nbsp;<input type="button"  onclick="window.location.href='@Url.Action("SubmitView", "FE", new { id = ViewBag.snr })'" value="Submit" class="btn btn-block" style="background-color: #236A8B; font-size: 21px; color: white; font-weight: 400;" /> </div>
 
                         }
                     </div>

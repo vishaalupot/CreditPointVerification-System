@@ -22,7 +22,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
@@ -99,11 +99,11 @@
         }
 
         .SubBtn {
-            background-color: #012b2b;
-            color: white;
-            font-family: 'Jaldi', sans-serif;
-            font-size: 15px;
-            border-radius: 8px;
+            background-color: #012b2b !important;
+            color: white !important;
+            font-family: 'Jaldi', sans-serif !important;
+            font-size: 20px !important;
+            border-radius: 4px !important;
         }
 
             .SubBtn:hover {
@@ -112,13 +112,13 @@
             }
 
         .ChngBtn {
-            background-color: #012b2b;
-            color: white;
+            background-color: #012b2b !important;
+            color: white !important;
             font-family: 'Jaldi', sans-serif;
-            font-size: 15px;
+            font-size: 17px !important;
             width: 100px;
             height: 30px;
-            border-radius: 8px;
+            border-radius: 4px;
             font-weight: 500;
         }
 
@@ -128,10 +128,10 @@
             }
 
         .bckBtn {
-            background-color: #c30000;
-            color: white;
+            background-color: #c30000 !important;
+            color: white !important;
             font-family: 'Jaldi', sans-serif;
-            font-size: 15px;
+            font-size: 16px !important;
             width: 100px;
             height: 30px;
             border-radius: 3px;
@@ -140,8 +140,8 @@
         }
 
             .bckBtn:hover {
-                background-color: #ff0606;
-                color: white;
+                background-color: #ff0606 !important;
+                color: white !important;
             }
 
         #loading {
@@ -182,6 +182,35 @@
 
 
     </script>
+
+    <script>
+
+        function uploadImage(snr) {
+
+            $("#divLoading").show();
+            $("#Loaded").hide();
+
+              let url = '@Url.Action("UploadImageInDataBase", "FE")';
+             var formData = new FormData();
+             formData.append("file", $("#ImageFile")[0].files[0]);
+             formData.append("snr", snr);
+
+             $.ajax({
+                 url: url,
+                 data: formData,
+                 type: "POST",
+                 processData: false,
+                 contentType: false,
+                 success: function (data) {
+                      location.reload();
+                     let res = data;
+                 },
+                 error: function (xhr, status, error) {
+                     // Handle error
+                 }
+             })
+         }
+    </script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU&callback=Function.prototype"></script>
     <script type="text/javascript">
 
@@ -216,12 +245,6 @@
         google.maps.event.addDomListener(window, 'load', ShowErrorPopup);
     </script>
 
-
-    @*<script src="/bundles/jquery?v=2u0aRenDpYxArEyILB59ETSCA2cfQkSMlxb6jbMBqf81"></script>
-
-        <script src="/bundles/bootstrap?v=ESck_wvaWCiF5JsitLMh765lhMnw7BVBtZE-YUTa4Ns1"></script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>*@
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
@@ -229,22 +252,6 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-
-
-            //$("#searchInput").keypress(function (e) {
-            //    if (e.which === 13) {
-            //        e.preventDefault();
-            //        $("form").submit();
-            //        // Display SweetAlert
-            //        Swal.fire({
-            //            title: 'Done',
-            //            icon: 'success',
-            //            showCancelButton: false,
-            //            showConfirmButton: false,
-            //            timer: 1500
-            //        });
-            //    }
-            //});
 
             $("form").keypress(function (e) {
                 // Check if Enter key is pressed
@@ -329,24 +336,29 @@
             var currentUrl = $(location).attr('href');
             var EditUrl = localStorage.getItem('EditUrl');
             if (currentUrl == EditUrl) {
-                var res = confirm("Do you want to load \nthe previous unsaved data?");
-                if (res === true) {
-                    $('.form-control').each(function () {
-                        var inputId = $(this).attr('id'); // Get the ID of the input
-                        var savedValue = localStorage.getItem(inputId); // Retrieve the stored value from localStorage
-                        if (savedValue) {
-                            $(this).val(savedValue); // Set the input value from the stored value
-                            console.log(savedValue);
-                        }
-
-                    });
-                }
-                else {
-                    localStorage.clear();
-                }
-                //Retrieve data when the page loads
-
+                Swal.fire({
+                    title: 'Load Previous Data',
+                    text: 'Do you want to load the previous unsaved data?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('.form-control').each(function () {
+                            var inputId = $(this).attr('id');
+                            var savedValue = localStorage.getItem(inputId);
+                            if (savedValue) {
+                                $(this).val(savedValue);
+                                console.log(savedValue);
+                            }
+                        });
+                    } else {
+                        localStorage.clear();
+                    }
+                });
             }
+
 
             $('#Form').on('submit', function (event) {
                 // Prevent the default form submission
@@ -362,7 +374,7 @@
                         localStorage.clear();
                        // alert("Successfully saved!");
                         sweetAlert("Save");
-                       
+
 
                     },
                     error: function (error) {
@@ -396,7 +408,7 @@
 <body>
     <div class="bod">
 
-        <input type="button" value="Close" class="bckBtn" onclick="closePage()" />
+        <input type="button" value="Close" class="btn bckBtn" onclick="closePage()" />
         <script>
             function closePage() {
                 window.close();
@@ -463,7 +475,7 @@
                 <div class="form-group col-sm-12 col-md-4 col-xl-3">
                     <div class="row">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.Application_no, htmlAttributes: new { @class = "control-label label" })
+                            @Html.LabelFor(model => model.Application_no, "Applicant No", htmlAttributes: new { @class = "control-label label" })
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -471,7 +483,7 @@
                     </div>
                 </div>
 
-                <div class="form-group col-sm-12 col-md-4 col-xl-4">
+                <div class="form-group col-sm-12 col-md-4 col-xl-3">
                     <div class="row">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.Company_Name, "Company Name", htmlAttributes: new { @class = "control-label label" })
@@ -482,7 +494,7 @@
                     </div>
                 </div>
 
-                <div class="form-group col-sm-12 col-md-4 col-xl-4">
+                <div class="form-group col-sm-12 col-md-4 col-xl-3">
                     <div class="row">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.Product, "Product", htmlAttributes: new { @class = "control-label label" })
@@ -495,7 +507,7 @@
 
 
 
-                <div class="form-group  col-sm-12 col-md-4 col-xl-4">
+                <div class="form-group  col-sm-12 col-md-4 col-xl-3">
                     <div class="row">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.Emirate, "Emirate", htmlAttributes: new { @class = "control-label label" })
@@ -507,7 +519,7 @@
                 </div>
 
 
-                <div class="form-group  col-sm-12 col-md-4 col-xl-12">
+                <div class="form-group  col-sm-12 col-md-4 col-xl-6">
                     <div class="row">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.Company_Address, "Company Address", htmlAttributes: new { @class = "control-label label" })
@@ -519,7 +531,7 @@
                 </div>
 
 
-                <div class="form-group  col-sm-12 col-md-4 col-xl-12">
+                <div class="form-group  col-sm-12 col-md-4 col-xl-6">
                     <div class="row">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.Landmark, "Landmark", htmlAttributes: new { @class = "control-label label" })
@@ -543,7 +555,7 @@
                 </div>
 
 
-                <div class="form-group  col-sm-12 col-md-4 col-xl-6">
+                <div class="form-group  col-sm-12 col-md-4 col-xl-3">
                     <div class="row">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.Landline, htmlAttributes: new { @class = "control-label label" })
@@ -557,7 +569,7 @@
 
 
 
-                <div class="form-group  col-sm-12 col-md-4 col-xl-6">
+                <div class="form-group  col-sm-12 col-md-4 col-xl-3">
                     <div class="row">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.Contacted_Person_Mobile_No, "Contacted Person Mobile No", htmlAttributes: new { @class = "control-label label" })
@@ -569,14 +581,14 @@
                 </div>
 
 
-                <div class="form-group  col-sm-12 col-md-4 col-xl-6">
+                <div class="form-group  col-sm-12 col-md-4 col-xl-3">
                     <div class="row">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.Trade_License_Number, "Trade License Number", htmlAttributes: new { @class = "control-label label" })
                         </div>
                     </div>
                     <div class="col-md-12">
-                        @Html.TextBoxFor(model => model.Trade_License_Number, new { @class = "form-control box", @readonly = "readonly", @style = "width: 400px;" })
+                        @Html.TextBoxFor(model => model.Trade_License_Number, new { @class = "form-control box", @readonly = "readonly"})
                     </div>
                 </div>
 
@@ -799,7 +811,7 @@
                     </div>
                 </div>
 
-                <div class="form-group  col-sm-12 col-md-4 col-xl-6">
+                <div class="form-group  col-sm-12 col-md-8 col-xl-6">
                     <div class="row">
                         <div class="col-md-12">
 
@@ -874,7 +886,7 @@
                     </div>
                 </div>
 
-                <div class="form-group  col-sm-12 col-xl-9">
+                <div class="form-group  col-sm-12 col-md-4 col-xl-9">
                     <div class="row">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.Office_observation, "Office Observation", htmlAttributes: new { @class = "control-label label" })
@@ -889,7 +901,7 @@
                 <div class="form-group  col-sm-12 col-md-4 col-xl-3">
                     <div class="row">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.No_Employees_Seen, "Number of Employees seen", htmlAttributes: new { @class = "control-label label" })
+                            @Html.LabelFor(model => model.No_Employees_Seen, "No of Employees seen", htmlAttributes: new { @class = "control-label label" })
                         </div>
                     </div>                                        <div class="col-md-10">
                         @Html.EditorFor(model => model.No_Employees_Seen, new { htmlAttributes = new { @class = "form-control box" } })
@@ -902,7 +914,7 @@
                 <div class="form-group  col-sm-12 col-md-4 col-xl-3">
                     <div class="row">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.No_Employees_ContactedPerson, "Number of Employees as per contacted person", htmlAttributes: new { @class = "control-label label" })
+                            @Html.LabelFor(model => model.No_Employees_ContactedPerson, "No of Employees as per contacted person", htmlAttributes: new { @class = "control-label label" })
                         </div>
                     </div>                                               <div class="col-md-10">
                         @Html.EditorFor(model => model.No_Employees_ContactedPerson, new { htmlAttributes = new { @class = "form-control box" } })
@@ -1034,7 +1046,7 @@
                     </div>
                 </div>
 
-                <div class="form-group  col-sm-12 col-md-4 col-xl-9">
+                <div class="form-group  col-sm-12 col-md-4 col-xl-6">
                     <div class="row">
                         <div class="col-md-12">
                             @Html.LabelFor(
@@ -1134,7 +1146,7 @@
                     </div>
                 </div>
 
-                <div class="form-group  col-sm-12 col-md-6 col-lg-4">
+                <div class="form-group  col-sm-12 col-md-6 col-xl-3">
                     <div class="row">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.Makani_No, "GPS Co-ordinates/Makani Number", htmlAttributes: new { @class = "control-label label" })
@@ -1211,7 +1223,7 @@
                         </div>
                     </div>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "form-control box" } })
+                        @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "form-control box", @readonly = "readonly" } })
                         @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -1223,7 +1235,7 @@
                         </div>
                     </div>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "form-control box" } })
+                        @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "form-control box", @readonly = "readonly" } })
                         @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -1255,7 +1267,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12">
+                <div class="col-sm-12" style="display: flex; flex-direction: column;">
                     <br />
                     <div class="row">
                         <div class="col-md-12">
@@ -1271,6 +1283,14 @@
                             @Html.Action("_ImageContainer", new { id = Model.Id })
                         </div>
 
+
+                    </div>
+                    <div style="display: flex; flex-direction: row; ">
+                        @using (Html.BeginForm("PhotoView", "FE", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div>@Html.TextBox("ImageFile", null, new { type = "file", @class = "form-control", accept = "image/*", capture = "camera", multiple = "multiple", style = "width: 100px; height: max-content;" })</div>
+                            <div style="display: flex; justify-content: center; align-items: center;">&nbsp;<input type="button" onclick="uploadImage(@Model.Id)" value="Upload" class="btn btn-block" style="background-color: #012b2b; font-size: 21px; color: white; font-weight: 400;" /> </div>
+                        }
                     </div>
 
 
@@ -1287,7 +1307,7 @@
 
                 <div class="form-group col-sm-12 col-md-4" style="margin: 50px 0px;">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Submit" class="SubBtn" style="width:150px; height: 50px" />
+                        <input type="submit" value="Submit" class="btn SubBtn" style="width:150px; height: 50px" />
                     </div>
                 </div>
             </div>

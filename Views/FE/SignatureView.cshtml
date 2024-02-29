@@ -45,7 +45,7 @@
             console.log(dataURL3);
 
 
-             
+
             formData.append("signatureData", dataURL);
             formData.append("signatureData2", dataURL2);
             formData.append("signatureData3", dataURL3);
@@ -68,7 +68,8 @@
                     if (res == 1) {
                         /*alert("Upload Successful!");*/
                     } else {
-                        location.reload();
+                        window.location.href = '@Url.Action("PhotoView", "FE")' + '?id=' + @Model.Id;
+                       /* location.reload();*/
                     }
                 },
                 error: function (xhr, status, error) {
@@ -76,9 +77,6 @@
                 }
             });
         }
-
-
-
     </script>
 
     <style>
@@ -124,21 +122,25 @@
         }
 
         .Dashbutton {
-            display: inline-block;
-            /* padding: 10px 20px;*/
-            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center; /* padding: 10px 20px;*/
+            font-size: 21px;
             text-align: center;
             text-decoration: none;
             background-color: #236A8B; /* Green background color */
-            background-image: url(../../Content/Images/dash.png);
+            /* background-image: url(../../Content/Images/dash.png);*/
             color: white; /* White text color */
+            border: 1px solid #236A8B; /* Green border */
             border-radius: 4px; /* Rounded corners */
             cursor: pointer;
-            width: 50px;
+            width: 100px;
             height: 50px;
             background-size: 30px;
             background-repeat: no-repeat;
             background-position: center;
+            color: white;
+            font-weight: 600;
         }
 
         .blue {
@@ -241,7 +243,7 @@
 
         <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
             <div class="header">Signature View</div>
-            @Html.ActionLink(" ", "FEDash", null, new { @class = "Dashbutton" })
+            @Html.ActionLink("Go Back", "FEDash", null, new { @class = "Dashbutton" })
 
         </div>
 

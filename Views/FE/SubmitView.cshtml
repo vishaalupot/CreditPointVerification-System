@@ -72,22 +72,31 @@
         }
 
         .Dashbutton {
-            display: inline-block;
-            /* padding: 10px 20px;*/
-            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 21px;
             text-align: center;
             text-decoration: none;
             background-color: #236A8B; /* Green background color */
-            background-image: url(../../Content/Images/dash.png);
             color: white; /* White text color */
+            border: 1px solid #236A8B; /* Green border */
             border-radius: 4px; /* Rounded corners */
             cursor: pointer;
-            width: 50px;
+            width: 100px;
             height: 50px;
             background-size: 30px;
             background-repeat: no-repeat;
             background-position: center;
+            font-weight: 600;
         }
+
+         a:focus{
+            color: white !important;
+            text-decoration: none !important;
+        }
+
+
 
         .blue {
             background-color: #EAF6F6;
@@ -203,6 +212,7 @@
             justify-content: center;
             align-items: center;
         }
+
     </style>
     <script type="text/javascript">
         if ('' == "Success") {
@@ -243,7 +253,7 @@
 
         <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
             <div class="header">Final Submit</div>
-            @Html.ActionLink(" ", "FEDash", null, new { @class = "Dashbutton" })
+            @Html.ActionLink("Go Back", "FEDash", null, new { @class = "Dashbutton" })
 
         </div>
 
@@ -273,16 +283,16 @@
                                     Latitude
                                 </div>
                                 @Html.HiddenFor(model => model.Id@*, new { htmlAttributes = new { @id = "snr" } }*@)
-                                @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "box"} })
+                                @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "box", @readonly = "readonly" } })
                                 <div class="head">
                                     Longitude
                                 </div>
-                                @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "box"} })
+                                @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "box", @readonly = "readonly" } })
                             </div>
                             
 
                             <div style="display: flex; flex-direction: column;  justify-content: center; align-items: center; padding: 25px 0px;">
-                                <input type="submit" value="Submit" style="background-color: #236A8B; width: 100%; height: 35px; color: white; border-radius: 12px; font-size: 18px;" />
+                                <input type="submit" value="Final Submit" style="background-color: #236A8B; width: 100%; height: 35px; color: white; border-radius: 12px; font-size: 18px;" />
                             </div>
                         </form>
                     </div>
