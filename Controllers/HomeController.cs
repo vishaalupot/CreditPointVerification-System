@@ -29,6 +29,31 @@ namespace CPV_Mark3.Controllers
         private ApplicationUserManager _userManager;
 
 
+
+        [HttpPost]
+        public ActionResult DeleteImage(int id)
+        {
+            try
+            {
+                    var imageToDelete = db.CaseImages.Find(id);
+                    if (imageToDelete != null)
+                    {
+                        db.CaseImages.Remove(imageToDelete);
+                        db.SaveChanges();
+                        return Json(new { success = true });
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = "Image not found." });
+                    }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions if needed
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
         [HttpPost]
         public ActionResult PdfSharpConvert(string htmldata)
         //public ActionResult PdfSharpConvert()
