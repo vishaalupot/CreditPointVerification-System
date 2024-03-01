@@ -24,44 +24,62 @@
 
     <script>
         function generatePDF() {
-            Swal.fire({
-            title: 'Generating PDF',
-            text: 'Map image is loaded. Please wait...',
-            allowOutsideClick: false,
-            onBeforeOpen: () => {
+    Swal.fire({
+        title: 'Generating PDF',
+        text: 'Map image is loaded. Please wait...',
+        allowOutsideClick: false,
+        onBeforeOpen: () => {
             Swal.showLoading();
-            },
-            });
+        },
+    });
 
-            var pdfElement = document.getElementById('print');
-
+    var pdfElement = document.getElementById('print');
             html2pdf(pdfElement, {
-            useCORS: true,
-            margin: [0, 10, 0, 10],
-            filename: '@Model.Application_no' + '-' + '@Model.Application_name' + '.pdf',
-            image: { type: 'jpeg', quality: 1 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            afterPageContent: function (pdf) {
+                useCORS: true,
+                margin: [0, 10, 0, 10],
+                filename: '@Model.Application_no' + '-' + '@Model.Application_name' + '.pdf',
+                image: { type: 'jpeg', quality: 2 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+       
 
-            // Add the header logo at the top of each page
-            pdf.addImage('~/Content/images/verify-logo.png', 'PNG', 10, 10, 50, 20);
-
-            },
-            }).then(() => {
-            // Close SweetAlert upon successful PDF generation
-            Swal.close();
-            }).catch((error) => {
-            // Handle errors if any
-            console.error('PDF generation error:', error);
-            Swal.fire({
+    }).then(() => {
+        Swal.close();
+    }).catch((error) => {
+        console.error('PDF generation error:', error);
+        Swal.fire({
             icon: 'error',
             title: 'Error',
             text: 'An error occurred while generating the PDF.',
-            });
-            });
+        });
+    });
 
-            }
+
+
+            //html2pdf(pdfElement).then(() => {
+            //    var doc = new jsPDF('p', 'pt'); // jsPDF instance
+
+            //    // Add image to first page
+            //    //doc.addImage("/Content/images/verify-logo.png", 'PNG', 0, 0, doc.internal.pageSize.getWidth(), 20);
+
+            //    // Display number of pages
+            //    /*alert("Number of Pages: " + doc.internal.getNumberOfPages());*/
+            //    alert("Number of Pagesaa");
+
+            //    // Add to other pages
+            //    for (var i = 1; i < 3; i++) {
+            //        alert("Number of Pages: " + doc.internal.getNumberOfPages());
+            //        doc.addPage();
+            //        doc.addImage("/Content/images/verify-logo.png", 'PNG', 0, 0, 100, 20);
+            //        alert("Number of Pagesaa");
+            //    }
+
+            //    // Save updated PDF
+            //    doc.save('updated.pdf');
+            //});
+
+}
+
     </script>
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
@@ -79,14 +97,14 @@
             padding-left: 5px;
         }
 
-        table tr td {
+        table {
             page-break-inside: avoid;
         }
 
         table {
             border-collapse: collapse;
             width: 700px;
-           /* table-layout: fixed;*/
+            /* table-layout: fixed;*/
             /*page-break-inside: avoid;*/
         }
 
@@ -133,16 +151,69 @@
             page-break-inside: avoid;
         }
 
-        .print-page table tr td{
+        .print-page table tr td {
             page-break-inside: avoid;
         }
 
-            .print-page table tr td {
-                border: solid 1px black;
-            }
+        .print-page table tr td {
+            border: solid 1px black;
+        }
+
         .page-break {
             page-break-before: always;
         }
+    </style>
+
+    <style>
+        @@media print {
+    .print-page {
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    .pdf {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .pdf thead {
+        text-align: center;
+    }
+
+    .pdf th, .pdf td {
+        padding: 5px;
+        border: 1px solid #000;
+    }
+
+    .pdf th {
+        font-size: 17px;
+        background-color: #9ea615;
+    }
+
+    #mapImage {
+        width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .print-page header, .print-page footer {
+        display: block;
+        text-align: center;
+        position: fixed;
+        width: 100%;
+    }
+
+    .print-page header {
+        top: 0;
+    }
+
+    .print-page footer {
+        bottom: 0;
+    }
+}
+
+
     </style>
 </head>
 <body>
@@ -156,427 +227,240 @@
                 <table style="width: 700px; table-layout: fixed;" class="pdf">
                     <thead>
                         <tr>
-                            <td colspan="2" style="text-align:center;">
+                            <td colspan="3" style="text-align:center;">
                                 <img src="~/Content/images/verify-logo.png" />
                             </td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <th colspan="2" style="font-size: 17px; background-color: #9ea615; text-align: center; ">ADIB FIELD VISIT</th>
+                            <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">ADIB FIELD VISIT</th>
                         </tr>
                         <tr>
                             <th>Product</th>
-                            <td>@Model.Product</ td >
+                            <td colspan="2">@Model.Product</td>
                         </tr>
                         <tr>
                             <th>Received Date</th>
-                            <td>@Model.Allocation_Date</td>
+                            <td colspan="2">@Model.Allocation_Date</td>
                         </tr>
                         <tr>
                             <th>Date & Time Of Visit</th>
-                            <td @*colspan="4" *@>@Model.VisitDate</td>
+                            <td colspan="2">@Model.VisitDate</td>
                         </tr>
                         <tr>
                             <th>Final Submit</th>
-                            <td>@Model.Final_Date</td>
+                            <td colspan="2">@Model.Final_Date</td>
                         </tr>
                         <tr>
                             <th>Application ID</th>
-                            <td>@Model.Application_no</td>
+                            <td colspan="2">@Model.Application_no</td>
                         </tr>
                         <tr>
                             <th>Customer Name</th>
-                            <td>@Model.Application_name</td>
+                            <td colspan="2">@Model.Application_name</td>
                         </tr>
                         <tr>
                             <th>Company Name</th>
-                            <td>@Model.Company_Name</td>
+                            <td colspan="2">@Model.Company_Name</td>
                         </tr>
                         <tr>
                             <th>Visit Address</th>
-                            <td>@Model.Company_Address</td>
+                            <td colspan="2">@Model.Company_Address</td>
                         </tr>
                         <tr>
                             <th>Landmark</th>
-                            <td @*colspan="4">*@ @Model.Landmark</td>
+                            <td colspan="2"> @Model.Landmark</td>
                         </tr>
                         <tr>
                             <th>Landline</th>
-                            <td @*colspan="4" *@>@Model.Landline</td>
+                            <td colspan="2">@Model.Landline</td>
                         </tr>
                         <tr>
                             <th>Contact Person</th>
-                            <td @*colspan="4" *@>@Model.Contacted_Person</td>
+                            <td colspan="2">@Model.Contacted_Person</td>
                         </tr>
                         <tr>
                             <th>Contacted Person Mobile number</th>
-                            <td @*colspan="4" *@>@Model.Contacted_Person_Mobile_No</td>
+                            <td colspan="2">@Model.Contacted_Person_Mobile_No</td>
                         </tr>
                         <tr>
                             <th>Emirate</th>
-                            <td @*colspan="4" *@>@Model.Emirate</td>
+                            <td colspan="2">@Model.Emirate</td>
                         </tr>
                         <tr>
                             <th>Trade License Number</th>
-                            <td @*colspan="4" *@>@Model.Trade_License_Number</td>
+                            <td colspan="2">@Model.Trade_License_Number</td>
                         </tr>
                         <tr>
                             <th>Verifier Name</th>
-                            <td @*colspan="4" *@>@Model.FE_Name</td>
+                            <td colspan="2">@Model.FE_Name</td>
                         </tr>
                         <tr>
                             <th>Validated Office Landline</th>
-                            <td @*colspan="4" *@>@Model.Validated_Office_Landline</td>
+                            <td colspan="2">@Model.Validated_Office_Landline</td>
                         </tr>
                         <tr>
                             <th>If Yes, validated Landline no</th>
-                            <td @*colspan="4" *@>@Model.Validated_Office_Landline_No</td>
+                            <td colspan="2">@Model.Validated_Office_Landline_No</td>
                         </tr>
                         <tr>
                             <th>If Not, Specify Reason</th>
-                            <td @*colspan="4" *@>@Model.Validated_Office_Landline_NotReason</td>
+                            <td colspan="2">@Model.Validated_Office_Landline_NotReason</td>
                         </tr>
                         <tr>
                             <th>Source of Validated Number</th>
-                            <td @*colspan="4" *@>@Model.Source_of_Validated_Number</td>
+                            <td colspan="2">@Model.Source_of_Validated_Number</td>
                         </tr>
                         <tr>
                             <th>Office Location Type</th>
-                            <td @*colspan="4" *@>@Model.Office_Location_Type</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="page-break"></div>
-
-                <table style="width: 700px; table-layout: fixed;" class="pdf">
-                    <thead>
-                        <tr>
-                            <td colspan="2" style="text-align:center;">
-                                <img src="~/Content/images/verify-logo.png" />
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th colspan="2" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Appearance</th>
-                        </tr>
-                        <tr>
-                            <th>
-                                Subject company signboard
-                            </th>
-                            <td @*colspan="4" *@>@Model.Subject_company_signboard</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Available at Office door
-                            </th>
-                            <td @*colspan="4" *@>@Model.Available_OfficeDoor</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Different company name board seen
-                            </th>
-                            <td @*colspan="4" *@>@Model.Different_CompanyNameBoard_Seen</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                If Different then specify reason
-                            </th>
-                            <td @*colspan="4" *@>@Model.Different_CompanyNameBoard_Seen_Reason</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Type of Signboard on Door
-                            </th>
-                            <td @*colspan="4" *@>@Model.Type_Signboard_OnDoor</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Name on Society board
-                            </th>
-                            <td @*colspan="4" *@>@Model.Name_SocietyBoard</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Security Guard for the building
-                            </th>
-                            <td @*colspan="4" *@>@Model.SecurityGuard_Building</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Reception Desk
-                            </th>
-                            <td @*colspan="4" *@>@Model.ReceptionDesk</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Business activity seen
-                            </th>
-                            <td @*colspan="4" *@>@Model.BusinessActivity_Seen</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Trade License of the company displayed on the premises
-                            </th>
-                            <td @*colspan="4" *@>@Model.TradeLicense_Displayed</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Setup of Office
-                            </th>
-                            <td @*colspan="4" *@>@Model.Setup_of_Office</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Assets Seen
-                            </th>
-                            <td @*colspan="4" *@>@Model.Assets_Seen</td>
-                        </tr>
-                        <tr>
-                            <th colspan="2" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Company Information</th>
-                        </tr>
-                        <tr>
-                            <th>
-                                Website address and is the company website active
-                            </th>
-                            <td @*colspan="4" *@>@Model.WebsiteAddress_Active</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Nature of Business
-                            </th>
-                            <td @*colspan="4" *@>@Model.Nature_of_Business</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Office observation
-                            </th>
-                            <td @*colspan="4" *@>@Model.Office_observation</td>
-                        </tr>
-                        <tr>
-                            <th>
-                                Number of Employees seen
-                            </th>
-                            <td @*colspan="4" *@>@Model.No_Employees_Seen</td>
+                            <td colspan="2">@Model.Office_Location_Type</td>
                         </tr>
 
                         <tr>
                             <th>
-                                If Less Employees Seen (Specify Reason)
+                                Applicants Designation
                             </th>
-                            <td>
-                                @Model.Less_Emp_Reason
-                            </td>
+                            <td colspan="2">@Model.Applicants_Designation</td>
                         </tr>
                         <tr>
                             <th>
-                                Number of Employees as per contacted person
+                                Date of Joining
                             </th>
-                            <td>@Model.No_Employees_ContactedPerson</td>
+                            <td colspan="2">@Model.DoJ_Applicant</td>
                         </tr>
                         <tr>
                             <th>
-                                if Sister Concern Company
+                                Gross Salary (if employee)
                             </th>
-                            <td @*colspan="4" *@>@Model.If_Sister_ConcernCompany</td>
+                            <td colspan="2">@Model.Gross_Salary</td>
                         </tr>
                         <tr>
                             <th>
-                                Group Co. Owenrship details
+                                Profit % (if owner/partner)
                             </th>
-                            <td>@Model.Co_Owenrship_details</td>
+                            <td colspan="2">@Model.Profit</td>
                         </tr>
                         <tr>
                             <th>
-                                External Audit done, if Yes Auditor are
+                                Accommodation Provided
                             </th>
-                            <td @*colspan="4" *@>@Model.External_Audit</td>
+                            <td colspan="2">@Model.Accommodation_Provided</td>
                         </tr>
                         <tr>
                             <th>
-                                Annual Revenue and Annual Profite (If Known)
+                                Applicant Reports to
                             </th>
-                            <td @*colspan="4" *@>@Model.Annual_Revenue</td>
+                            <td colspan="2">@Model.Applicant_Reports_to</td>
                         </tr>
-                        </tbody>
-                </table>
+                        <tr>
+                            <th>
+                                Whether the applicant is related to the OWNER or AUTHORIZED SIGNATORY: If Yes Relation
+                            </th>
+                            <td colspan="2">@Model.AUTHORIZED_SIGNATORY</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center;">Field Visit Review</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                Details Verified With
+                            </th>
+                            <td colspan="2">@Model.Details_Verified_With</td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Designation
+                            </th>
+                            <td colspan="2">@Model.Designation</td>
+                        </tr>
 
-                 <div class="page-break"></div>
+                        <tr>
+                            <th>
+                                Orginal Seen
+                            </th>
+                            <td colspan="2">@Model.Orginal_Seen</td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Is the tenancy contract/Trade License captured
+                            </th>
+                            <td colspan="2">@Model.TradeLicense_Displayed</td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Business card captured
+                            </th>
+                            <td colspan="2">@Model.Business_card_captured</td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Documents Captured
+                            </th>
+                            <td colspan="2">@Model.Documents_Captured</td>
+                        </tr>
+                        <tr>
+                            <th>
+                                VAT Registration Number
+                            </th>
+                            <td colspan="2">@Model.VAT_RegNumber</td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Makani Number
+                            </th>
+                            <td colspan="2">@Model.Makani_No</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Neighborhood Check</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                Name of the Neighbor 1 and their feedback
+                            </th>
+                            <td colspan="2">@Model.Name_Neighbor1_feedback</td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Name of the Neighbor 2 and their feedback
+                            </th>
+                            <td colspan="2">@Model.Name_Neighbor2_feedback</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Security Check</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                Name of the Security and feedback
+                            </th>
+                            <td colspan="2">@Model.Name_Security_feedback</td>
+                        </tr>
 
-                        <table style="width: 700px; table-layout: fixed;" class="pdf">
-                            <thead>
-                                <tr>
-                                    <td colspan="2" style="text-align:center;">
-                                        <img src="~/Content/images/verify-logo.png" />
-                                    </td>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <tr>
+                            <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">FE's Comments</th>
+                        </tr>
+                        <tr>
+                            <th>FE Decision</th>
+                            <td colspan="2">@Model.FE_Decision</td>
+                        </tr>
+                        <tr>
+                            <th>Location Map</th>
+                            <td colspan="2">@Model.Latitude,@Model.Longitude</td>
+                        </tr>
+                        <tr>
+                            <th>Feedback</th>
+                            <td colspan="2">@Model.Feedback</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Location</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <img id="mapImage" style="width: 100%; height: 400px; display: flex; justify-content: center" />
 
+                                @*https://maps.googleapis.com/maps/api/staticmap?center=@Model.Latitude,@Model.Longitude&zoom=20&scale=false&size=900x600&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid|color:red|label:|@Model.Latitude,@Model.Longitude&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU";*@
 
-                                <tr>
-                                    <th>
-                                        Applicants Designation
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.Applicants_Designation</td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Date of Joining
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.DoJ_Applicant</td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Gross Salary (if employee)
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.Gross_Salary</td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Profit % (if owner/partner)
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.Profit</td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Accommodation Provided
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.Accommodation_Provided</td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Applicant Reports to
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.Applicant_Reports_to</td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Whether the applicant is related to the OWNER or AUTHORIZED SIGNATORY: If Yes Relation
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.AUTHORIZED_SIGNATORY</td>
-                                </tr>
-
-
-
-                                <tr>
-                                    <th colspan="2" style="font-size: 17px; background-color: #9ea615; text-align: center;">Field Visit Review</th>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Details Verified With
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.Details_Verified_With</td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Designation
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.Designation</td>
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        Orginal Seen
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.Orginal_Seen</td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Is the tenancy contract/Trade License captured
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.TradeLicense_Displayed</td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Business card captured
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.Business_card_captured</td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Documents Captured
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.Documents_Captured</td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        VAT Registration Number
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.VAT_RegNumber</td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Makani Number
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.Makani_No</td>
-                                </tr>
-                                <tr>
-                                    <th colspan="2" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Neighborhood Check</th>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Name of the Neighbor 1 and their feedback
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.Name_Neighbor1_feedback</td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Name of the Neighbor 2 and their feedback
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.Name_Neighbor2_feedback</td>
-                                </tr>
-                                <tr>
-                                    <th colspan="2" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Security Check</th>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        Name of the Security and feedback
-                                    </th>
-                                    <td @*colspan="4" *@>@Model.Name_Security_feedback</td>
-                                </tr>
-
-                                </tbody>
-                                </table>
-
-                                <div class="page-break"></div>
-
-                                <table style="width: 700px; table-layout: fixed;" class="pdf">
-                                    <thead>
-                                        <tr>
-                                            <td colspan="2" style="text-align:center;">
-                                                <img src="~/Content/images/verify-logo.png" />
-                                            </td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th colspan="2" style="font-size: 17px; background-color: #9ea615; text-align: center; ">FE's Comments</th>
-                                        </tr>
-                                        <tr>
-                                            <th>FE Decision</th>
-                                            <td @*colspan="4" *@>@Model.FE_Decision</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Location Map</th>
-                                            <td @*colspan="4" *@>@Model.Latitude,@Model.Longitude</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Feedback</th>
-                                            <td @*colspan="4" *@>@Model.Feedback</td>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Location</th>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <img id="mapImage" style="width: 100%; height: 400px; display: flex; justify-content: center" />
-
-                                                @*https://maps.googleapis.com/maps/api/staticmap?center=@Model.Latitude,@Model.Longitude&zoom=20&scale=false&size=900x600&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid|color:red|label:|@Model.Latitude,@Model.Longitude&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU";*@
-
-                                                <script>
+                                <script>
                                     const imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center=@Model.Latitude,@Model.Longitude&zoom=16&scale=false&size=900x600&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid|color:red|label:|@Model.Latitude,@Model.Longitude&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU";
 
                                                                                                                                                                                                                                                                                                 const imgElement = document.getElementById("mapImage");
@@ -608,77 +492,63 @@
                                     // Display the compressed image
                                     imgElement.src = base64Data;
                                     }
-                                                </script>
+                                </script>
 
-                                            </td>
+                            </td>
 
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                        </tr>
 
-                                        <div class="page-break"></div>
+                        <tr>
+                            <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Images</th>
 
-                                        <table style="width: 700px; table-layout: fixed;" class="pdf">
-                                            <thead>
-                                                <tr>
-                                                    <td colspan="3" style="text-align:center;">
-                                                        <img src="~/Content/images/verify-logo.png" />
-                                                    </td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                        </tr>
 
-                                                <tr>
-                                                    <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Images</th>
+                        @{
+                            var images = ViewBag.Images; // Assuming ViewBag.Images is a list of base64 images
+                        }
 
-                                                </tr>
+                        @for (int i = 0; i < images.Count; i += 2)
+                        {
+                            <tr>
+                                @for (int j = i; j < i + 3 && j < images.Count; j++)
+                                {
+                                    <td style="text-align: center; vertical-align: top; padding: 0px;">
+                                        <img src="data:image/png;base64,@images[j]" alt="Image" style="width: 100%; height: 250px; " />
+                                    </td>
+                                }
+                            </tr>
+                        }
 
-                                                @{
-                                                    var images = ViewBag.Images; // Assuming ViewBag.Images is a list of base64 images
-                                                }
+                        <tr>
+                            <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Signatures</th>
 
-                                                @for (int i = 0; i < images.Count; i += 2)
-                                                {
-                                                    <tr>
-                                                        @for (int j = i; j < i + 3 && j < images.Count; j++)
-                                                        {
-                                                            <td style="text-align: center; vertical-align: top; padding: 0px;">
-                                                                <img src="data:image/png;base64,@images[j]" alt="Image" style="width: 100%; height: 250px; " />
-                                                            </td>
-                                                        }
-                                                    </tr>
-                                                }
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align: center; vertical-align: top; padding: 10px; border: 1px solid black;">
+                                @if (ViewBag.ImageSrcs != null && ViewBag.ImageSrcs.Length > 0)
+                                {
+                                    <div style="display: flex; justify-content: space-around;">
+                                        @for (int i = 0; i < ViewBag.ImageSrcs.Length - 1; i++)
+                                        {
+                                            var imageName = i == 0 ? "Customer Signature" : "Verifier Signature";
+                                            var imageSrc = ViewBag.ImageSrcs[i];
 
-                                                <tr>
-                                                    <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Signatures</th>
-
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" style="text-align: center; vertical-align: top; padding: 10px; border: 1px solid black;">
-                                                        @if (ViewBag.ImageSrcs != null && ViewBag.ImageSrcs.Length > 0)
-                                                        {
-                                                            <div style="display: flex; justify-content: space-around;">
-                                                                @for (int i = 0; i < ViewBag.ImageSrcs.Length-1; i++)
-                                                                {
-                                                                    var imageName = i == 0 ? "Customer Signature" : "Verifier Signature";
-                                                                    var imageSrc = ViewBag.ImageSrcs[i];
-
-                                                                    <figure style="text-align: center;">
-                                                                        <img src="@imageSrc" alt="@imageName" style="border: none; max-width: 200px; height: auto;" />
-                                                                        <figcaption>@imageName</figcaption>
-                                                                    </figure>
-                                                                }
-                                                            </div>
-                                                        }
-                                                    </td>
+                                            <figure style="text-align: center;">
+                                                <img src="@imageSrc" alt="@imageName" style="border: none; max-width: 200px; height: auto;" />
+                                                <figcaption>@imageName</figcaption>
+                                            </figure>
+                                        }
+                                    </div>
+                                }
+                            </td>
 
 
 
 
-                                                </tr>
-                                            </tbody>
-                                        </table>
-</div>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
