@@ -1626,15 +1626,29 @@ namespace CPV_Mark3.Controllers
             }
             else
             {
+                List<CaseTable> totalcase = caseTable.ToList();
                 DateTime startOfDay = DateTime.Today;
                 DateTime endOfDay = DateTime.Today.AddDays(1).AddTicks(-1);
-                List<CaseTable> pastoneMo = caseTable.Where(w => w.Final_Date == null 
+                DateTime beginMonth = new DateTime(startOfDay.Year, startOfDay.Month, 1);
+                List<CaseTable> pastoneMo = caseTable.Where(w => w.Final_Date == null
                     && w.Allocation_Date >= DateTime.Today.AddDays(-3)).ToList();
-                List<CaseTable> totalcase = caseTable
-                    // .Where(w => w.Allocation_Date >= startOfDay && w.Allocation_Date <= endOfDay)
-                    .Where(w => w.Allocation_Date >= startOfDay.AddHours(-48) && w.Allocation_Date <= endOfDay)
-                    .ToList();
-                             
+                string header2 = "Daily Stats";
+
+                if (stats.Substring(0, 7) == "monthly")
+                {
+                    header2 = "Monthly Stats";
+                    pastoneMo = caseTable.ToList();
+                    totalcase = caseTable
+                    .Where(w => w.Allocation_Date >= startOfDay.AddMonths(-1) && w.Allocation_Date <= endOfDay)
+                        .ToList();
+                }
+                else
+                {                   
+                    totalcase = caseTable
+                        // .Where(w => w.Allocation_Date >= startOfDay && w.Allocation_Date <= endOfDay)
+                        .Where(w => w.Allocation_Date >= startOfDay.AddHours(-48) && w.Allocation_Date <= endOfDay)
+                        .ToList();
+                }      
                
                 string status;
                 switch (stats)
@@ -1657,14 +1671,34 @@ namespace CPV_Mark3.Controllers
                         w.Allocation_Date.Value.AddHours(48) < DateTime.Now && w.Final_Status != "Final Captured").ToList();
                        status = "Beyond SLA";
                         break;
+                   
 
+                    case "monthlyTotalApplications":
+                        totalcase = totalcase.ToList();
+                        status = "Total Application";
+                        break;
+
+                    case "monthlyDoneCases":
+                        totalcase = totalcase.Where(w => w.Final_Status == "Final Captured").ToList();
+                        status = "Done Cases";
+                        break;
+                    case "monthlyUnderProcess":
+                        totalcase = totalcase.Where(w => w.Final_Status == "Pending" || w.Final_Status == "PDA Captured").ToList();
+                        status = "Under Process";
+                        break;
+                    case "monthlyBeyondSLA":
+                        totalcase = pastoneMo.Where(w => w.Allocation_Date.HasValue &&
+                        w.Final_Status != "Final Captured").ToList();
+                        status = "Beyond SLA";
+                        break;
+                
                     default :
                         totalcase = totalcase.ToList();
                         status = "";
                         break;
 
                 }
-                ViewBag.feName = status + " (Daily Stats)";
+                ViewBag.feName = status + $" ({header2})";
                 return PartialView(totalcase.OrderBy(o => o.Final_Status != "Pending").ThenBy(t => t.Final_Status));
             }
         }
