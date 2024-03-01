@@ -397,9 +397,9 @@ namespace CPV_Mark3.Controllers
                 // Retrieve total data without date or time limit
                 List<CaseTable> totalcaseAll = caseTable.ToList();
 
-                int donecaseAll = totalcaseAll.Where(w => w.Final_Status == "Final Captured").Count();
+                int donecaseAll =  totalcaseAll.Where(w => w.Final_Status == "Final Captured").Count();
                 int newcaseAll = totalcaseAll.Where(w => w.Final_Status == "Pending" || w.Final_Status == "PDA Captured").Count();
-                int overdueCaseAll = totalcaseAll.Where(w => w.Final_Status == "").Count();
+                int overdueCaseAll = totalcaseAll.Where(w => w.Final_Status != "Final Captured").Count();
 
                 Dashdata.Add(totalcaseAll.Count());
                 Dashdata.Add(donecaseAll);
@@ -413,11 +413,14 @@ namespace CPV_Mark3.Controllers
                 // Retrieve data with date filter
                 DateTime startOfDay = DateTime.Today;
                 DateTime endOfDay = DateTime.Today.AddDays(1).AddTicks(-1);
-                List<CaseTable> pastoneMo = db.CaseTables.Where(w=>w.Final_Date == null).ToList();
+               
 
                 List<CaseTable> totalcase = caseTable
                     .Where(w => w.Allocation_Date >= startOfDay.AddHours(-48) && w.Allocation_Date <= endOfDay)
                     .ToList();
+
+                List<CaseTable> pastoneMo = totalcase.Where(w => w.Final_Date == null
+                   && w.Allocation_Date >= DateTime.Today.AddDays(-3)).ToList();
 
                 int donecase = totalcase.Where(w => w.Final_Status == "Final Captured").Count();
                 int newcase = totalcase.Where(w => w.Final_Status == "Pending" || w.Final_Status == "PDA Captured").Count();
@@ -1577,15 +1580,16 @@ namespace CPV_Mark3.Controllers
 
         public ActionResult DisplayFeCount(string feName, string stats)
         {
+            List<CaseTable> caseTable = db.CaseTables.ToList();
             if (feName != "0")
             {
-                List<CaseTable> cases = db.CaseTables.Where(w => w.FE_Name == feName).ToList();
+                List<CaseTable> cases = caseTable.Where(w => w.FE_Name == feName).ToList();
                 string FeName;
                 if (feName == "(New)")
                 {
                     FeName = "New";
                     feName = "Not Assigned";
-                    cases = db.CaseTables.Where(w => w.FE_Name == null || w.FE_Name == "").ToList();
+                    cases = caseTable.Where(w => w.FE_Name == null || w.FE_Name == "").ToList();
                 }
                 else
                 {
@@ -1599,9 +1603,11 @@ namespace CPV_Mark3.Controllers
             {
                 DateTime startOfDay = DateTime.Today;
                 DateTime endOfDay = DateTime.Today.AddDays(1).AddTicks(-1);
-                List<CaseTable> pastoneMo = db.CaseTables.Where(w => w.Final_Date == null).ToList();
-                List<CaseTable> totalcase = db.CaseTables
-                    .Where(w => w.Allocation_Date >= startOfDay && w.Allocation_Date <= endOfDay)
+                List<CaseTable> pastoneMo = caseTable.Where(w => w.Final_Date == null 
+                    && w.Allocation_Date >= DateTime.Today.AddDays(-3)).ToList();
+                List<CaseTable> totalcase = caseTable
+                    // .Where(w => w.Allocation_Date >= startOfDay && w.Allocation_Date <= endOfDay)
+                    .Where(w => w.Allocation_Date >= startOfDay.AddHours(-48) && w.Allocation_Date <= endOfDay)
                     .ToList();
                              
                
@@ -1621,10 +1627,10 @@ namespace CPV_Mark3.Controllers
                         totalcase = totalcase.Where(w => w.Final_Status == "Pending" || w.Final_Status == "PDA Captured").ToList();
                         status = "Under Process";
                         break;
-                    case "OverDue":
+                    case "BeyondSLA":
                         totalcase = pastoneMo.Where(w => w.Allocation_Date.HasValue &&
                         w.Allocation_Date.Value.AddHours(48) < DateTime.Now && w.Final_Status != "Final Captured").ToList();
-                       status = "Over Due";
+                       status = "Beyond SLA";
                         break;
 
                     default :
