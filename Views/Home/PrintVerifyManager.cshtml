@@ -33,7 +33,38 @@
         },
     });
 
-    var pdfElement = document.getElementById('print');
+    const header = `
+              <div style="font-size: 12px; text-align: center; padding-top: 10px;">
+                <span>My Header</span>
+              </div>
+            `;
+            var pdfElement = document.getElementById('print');
+            html2pdf(pdfElement, {
+              useCORS: true,
+              margin: [20, 10, 20, 10], // Increase the top margin to make space for the header
+              filename: '@Model.Application_no' + '-' + '@Model.Application_name' + '.pdf',
+              image: { type: 'jpeg', quality: 2 },
+              html2canvas: { scale: 2 },
+              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                beforePageContent: (pageNumber, htmlContent) => {
+                    console.log("hi");
+                return `
+                  ${header}
+                  ${htmlContent}
+                `;
+              },
+            }).then(() => {
+              Swal.close();
+            }).catch((error) => {
+              console.error('PDF generation error:', error);
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while generating the PDF.',
+              });
+            });
+
+    @*var pdfElement = document.getElementById('print');
             html2pdf(pdfElement, {
                 useCORS: true,
                 margin: [0, 10, 0, 10],
@@ -41,18 +72,18 @@
                 image: { type: 'jpeg', quality: 2 },
                 html2canvas: { scale: 2 },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-       
 
-    }).then(() => {
-        Swal.close();
-    }).catch((error) => {
-        console.error('PDF generation error:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'An error occurred while generating the PDF.',
-        });
-    });
+
+            }).then(() => {
+                Swal.close();
+            }).catch((error) => {
+                console.error('PDF generation error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while generating the PDF.',
+                });
+            });*@
 
 
 
@@ -98,10 +129,6 @@
         }
 
         table {
-            page-break-inside: avoid;
-        }
-
-        table {
             border-collapse: collapse;
             width: 700px;
             /* table-layout: fixed;*/
@@ -143,77 +170,18 @@
                 color: white;
             }
 
-        tr {
+        .print-page table tr{
             page-break-inside: avoid;
-        }
-
-        table {
-            page-break-inside: avoid;
-        }
-
-        .print-page table tr td {
-            page-break-inside: avoid;
-        }
-
-        .print-page table tr td {
-            border: solid 1px black;
+            page-break-before: auto;
         }
 
         .page-break {
             page-break-before: always;
         }
-    </style>
-
-    <style>
-        @@media print {
-    .print-page {
-        width: 700px;
-        margin: 0 auto;
-    }
-
-    .pdf {
-        width: 100%;
-        table-layout: fixed;
-    }
-
-    .pdf thead {
-        text-align: center;
-    }
-
-    .pdf th, .pdf td {
-        padding: 5px;
-        border: 1px solid #000;
-    }
-
-    .pdf th {
-        font-size: 17px;
-        background-color: #9ea615;
-    }
-
-    #mapImage {
-        width: 100%;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-    }
-
-    .print-page header, .print-page footer {
-        display: block;
-        text-align: center;
-        position: fixed;
-        width: 100%;
-    }
-
-    .print-page header {
-        top: 0;
-    }
-
-    .print-page footer {
-        bottom: 0;
-    }
-}
 
 
+
+       
     </style>
 </head>
 <body>
