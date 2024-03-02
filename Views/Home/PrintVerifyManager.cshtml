@@ -23,7 +23,77 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <script>
-        function generatePDF() {
+
+
+        $(document).ready(function () {
+            var pdfElement = document.getElementById('print');
+            $("#SaveButton").on("click", () => {
+                html2pdf(pdfElement, {
+                    margin: 10,
+                    filename: 'Example.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, logging: true, dpi: 300, letterRendering: true },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'Portrait' }
+                }).toPdf().get('pdf')
+                    .then(function (pdf) {
+                        var totalPages = pdf.internal.getNumberOfPages();
+
+                        for (let i = 1; i <= totalPages; i++) {
+                            pdf.setPage(i);
+                            pdf.setFontSize(10);
+                            pdf.setTextColor(150);
+                            //Add you content in place of example here
+                            // pdf.text('example', pdf.internal.pageSize.getWidth() - 100, pdf.internal.pageSize.getHeight() - 10);
+                            pdf.text('Total Pages: ' + totalPages, 10, 10)
+                        }
+                    }).save();
+            })
+
+
+            //$("#SaveButton").on("click", () => {
+            //    //var pdfElement = $("#print")[0];
+            //    let pdfElement = $("#testdiv")[0];
+            //    html2pdf().from(pdfElement).set({
+            //        margin: [0, 10, 0, 10],
+            //        filename: 'your_document.pdf',
+            //        image: { type: 'jpeg', quality: 0.98 },
+            //        html2canvas: { scale: 2 },
+            //        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', putTotalPages: true },
+            //        pagebreak: { mode: 'avoid-all' },
+            //        header: function (currentPage, totalPages, pdf) {
+            //            return {
+            //                text: currentPage.toString() + ' / ' + totalPages + "test pages",
+            //                alignment: 'left',
+            //                margin: [0, 10, 10, 0],
+            //                fontSize: 10
+            //            };
+            //            console.log("test");
+            //        },
+            //        // More options...
+            //    }).toPdf().save();
+            //});
+        });
+
+
+
+        //$(document).ready(function () {
+        //    $("#SaveButton").on("click", ()=> {
+        //        var pdfElement = $("#print")[0];
+        //        //var pdfElement = document.getElementById('print');
+        //        console.log(pdfElement);
+        //        html2pdf(pdfElement, {
+        //            margin: [0, 10, 0, 10],
+        //            useCORS: true,            
+        //            image: { type: 'jpeg', quality: 2 },
+        //            html2canvas: { scale: 2 },
+        //            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                    
+        //        })
+        //    })
+        //})
+
+
+        @*function generatePDF() {
     Swal.fire({
         title: 'Generating PDF',
         text: 'Map image is loaded. Please wait...',
@@ -35,12 +105,14 @@
 
     var pdfElement = document.getElementById('print');
             html2pdf(pdfElement, {
-                useCORS: true,
+                //useCORS: true,              
                 margin: [0, 10, 0, 10],
                 filename: '@Model.Application_no' + '-' + '@Model.Application_name' + '.pdf',
                 image: { type: 'jpeg', quality: 2 },
                 html2canvas: { scale: 2 },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+             
+             
        
 
     }).then(() => {
@@ -52,7 +124,7 @@
             title: 'Error',
             text: 'An error occurred while generating the PDF.',
         });
-    });
+    });*@
 
 
 
@@ -78,7 +150,7 @@
             //    doc.save('updated.pdf');
             //});
 
-}
+//}
 
     </script>
     <style>
@@ -217,8 +289,11 @@
     </style>
 </head>
 <body>
+    <div id="testdiv">
+        <p>The quick brown fox jumps over the lazy dog</p>
+    </div>
     <div style="display:flex; justify-content:center; align-items: center;">
-        <input type="button" value="Save" class="saveBtn" onclick="generatePDF()" />
+        <input id="SaveButton" type="button" value="Save" class="saveBtn" @*onclick="generatePDF()*@" />
     </div>
     <div>
         <div class="pdf" style="display: flex; justify-content:center; align-items:center;">
@@ -228,7 +303,8 @@
                     <thead>
                         <tr>
                             <td colspan="3" style="text-align:center;">
-                                <img src="~/Content/images/verify-logo.png" />
+                                @*<img src="~/Content/images/verify-logo.png" />*@
+                                <img src="/Content/Images/verify-logo.png"/>
                             </td>
                         </tr>
                     </thead>
@@ -552,6 +628,7 @@
         </div>
 
     </div>
+  
     <script src="/bundles/jquery?v=2u0aRenDpYxArEyILB59ETSCA2cfQkSMlxb6jbMBqf81"></script>
 
     <script src="/bundles/bootstrap?v=ESck_wvaWCiF5JsitLMh765lhMnw7BVBtZE-YUTa4Ns1"></script>
