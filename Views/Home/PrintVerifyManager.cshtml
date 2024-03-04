@@ -27,133 +27,94 @@
 
         $(document).ready(function () {
             var pdfElement = document.getElementById('print');
+
+            //const imgData = '/Content/Images/verify-logo.jpg';
+            //    $("#SaveButton").on("click", () => {
+            //        html2pdf().set({
+
+            //            element:pdfElement,
+            //            margin: 10,
+            //            filename: 'Example.pdf',
+            //            image: { type: 'jpeg', quality: 0.98 },
+            //            html2canvas: { scale: 2, logging: true, dpi: 300, letterRendering: true },
+            //            jsPDF: { unit: 'mm', format: 'a4', orientation: 'Portrait' },
+            //            onBeforeSave: function (pdf) {
+            //                var totalPages = pdf.internal.getNumberOfPages();
+            //                console.log(totalPages);
+            //                for (let i = 1; i <= totalPages; i++) {
+            //                    pdf.setPage(i);
+            //                    pdf.setFontSize(10);
+            //                    pdf.setTextColor(150);
+            //                    pdf.addImage(imgData, 'JPEG', 80, 10);
+            //                }
+            //            }
+            //        }).save();
+
+            //    });
+
+
+
+            //$("#SaveButton").on("click", () => {
+            //    html2pdf(pdfElement, {
+            //        margin: 10,
+            //        filename: 'Example.pdf',
+            //        image: { type: 'jpeg', quality: 0.98 },
+            //        html2canvas: { scale: 2, logging: true, dpi: 300, letterRendering: true },
+            //        jsPDF: { unit: 'mm', format: 'a4', orientation: 'Portrait' },
+            //        output: (pdfElement) => {
+            //            var pdf = new jsPDF('p', 'mm', 'a4');
+            //            var totalPages = pdfElement.internal.getNumberOfPages();
+            //            console.log("->"+totalPages);
+
+            //            for (let i = 1; i <= totalPages; i++) {
+            //                pdfElement.setPage(i);
+            //                pdfElement.setFontSize(10);
+            //                pdfElement.setTextColor(150);
+            //                const imgData = '/Content/Images/verify-logo.jpg';
+            //                pdfElement.addImage(imgData, 'JPEG', 80, 10);
+            //            }
+
+            //            // Save the PDF after adding images to all pages
+            //            pdf.save('Example.pdf');
+            //        }
+            //    }).then(() => {
+            //        // Additional code if needed after PDF generation
+            //        console.log('PDF generation completed');
+            //    });
+            //});
+
+
             $("#SaveButton").on("click", () => {
                 html2pdf(pdfElement, {
-                    margin: 10,
-                    filename: 'Example.pdf',
+                    margin: [40,10,10,10],
+                    filename: "@Model.Application_name"+"-"+"@Model.Application_no",
                     image: { type: 'jpeg', quality: 0.98 },
                     html2canvas: { scale: 2, logging: true, dpi: 300, letterRendering: true },
-                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'Portrait' }
-                }).toPdf().get('pdf')
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'Portrait' },
+                    border: { top: '1px', right: '1px', bottom: '1px', left: '1px', color: 'black' } // Add border color
+                }).get('pdf')
                     .then(function (pdf) {
                         var totalPages = pdf.internal.getNumberOfPages();
-
+                        console.log(totalPages);
                         for (let i = 1; i <= totalPages; i++) {
                             pdf.setPage(i);
                             pdf.setFontSize(10);
                             pdf.setTextColor(150);
-                            //Add you content in place of example here
-                            // pdf.text('example', pdf.internal.pageSize.getWidth() - 100, pdf.internal.pageSize.getHeight() - 10);
-                            pdf.text('Total Pages: ' + totalPages, 10, 10)
+                            const imgData = '/Content/Images/verify-logo.jpg';
+                            pdf.addImage(imgData, 'JPEG', 80, 10);
                         }
-                    }).save();
-            })
 
-
-            //$("#SaveButton").on("click", () => {
-            //    //var pdfElement = $("#print")[0];
-            //    let pdfElement = $("#testdiv")[0];
-            //    html2pdf().from(pdfElement).set({
-            //        margin: [0, 10, 0, 10],
-            //        filename: 'your_document.pdf',
-            //        image: { type: 'jpeg', quality: 0.98 },
-            //        html2canvas: { scale: 2 },
-            //        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', putTotalPages: true },
-            //        pagebreak: { mode: 'avoid-all' },
-            //        header: function (currentPage, totalPages, pdf) {
-            //            return {
-            //                text: currentPage.toString() + ' / ' + totalPages + "test pages",
-            //                alignment: 'left',
-            //                margin: [0, 10, 10, 0],
-            //                fontSize: 10
-            //            };
-            //            console.log("test");
-            //        },
-            //        // More options...
-            //    }).toPdf().save();
-            //});
-        });
+                        // Save the PDF after adding images to all pages
+                       
+                    }).save()
+            });
 
 
 
-        //$(document).ready(function () {
-        //    $("#SaveButton").on("click", ()=> {
-        //        var pdfElement = $("#print")[0];
-        //        //var pdfElement = document.getElementById('print');
-        //        console.log(pdfElement);
-        //        html2pdf(pdfElement, {
-        //            margin: [0, 10, 0, 10],
-        //            useCORS: true,            
-        //            image: { type: 'jpeg', quality: 2 },
-        //            html2canvas: { scale: 2 },
-        //            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                    
-        //        })
-        //    })
-        //})
-
-
-        @*function generatePDF() {
-    Swal.fire({
-        title: 'Generating PDF',
-        text: 'Map image is loaded. Please wait...',
-        allowOutsideClick: false,
-        onBeforeOpen: () => {
-            Swal.showLoading();
-        },
-    });
-
-    const header = `
-              <div style="font-size: 12px; text-align: center; padding-top: 10px;">
-                <span>My Header</span>
-              </div>
-            `;
-            var pdfElement = document.getElementById('print');
-            html2pdf(pdfElement, {
-                //useCORS: true,              
-                margin: [0, 10, 0, 10],
-                filename: '@Model.Application_no' + '-' + '@Model.Application_name' + '.pdf',
-                image: { type: 'jpeg', quality: 2 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-       
-
-    }).then(() => {
-        Swal.close();
-    }).catch((error) => {
-        console.error('PDF generation error:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'An error occurred while generating the PDF.',
-        });
-    });
+            });
 
 
 
-            //html2pdf(pdfElement).then(() => {
-            //    var doc = new jsPDF('p', 'pt'); // jsPDF instance
-
-            //    // Add image to first page
-            //    //doc.addImage("/Content/images/verify-logo.png", 'PNG', 0, 0, doc.internal.pageSize.getWidth(), 20);
-
-            //    // Display number of pages
-            //    /*alert("Number of Pages: " + doc.internal.getNumberOfPages());*/
-            //    alert("Number of Pagesaa");
-
-            //    // Add to other pages
-            //    for (var i = 1; i < 3; i++) {
-            //        alert("Number of Pages: " + doc.internal.getNumberOfPages());
-            //        doc.addPage();
-            //        doc.addImage("/Content/images/verify-logo.png", 'PNG', 0, 0, 100, 20);
-            //        alert("Number of Pagesaa");
-            //    }
-
-            //    // Save updated PDF
-            //    doc.save('updated.pdf');
-            //});
-
-//}
 
     </script>
     <style>
@@ -229,25 +190,14 @@
     </style>
 </head>
 <body>
-    <div id="testdiv">
-        <p>The quick brown fox jumps over the lazy dog</p>
-    </div>
     <div style="display:flex; justify-content:center; align-items: center;">
-        <input id="SaveButton" type="button" value="Save" class="saveBtn" @*onclick="generatePDF()*@" />
+        <input id="SaveButton" type="button" value="Save" class="saveBtn" />
     </div>
     <div>
         <div class="pdf" style="display: flex; justify-content:center; align-items:center;">
             <div class="print-page" id="print">
 
                 <table style="width: 700px; table-layout: fixed;" class="pdf">
-                    <thead>
-                        <tr>
-                            <td colspan="3" style="text-align:center;">
-                                @*<img src="~/Content/images/verify-logo.png" />*@
-                                <img src="/Content/Images/verify-logo.png"/>
-                            </td>
-                        </tr>
-                    </thead>
                     <tbody>
                         <tr>
                             <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">ADIB FIELD VISIT</th>
