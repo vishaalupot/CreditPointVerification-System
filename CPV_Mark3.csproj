@@ -376,6 +376,7 @@
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\logo2.png" />
     <Content Include="Content\Images\logout.png" />
+    <Content Include="Content\Images\move.png" />
     <Content Include="Content\Images\on-time1.png" />
     <Content Include="Content\Images\on-time2.png" />
     <Content Include="Content\Images\op.png" />
@@ -389,6 +390,7 @@
     <Content Include="Content\Images\search.png" />
     <Content Include="Content\Images\search1.png" />
     <Content Include="Content\Images\send.png" />
+    <Content Include="Content\Images\Spreadsheets.gif" />
     <Content Include="Content\Images\summation.png" />
     <Content Include="Content\Images\summation1.png" />
     <Content Include="Content\Images\time1.png" />
@@ -396,6 +398,7 @@
     <Content Include="Content\Images\trash.png" />
     <Content Include="Content\Images\usermaster.png" />
     <Content Include="Content\Images\usermaster1.png" />
+    <Content Include="Content\Images\verify-logo.jpg" />
     <Content Include="Content\Images\verify-logo.png" />
     <Content Include="Content\Images\xvc.pdf" />
     <Content Include="Content\Images\yes.png" />
