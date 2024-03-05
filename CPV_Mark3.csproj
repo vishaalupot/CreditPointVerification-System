@@ -144,6 +144,9 @@
       <HintPath>..\packages\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.Charting.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -549,6 +552,8 @@
     <Content Include="Views\Home\_ImageContainer.cshtml" />
     <Content Include="Views\Home\UploadCases.cshtml" />
     <Content Include="Views\Home\DisplayFeCount.cshtml" />
+    <Content Include="Views\Home\_Header.cshtml" />
+    <Content Include="Views\Home\PrintVerifyManagerToPdf.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
