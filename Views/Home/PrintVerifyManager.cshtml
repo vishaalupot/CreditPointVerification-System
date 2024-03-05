@@ -100,12 +100,13 @@
                             pdf.setPage(i);
                             pdf.setFontSize(10);
                             pdf.setTextColor(150);
-                            const imgData = '/Content/Images/verify-logo.jpg';
+                            //const imgData = '/Content/Images/verify-logo.jpg';
+                            const imgData = '@Url.Content("~/Content/Images/verify-logo.jpg")'
                             pdf.addImage(imgData, 'JPEG', 80, 10);
                         }
 
                         // Save the PDF after adding images to all pages
-                       
+
                     }).save()
             });
 
