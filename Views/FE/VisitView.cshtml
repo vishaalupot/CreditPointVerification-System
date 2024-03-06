@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet" />
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
@@ -28,6 +29,7 @@
             color: #236A8B;
             font-family: 'Jaldi', sans-serif;
         }
+
         .fe-dash2 {
             bottom: 0;
             width: 100%;
@@ -39,13 +41,13 @@
 
         .Dashbutton {
             display: flex;
-            justify-content:center;
-            align-items:center;/* padding: 10px 20px;*/
+            justify-content: center;
+            align-items: center; /* padding: 10px 20px;*/
             font-size: 21px;
             text-align: center;
             text-decoration: none;
             background-color: #236A8B; /* Green background color */
-           /* background-image: url(../../Content/Images/dash.png);*/
+            /* background-image: url(../../Content/Images/dash.png);*/
             color: white; /* White text color */
             border: 1px solid #236A8B; /* Green border */
             border-radius: 4px; /* Rounded corners */
@@ -115,7 +117,7 @@
                 border-color: #68c5b5; /* Border color when focused */
             }
 
-        form-group{
+        form-group {
             margin: 0px !important;
         }
 
@@ -127,7 +129,7 @@
         }
 
         table {
-            color:white;
+            color: white;
             font-size: 15px;
             border-collapse: collapse;
             width: 100%;
@@ -142,14 +144,13 @@
             font-weight: 500;
         }
 
-        tr:first-child td {
-            border-top: none; /* Remove top border for the first row */
-        }
+            tr:first-child td {
+                border-top: none; /* Remove top border for the first row */
+            }
 
-        tr:first-child td {
-
-            border-bottom: none; /* Remove top border for the first row */
-        }
+            tr:first-child td {
+                border-bottom: none; /* Remove top border for the first row */
+            }
 
             tr:last-child td {
                 border-bottom: none; /* Remove bottom border for the last row */
@@ -161,9 +162,10 @@
                 border-top: none !important;
             }
 
-        td:last-child {
-            border-right: none; /* Remove right border for the last column */
-        }
+            td:last-child {
+                border-right: none; /* Remove right border for the last column */
+            }
+
         table td {
             border: solid 1px white;
             border-bottom: none;
@@ -171,10 +173,33 @@
             width: max-content;
             padding: 0px 10px;
         }
-
-       
-
     </style>
+
+    <script>
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                // Prevent the form from submitting in the traditional way
+                event.preventDefault();
+
+                // Add a 2-second delay before showing SweetAlert
+                setTimeout(function () {
+                    // Show the SweetAlert
+                    Swal.fire({
+                        title: 'Submitted!',
+                        text: 'The form has been submitted successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                }, 2000);
+
+                // Allow the form to submit after the delay
+                setTimeout(function () {
+                    event.target.submit();
+                }, 3000);
+            });
+        });
+    </script>
+
 </head>
 
 <body style="padding:0px;">
@@ -873,7 +898,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
+                        <div class="col-md-offset-2 col-md-10" style=" display: flex; justify-content: center;">
                             <input type="submit" value="Submit"  class="btn" style="width: 150px; height: 50px; background-color: #236A8B; color: white; font-size:20px;" />
 
                         </div>

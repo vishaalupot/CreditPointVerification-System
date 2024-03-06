@@ -158,7 +158,6 @@
 
         .form-control {
             height: 40px;
-            border: none !important;
         }
 
     </style>
@@ -220,9 +219,8 @@
         var map;
         function ShowErrorPopup() {
 
-
-                var lat =  @Model.Latitude;
-                var longi = @Model.Longitude;
+            var lat =  @Model.Latitude;
+            var longi = @Model.Longitude;
 
 
             var latlng = new google.maps.LatLng(lat, longi);
@@ -419,7 +417,7 @@
         </script>
 
 
-        @using (Html.BeginForm("EditVerifyManager", "Home", null, FormMethod.Post, new { @class = "form-control", id = "Form" }))
+        @using (Html.BeginForm("EditVerifyManager", "Home", null, FormMethod.Post, new { @class = "form-control", id = "Form", @style = "border: none !important;" }))
         {
             @Html.AntiForgeryToken()
             <div class="row space">
@@ -595,7 +593,7 @@
                     </div>
                 </div>
 
-                <div class="form-group  col-sm-12 col-md-4 col-xl-3">
+                @*<div class="form-group  col-sm-12 col-md-4 col-xl-3">
                     <div class="row">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.FE_Name, "Verifier Name", htmlAttributes: new { @class = "control-label label" })
@@ -603,6 +601,17 @@
                     </div>
                     <div class="col-md-12">
                         @Html.TextBoxFor(model => model.FE_Name, new { @class = "form-control box", @readonly = "readonly" })
+                    </div>
+                </div>*@
+                
+                <div class="form-group  col-sm-12 col-md-4 col-xl-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Backend_Name, "Backend Name", htmlAttributes: new { @class = "control-label label" })
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        @Html.TextBoxFor(model => model.Backend_Name, new { @class = "form-control box", @readonly = "readonly" })
                     </div>
                 </div>
 
