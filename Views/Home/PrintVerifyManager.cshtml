@@ -15,104 +15,22 @@
     <script src="https://unpkg.com/html2pdf.js/dist/html2pdf.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-    <script>
-
-
-        $(document).ready(function () {
-            var pdfElement = document.getElementById('print');
-
-            //const imgData = '/Content/Images/verify-logo.jpg';
-            //    $("#SaveButton").on("click", () => {
-            //        html2pdf().set({
-
-
-            //    });
-
-
-
-            //$("#SaveButton").on("click", () => {
-            //    html2pdf(pdfElement, {
-            //        margin: 10,
-            //        filename: 'Example.pdf',
-            //        image: { type: 'jpeg', quality: 0.98 },
-            //        html2canvas: { scale: 2, logging: true, dpi: 300, letterRendering: true },
-            //        jsPDF: { unit: 'mm', format: 'a4', orientation: 'Portrait' },
-            //        output: (pdfElement) => {
-            //            var pdf = new jsPDF('p', 'mm', 'a4');
-            //            var totalPages = pdfElement.internal.getNumberOfPages();
-            //            console.log("->"+totalPages);
-
-            //            for (let i = 1; i <= totalPages; i++) {
-            //                pdfElement.setPage(i);
-            //                pdfElement.setFontSize(10);
-            //                pdfElement.setTextColor(150);
-            //                const imgData = '/Content/Images/verify-logo.jpg';
-            //                pdfElement.addImage(imgData, 'JPEG', 80, 10);
-            //            }
-
-            //            // Save the PDF after adding images to all pages
-            //            pdf.save('Example.pdf');
-            //        }
-            //    }).then(() => {
-            //        // Additional code if needed after PDF generation
-            //        console.log('PDF generation completed');
-            //    });
-            //});
-
-
-            $("#SaveButton").on("click", () => {
-                html2pdf(pdfElement, {
-                    margin: [40,10,10,10],
-                    filename: "@Model.Application_name"+"-"+"@Model.Application_no",
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2, logging: true, dpi: 300, letterRendering: true },
-                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'Portrait' },
-                    border: { top: '1px', right: '1px', bottom: '1px', left: '1px', color: 'black' } // Add border color
-                }).get('pdf')
-                    .then(function (pdf) {
-                        var totalPages = pdf.internal.getNumberOfPages();
-                        console.log(totalPages);
-                        for (let i = 1; i <= totalPages; i++) {
-                            pdf.setPage(i);
-                            pdf.setFontSize(10);
-                            pdf.setTextColor(150);
-                            //const imgData = '/Content/Images/verify-logo.jpg';
-                            const imgData = '@Url.Content("~/Content/Images/verify-logo.jpg")'
-                            pdf.addImage(imgData, 'JPEG', 80, 10);
-                        }
-
-             // Save the PDF after adding images to all pages
-
-         //}).save()
- //});
-
-
-
-
-
-
-
-            });
-
-
-
-
-    </script>
+   
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
         @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
-        /*.print-page table th {
+        .print-page table th {
             border: solid 1px black;
-            background-color: #ddd;*/
-        /* width: 200px !important;*/
-        /*}
+            background-color: #ddd;
+         width: 200px !important;
+        }
 
         .print-page table tr td {
             border: solid 1px black;
             text-align: left;
             padding-left: 5px;
-        }*/
+        }
 
         table {
             width: 700px;
@@ -139,12 +57,12 @@
             page-break-inside: avoid !important;
         }
 
-       /* .print {
+        .print {
             display: flex;
             justify-content: center;
             flex-direction: column;
             align-items: center;
-        }*/
+        }
 
         .saveBtn {
             background-color: #024444;
@@ -163,26 +81,26 @@
                 color: white;
             }
 
-        /* pdf table tr{
+         pdf table tr{
             page-break-inside: avoid;
             page-break-before:avoid;
-        }*/
+        }
 
-        /*.print-page table tr {
+        .print-page table tr {
             page-break-inside: avoid;
             page-break-before: auto;
-        }*/
+        }
 
-        /*.print-page table tr td {
+        .print-page table tr td {
             page-break-inside: avoid;
             page-break-before: auto;
-        }*/
+        }
 
-        /* .page-break {
+         .page-break {
             page-break-before: always;
-        }*/
+        }
 
-        /*table {
+        table {
 
             page-break-inside: avoid;
         }
@@ -201,7 +119,7 @@
 
         div#print {
             page-break-after: always;
-        }*/
+        }
 
 
 
@@ -210,235 +128,247 @@
     </style>
 </head>
 <body>
-    <div style="display:flex; justify-content:center; align-items: center;">
-        @*<input id="SaveButton" type="button" value="Save" class="saveBtn" />*@
-        '@Html.ActionLink("Save","GeneratePdf","Home", new {id = 123},null)'
-    </div>
-    <div>
+    @{
+        if (ViewBag.PrintPdf != 1)
+        {
+            <div style="display: flex; justify-content:center; align-items: center;">
+                @Html.ActionLink("Save to PDF", "PrintVerifyManager", "Home", new { id = Model.Id, PrintPdf = 1 }, new { @class = "saveBtn", style = "text-decoration: none; display: inline-block; text-align: center; line-height: 40px; width: 120px; height: 40px; background-color: #007bff; color: #ffffff; border-radius: 5px; font-weight: bold;" })
+            </div>
+
+        }
+    }
+    <div class = "container-fluid">
         <div style="display: flex; justify-content:center; align-items:center;">
             <div class="print-page">
 
-                <table class="pdf" id="print">
+                <table class="pdf" id="print" style="width: 100%; max-width: 1200px;">
+                    <thead>
+                        <tr>
+                            <td colspan="8" class="text-center align-top" style="justify-content:center" >                               
+                                <img src="@Url.Content("~/Content/Images/verify-logo.jpg")" alt="Logo" style="display: block; margin: 0 auto;" />
+                            </td>
+                        </tr>
+                    </thead>
                     <tr>
-                        <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">ADIB FIELD VISIT</th>
+                        <th colspan="6" style="font-size: 17px; background-color: #9ea615; text-align: center; ">ADIB FIELD VISIT</th>
                     </tr>
                     <tr>
                         <th>Product</th>
-                        <td colspan="2">@Model.Product</td>
+                        <td colspan="4">@Model.Product</td>
                     </tr>
                     <tr>
                         <th>Received Date</th>
-                        <td colspan="2">@Model.Allocation_Date</td>
+                        <td colspan="4">@Model.Allocation_Date</td>
                     </tr>
                     <tr>
                         <th>Date & Time Of Visit</th>
-                        <td colspan="2">@Model.VisitDate</td>
+                        <td colspan="4">@Model.VisitDate</td>
                     </tr>
                     <tr>
                         <th>Final Submit</th>
-                        <td colspan="2">@Model.Final_Date</td>
+                        <td colspan="4">@Model.Final_Date</td>
                     </tr>
                     <tr>
                         <th>Application ID</th>
-                        <td colspan="2">@Model.Application_no</td>
+                        <td colspan="4">@Model.Application_no</td>
                     </tr>
                     <tr>
                         <th>Customer Name</th>
-                        <td colspan="2">@Model.Application_name</td>
+                        <td colspan="4">@Model.Application_name</td>
                     </tr>
                     <tr>
                         <th>Company Name</th>
-                        <td colspan="2">@Model.Company_Name</td>
+                        <td colspan="4">@Model.Company_Name</td>
                     </tr>
                     <tr>
                         <th>Visit Address</th>
-                        <td colspan="2">@Model.Company_Address</td>
+                        <td colspan="4">@Model.Company_Address</td>
                     </tr>
                     <tr>
                         <th>Landmark</th>
-                        <td colspan="2"> @Model.Landmark</td>
+                        <td colspan="4"> @Model.Landmark</td>
                     </tr>
                     <tr>
                         <th>Landline</th>
-                        <td colspan="2">@Model.Landline</td>
+                        <td colspan="4">@Model.Landline</td>
                     </tr>
                     <tr>
                         <th>Contact Person</th>
-                        <td colspan="2">@Model.Contacted_Person</td>
+                        <td colspan="4">@Model.Contacted_Person</td>
                     </tr>
                     <tr>
                         <th>Contacted Person Mobile number</th>
-                        <td colspan="2">@Model.Contacted_Person_Mobile_No</td>
+                        <td colspan="4">@Model.Contacted_Person_Mobile_No</td>
                     </tr>
                     <tr>
                         <th>Emirate</th>
-                        <td colspan="2">@Model.Emirate</td>
+                        <td colspan="4">@Model.Emirate</td>
                     </tr>
                     <tr>
                         <th>Trade License Number</th>
-                        <td colspan="2">@Model.Trade_License_Number</td>
+                        <td colspan="4">@Model.Trade_License_Number</td>
                     </tr>
                     <tr>
                         <th>Verifier Name</th>
-                        <td colspan="2">@Model.FE_Name</td>
+                        <td colspan="4">@Model.FE_Name</td>
                     </tr>
                     <tr>
                         <th>Validated Office Landline</th>
-                        <td colspan="2">@Model.Validated_Office_Landline</td>
+                        <td colspan="4">@Model.Validated_Office_Landline</td>
                     </tr>
                     <tr>
                         <th>If Yes, validated Landline no</th>
-                        <td colspan="2">@Model.Validated_Office_Landline_No</td>
+                        <td colspan="4">@Model.Validated_Office_Landline_No</td>
                     </tr>
                     <tr>
                         <th>If Not, Specify Reason</th>
-                        <td colspan="2">@Model.Validated_Office_Landline_NotReason</td>
+                        <td colspan="4">@Model.Validated_Office_Landline_NotReason</td>
                     </tr>
                     <tr>
                         <th>Source of Validated Number</th>
-                        <td colspan="2">@Model.Source_of_Validated_Number</td>
+                        <td colspan="4">@Model.Source_of_Validated_Number</td>
                     </tr>
                     <tr>
                         <th>Office Location Type</th>
-                        <td colspan="2">@Model.Office_Location_Type</td>
+                        <td colspan="4">@Model.Office_Location_Type</td>
                     </tr>
 
                     <tr>
                         <th>
                             Applicants Designation
                         </th>
-                        <td colspan="2">@Model.Applicants_Designation</td>
+                        <td colspan="4">@Model.Applicants_Designation</td>
                     </tr>
                     <tr>
                         <th>
                             Date of Joining
                         </th>
-                        <td colspan="2">@Model.DoJ_Applicant</td>
+                        <td colspan="4">@Model.DoJ_Applicant</td>
                     </tr>
                     <tr>
                         <th>
                             Gross Salary (if employee)
                         </th>
-                        <td colspan="2">@Model.Gross_Salary</td>
+                        <td colspan="4">@Model.Gross_Salary</td>
                     </tr>
                     <tr>
                         <th>
                             Profit % (if owner/partner)
                         </th>
-                        <td colspan="2">@Model.Profit</td>
+                        <td colspan="4">@Model.Profit</td>
                     </tr>
                     <tr>
                         <th>
                             Accommodation Provided
                         </th>
-                        <td colspan="2">@Model.Accommodation_Provided</td>
+                        <td colspan="4">@Model.Accommodation_Provided</td>
                     </tr>
                     <tr>
                         <th>
                             Applicant Reports to
                         </th>
-                        <td colspan="2">@Model.Applicant_Reports_to</td>
+                        <td colspan="4">@Model.Applicant_Reports_to</td>
                     </tr>
                     <tr>
                         <th>
                             Whether the applicant is related to the OWNER or AUTHORIZED SIGNATORY: If Yes Relation
                         </th>
-                        <td colspan="2">@Model.AUTHORIZED_SIGNATORY</td>
+                        <td colspan="4">@Model.AUTHORIZED_SIGNATORY</td>
                     </tr>
                     <tr>
-                        <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center;">Field Visit Review</th>
+                        <th colspan="6" style="font-size: 17px; background-color: #9ea615; text-align: center;">Field Visit Review</th>
                     </tr>
                     <tr>
                         <th>
                             Details Verified With
                         </th>
-                        <td colspan="2">@Model.Details_Verified_With</td>
+                        <td colspan="4">@Model.Details_Verified_With</td>
                     </tr>
                     <tr>
                         <th>
                             Designation
                         </th>
-                        <td colspan="2">@Model.Designation</td>
+                        <td colspan="4">@Model.Designation</td>
                     </tr>
 
                     <tr>
                         <th>
                             Orginal Seen
                         </th>
-                        <td colspan="2">@Model.Orginal_Seen</td>
+                        <td colspan="4">@Model.Orginal_Seen</td>
                     </tr>
                     <tr>
                         <th>
                             Is the tenancy contract/Trade License captured
                         </th>
-                        <td colspan="2">@Model.TradeLicense_Displayed</td>
+                        <td colspan="4">@Model.TradeLicense_Displayed</td>
                     </tr>
                     <tr>
                         <th>
                             Business card captured
                         </th>
-                        <td colspan="2">@Model.Business_card_captured</td>
+                        <td colspan="4">@Model.Business_card_captured</td>
                     </tr>
                     <tr>
                         <th>
                             Documents Captured
                         </th>
-                        <td colspan="2">@Model.Documents_Captured</td>
+                        <td colspan="4">@Model.Documents_Captured</td>
                     </tr>
                     <tr>
                         <th>
                             VAT Registration Number
                         </th>
-                        <td colspan="2">@Model.VAT_RegNumber</td>
+                        <td colspan="4">@Model.VAT_RegNumber</td>
                     </tr>
                     <tr>
                         <th>
                             Makani Number
                         </th>
-                        <td colspan="2">@Model.Makani_No</td>
+                        <td colspan="4">@Model.Makani_No</td>
                     </tr>
                     <tr>
-                        <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Neighborhood Check</th>
+                        <th colspan="6" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Neighborhood Check</th>
                     </tr>
                     <tr>
                         <th>
                             Name of the Neighbor 1 and their feedback
                         </th>
-                        <td colspan="2">@Model.Name_Neighbor1_feedback</td>
+                        <td colspan="4">@Model.Name_Neighbor1_feedback</td>
                     </tr>
                     <tr>
                         <th>
                             Name of the Neighbor 2 and their feedback
                         </th>
-                        <td colspan="2">@Model.Name_Neighbor2_feedback</td>
+                        <td colspan="4">@Model.Name_Neighbor2_feedback</td>
                     </tr>
                     <tr>
-                        <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Security Check</th>
+                        <th colspan="6" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Security Check</th>
                     </tr>
                     <tr>
                         <th>
                             Name of the Security and feedback
                         </th>
-                        <td colspan="2">@Model.Name_Security_feedback</td>
+                        <td colspan="4">@Model.Name_Security_feedback</td>
                     </tr>
 
                     <tr>
-                        <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">FE's Comments</th>
+                        <th colspan="6" style="font-size: 17px; background-color: #9ea615; text-align: center; ">FE's Comments</th>
                     </tr>
                     <tr>
                         <th>FE Decision</th>
-                        <td colspan="2">@Model.FE_Decision</td>
+                        <td colspan="4">@Model.FE_Decision</td>
                     </tr>
                     <tr>
                         <th>Location Map</th>
-                        <td colspan="2">@Model.Latitude,@Model.Longitude</td>
+                        <td colspan="4">@Model.Latitude,@Model.Longitude</td>
                     </tr>
                     <tr>
                         <th>Feedback</th>
-                        <td colspan="2">@Model.Feedback</td>
+                        <td colspan="4">@Model.Feedback</td>
                     </tr>
                     <tr>
-                        <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Location</th>
+                        <th colspan="6" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Location</th>
                     </tr>
                     <tr>
 
@@ -450,7 +380,7 @@
                             <script>
                                     const imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center=@Model.Latitude,@Model.Longitude&zoom=16&scale=false&size=900x600&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid|color:red|label:|@Model.Latitude,@Model.Longitude&key=AIzaSyAxcusmWmO3lhnqIPSgeqhcsajy5vODlzU";
 
-                                                                                                                                                                                                                                                                                                const imgElement = document.getElementById("mapImage");
+                                    const imgElement = document.getElementById("mapImage");
 
                                     // Set the crossOrigin attribute
                                     imgElement.crossOrigin = "Anonymous";
@@ -486,7 +416,7 @@
                     </tr>
 
                     <tr>
-                        <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Images</th>
+                        <th colspan="6" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Images</th>
 
                     </tr>
 
@@ -507,7 +437,7 @@
                     }
 
                     <tr>
-                        <th colspan="3" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Signatures</th>
+                        <th colspan="6" style="font-size: 17px; background-color: #9ea615; text-align: center; ">Signatures</th>
                     </tr>
                     <tr>
                         <td colspan="3" style="text-align: center; vertical-align: top; padding: 10px; border: 1px solid black;">

@@ -569,7 +569,7 @@ namespace CPV_Mark3.Controllers
             return View();
         }
 
-        public ActionResult PrintVerifyManager(int id)
+        public ActionResult PrintVerifyManager(int id, int PrintPdf = 0)
         {
             byte[][] imagesData = GetSignFromDataBase(id);
 
@@ -588,6 +588,10 @@ namespace CPV_Mark3.Controllers
             List<byte[]> imageList = GetImageFromDataBase(id).ToList();
 
             List<string> base64Images = new List<string>();
+            
+            string headerUrl = Url.Action("Header", "Home", null, Request.Url.Scheme);
+            string customSwitches = $"--header-html {headerUrl}";
+
 
             if (imageList.Any())
             {
@@ -598,13 +602,31 @@ namespace CPV_Mark3.Controllers
                 }
 
                 ViewBag.Images = base64Images;
-                return View(caseTable);
+                //return View(caseTable);
             }
             else
             {
                 ViewBag.Images = new List<string>();
                 ViewBag.ErrorMessage = "No images found for the specified ID.";
             }
+
+            
+
+            if (PrintPdf == 1)
+            {
+
+                ViewBag.PrintPdf = 1;
+                return new ViewAsPdf("PrintVerifyManager", caseTable)
+                {
+                    //PageMargins = new Rotativa.Options.Margins(15, 30, 15, 30),
+                    PageSize = Rotativa.Options.Size.A4,                     
+                    FileName = caseTable.Application_name.Trim() + "-" + caseTable.Application_no + ".pdf" ,  // "GeneratedPdf.pdf", // Optional: File name of the PDF
+                    //CustomSwitches = customSwitches // "--header-html " + Url.Action("_Header", "Home", new { }, "http")
+                };
+            }
+
+
+            ViewBag.PrintPdf = 0;
             return View(caseTable);
         }
 
@@ -1712,63 +1734,63 @@ namespace CPV_Mark3.Controllers
        
     
         
-        public ActionResult GeneratePdf(int id)
-        {
+        //public ActionResult GeneratePdf(int id)
+        //{
 
-            byte[][] imagesData = GetSignFromDataBase(id);
+        //    byte[][] imagesData = GetSignFromDataBase(id);
 
-            if (imagesData != null && imagesData.Length == 3)
-            {
-                string[] base64Images1 = imagesData.Select(imageData => Convert.ToBase64String(imageData)).ToArray();
+        //    if (imagesData != null && imagesData.Length == 3)
+        //    {
+        //        string[] base64Images1 = imagesData.Select(imageData => Convert.ToBase64String(imageData)).ToArray();
 
-                string[] imageSrcs = base64Images1.Select(base64Image => string.Format("data:image/png;base64,{0}", base64Image)).ToArray();
+        //        string[] imageSrcs = base64Images1.Select(base64Image => string.Format("data:image/png;base64,{0}", base64Image)).ToArray();
 
-                ViewBag.ImageSrcs = imageSrcs;
-                ViewBag.Id = id;
-            }
+        //        ViewBag.ImageSrcs = imageSrcs;
+        //        ViewBag.Id = id;
+        //    }
 
-            CPV_DB1Entities db = new CPV_DB1Entities();
-            CaseTable caseTable = db.CaseTables.Find(id);
-            List<byte[]> imageList = GetImageFromDataBase(id).ToList();
+        //    CPV_DB1Entities db = new CPV_DB1Entities();
+        //    CaseTable caseTable = db.CaseTables.Find(id);
+        //    List<byte[]> imageList = GetImageFromDataBase(id).ToList();
 
-            List<string> base64Images = new List<string>();
-            string headerUrl = Url.Action("Header", "Home", null, Request.Url.Scheme);
-            string customSwitches = $"--header-html {headerUrl}";
+        //    List<string> base64Images = new List<string>();
+        //    string headerUrl = Url.Action("Header", "Home", null, Request.Url.Scheme);
+        //    string customSwitches = $"--header-html {headerUrl}";
 
 
-            if (imageList.Any())
-            {
-                foreach (var imageData in imageList)
-                {
-                    string base64Image = Convert.ToBase64String(imageData);
-                    base64Images.Add(base64Image);
-                }
+        //    if (imageList.Any())
+        //    {
+        //        foreach (var imageData in imageList)
+        //        {
+        //            string base64Image = Convert.ToBase64String(imageData);
+        //            base64Images.Add(base64Image);
+        //        }
 
-                ViewBag.Images = base64Images;
-                //return View(caseTable);
-                //ViewData.Model = caseTable;
-                //var customSwitches = string.Format("--header-html \"{0}\"", Url.Action("Header", "Pdf", new { area = "" }, "http"));
-                //string customSwitches = "--header-html " + Url.Action("_Header", "Home", new { }, "http");
-                //customSwitches = "--header-html " + "https://localhost:44380/Home/Header";
-                return new ViewAsPdf("PrintVerifyManagerToPdf", caseTable)
-                {
-                    FileName = "GeneratedPdf.pdf", // Optional: File name of the PDF
-                    CustomSwitches = customSwitches // "--header-html " + Url.Action("_Header", "Home", new { }, "http")
-                };
-            }
-            else
-            {
-                ViewBag.Images = new List<string>();
-                ViewBag.ErrorMessage = "No images found for the specified ID.";
-            }
-           // var customSwitches2 = "--header-html " + Url.Action("_Header", "Home", new { }, "http");
-            // This will generate a PDF using the view "PdfView" as HTML source
-            return new ViewAsPdf("PrintVerifyManager", caseTable)
-            {
-                FileName = "GeneratedPdf.pdf",
-                CustomSwitches = customSwitches  // Optional: File name of the PDF
-            };
-        }
+        //        ViewBag.Images = base64Images;
+        //        //return View(caseTable);
+        //        //ViewData.Model = caseTable;
+        //        //var customSwitches = string.Format("--header-html \"{0}\"", Url.Action("Header", "Pdf", new { area = "" }, "http"));
+        //        //string customSwitches = "--header-html " + Url.Action("_Header", "Home", new { }, "http");
+        //        //customSwitches = "--header-html " + "https://localhost:44380/Home/Header";
+        //        return new ViewAsPdf("PrintVerifyManagerToPdf", caseTable)
+        //        {
+        //            FileName = "GeneratedPdf.pdf", // Optional: File name of the PDF
+        //            CustomSwitches = customSwitches // "--header-html " + Url.Action("_Header", "Home", new { }, "http")
+        //        };
+        //    }
+        //    else
+        //    {
+        //        ViewBag.Images = new List<string>();
+        //        ViewBag.ErrorMessage = "No images found for the specified ID.";
+        //    }
+        //   // var customSwitches2 = "--header-html " + Url.Action("_Header", "Home", new { }, "http");
+        //    // This will generate a PDF using the view "PdfView" as HTML source
+        //    return new ViewAsPdf("PrintVerifyManager", caseTable)
+        //    {
+        //        FileName = "GeneratedPdf.pdf",
+        //        CustomSwitches = customSwitches  // Optional: File name of the PDF
+        //    };
+        //}
 
     }
 
