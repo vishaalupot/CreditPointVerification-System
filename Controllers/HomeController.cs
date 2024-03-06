@@ -17,7 +17,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
-using Rotativa;
+//using Rotativa;
+
+
 
 namespace CPV_Mark3.Controllers
 {
@@ -86,9 +88,9 @@ namespace CPV_Mark3.Controllers
             {
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    var pdf = TheArtOfDev.HtmlRenderer.PdfSharp.PdfGenerator.GeneratePdf(htmlContent, PdfSharp.PageSize.A4);
-                    pdf.Save(ms);
-                    pdfBytes = ms.ToArray();
+                    //var pdf = TheArtOfDev.HtmlRenderer.PdfSharp.PdfGenerator.GeneratePdf(htmlContent, PdfSharp.PageSize.A4);
+                    //pdf.Save(ms);
+                    //pdfBytes = ms.ToArray();
                 }
 
                 // Assuming PrintVerifyManager is a model or data needed for your view
@@ -590,8 +592,8 @@ namespace CPV_Mark3.Controllers
             List<string> base64Images = new List<string>();
             
             string headerUrl = Url.Action("Header", "Home", null, Request.Url.Scheme);
-            string customSwitches = $"--header-html {headerUrl}";
-
+            //string customSwitches = $"--header-html {headerUrl}";
+            
 
             if (imageList.Any())
             {
@@ -616,13 +618,13 @@ namespace CPV_Mark3.Controllers
             {
 
                 ViewBag.PrintPdf = 1;
-                return new ViewAsPdf("PrintVerifyManager", caseTable)
-                {
-                    //PageMargins = new Rotativa.Options.Margins(15, 30, 15, 30),
-                    PageSize = Rotativa.Options.Size.A4,                     
-                    FileName = caseTable.Application_name.Trim() + "-" + caseTable.Application_no + ".pdf" ,  // "GeneratedPdf.pdf", // Optional: File name of the PDF
-                    //CustomSwitches = customSwitches // "--header-html " + Url.Action("_Header", "Home", new { }, "http")
-                };
+                //return new ViewAsPdf("PrintVerifyManager", caseTable)
+                //{
+                //    //PageMargins = new Rotativa.Options.Margins(15, 30, 15, 30),
+                //    PageSize = Rotativa.Options.Size.A4,                     
+                //    FileName = caseTable.Application_name.Trim() + "-" + caseTable.Application_no + ".pdf" ,  // "GeneratedPdf.pdf", // Optional: File name of the PDF
+                //    //CustomSwitches = customSwitches // "--header-html " + Url.Action("_Header", "Home", new { }, "http")
+                //};
             }
 
 
