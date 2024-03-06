@@ -15,7 +15,7 @@
     <title>SignatureView</title>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         $(document).ready(function () {
             var canvas = document.querySelector('#signature'); //$("#signature").val();
@@ -81,6 +81,7 @@
 
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+
         .fe-dash2 {
             position: fixed;
             bottom: 0;
@@ -218,7 +219,7 @@
             border-radius: 8px;
         }
 
-        .h-sign{
+        .h-sign {
             font-size: 25px;
             display: flex;
             justify-content: center;
@@ -227,11 +228,32 @@
             color: #236A8B;
             font-family: 'Jaldi', sans-serif;
         }
-
-
     </style>
 
-    
+    <script>
+        $(document).ready(function () {
+            $('#accepts').submit(function (event) {
+                // Prevent the form from submitting in the traditional way
+                event.preventDefault();
+
+                // Add a 2-second delay before showing SweetAlert
+                setTimeout(function () {
+                    // Show the SweetAlert
+                    Swal.fire({
+                        title: 'Submitted!',
+                        text: 'The form has been submitted successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                }, 2000);
+
+                // Allow the form to submit after the delay
+                setTimeout(function () {
+                    event.target.submit();
+                }, 3000);
+            });
+        });
+    </script>
 
 </head>
 <body style="padding: 0px 0px;">
@@ -277,7 +299,7 @@
                     <canvas width="225" height="200" id="Vsignature2" style="border:1px solid black"></canvas><br>
 
                     <button type="button" id="accept" class="btn btn-primary" style="background-color: #236A8B">
-                        <input type="button" id="accept" style="background-color: #236A8B; font-size: 15px;" onclick="uploadImage(@ViewBag.snr)" value="Upload" class="btn btn-primary btn-block" />
+                        <input type="button" id="accepts" style="background-color: #236A8B; font-size: 15px; border:none;" onclick="uploadImage(@ViewBag.snr)" value="Upload" class="btn btn-primary btn-block" />
 
                         <input type="hidden" id="SignatureDataUrl" name="SignatureDataUrl">
                     </button>

@@ -166,6 +166,7 @@
           <Property Name="VerifySign2" Type="varchar(max)" />
           <Property Name="VisitDate" Type="datetime" />
           <Property Name="Less_Emp_Reason" Type="varchar(max)" />
+          <Property Name="Backend_Name" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="ClientTables">
           <Key>
@@ -475,6 +476,7 @@
           <NavigationProperty Name="CaseImages" Relationship="CPV_DB1Model.FK_CaseImage_CaseTable" FromRole="CaseTable" ToRole="CaseImage" />
           <Property Name="VisitDate" Type="DateTime" Precision="3" />
           <Property Name="Less_Emp_Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Backend_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_CaseImage_CaseTable">
           <End Type="CPV_DB1Model.CaseTable" Role="CaseTable" Multiplicity="0..1" />
@@ -647,6 +649,7 @@
           <EntitySetMapping Name="CaseTables">
             <EntityTypeMapping TypeName="CPV_DB1Model.CaseTable">
               <MappingFragment StoreEntitySet="CaseTables">
+                <ScalarProperty Name="Backend_Name" ColumnName="Backend_Name" />
                 <ScalarProperty Name="Less_Emp_Reason" ColumnName="Less_Emp_Reason" />
                 <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
                 <ScalarProperty Name="VerifySign2" ColumnName="VerifySign2" />
