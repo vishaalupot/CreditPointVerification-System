@@ -4,17 +4,20 @@ using System.Data.Entity;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CPV_Mark3.Models;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
-using Rotativa;
+//using Rotativa;
 
 
 
@@ -615,13 +618,13 @@ namespace CPV_Mark3.Controllers
             {
 
                 ViewBag.PrintPdf = 1;
-                return new ViewAsPdf("PrintVerifyManager", caseTable)
-                {
-                    //PageMargins = new Rotativa.Options.Margins(15, 30, 15, 30),
-                    PageSize = Rotativa.Options.Size.A4,
-                    FileName = caseTable.Application_name.Trim() + "-" + caseTable.Application_no + ".pdf",  // "GeneratedPdf.pdf", // Optional: File name of the PDF
-                    //CustomSwitches = customSwitches // "--header-html " + Url.Action("_Header", "Home", new { }, "http")
-                };
+                //return new ViewAsPdf("PrintVerifyManager", caseTable)
+                //{
+                //    //PageMargins = new Rotativa.Options.Margins(15, 30, 15, 30),
+                //    PageSize = Rotativa.Options.Size.A4,                     
+                //    FileName = caseTable.Application_name.Trim() + "-" + caseTable.Application_no + ".pdf" ,  // "GeneratedPdf.pdf", // Optional: File name of the PDF
+                //    //CustomSwitches = customSwitches // "--header-html " + Url.Action("_Header", "Home", new { }, "http")
+                //};
             }
 
 
