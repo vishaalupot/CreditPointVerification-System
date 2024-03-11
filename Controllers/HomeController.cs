@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -1247,6 +1248,7 @@ namespace CPV_Mark3.Controllers
             caseTable.Final_Status = "Final Captured";
             caseTable.Final_Date = DateTime.Now;
             caseTable.Less_Emp_Reason = form["Less_Emp_Reason"].ToString();
+            caseTable.Backend_Name = @User.Identity.GetUserName(); //form["Backend_Name"].ToString();
             db.Entry(caseTable).State = EntityState.Modified;
             
             db.SaveChanges();
