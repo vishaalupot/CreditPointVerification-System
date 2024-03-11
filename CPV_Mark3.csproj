@@ -528,6 +528,9 @@
     <Content Include="Models\cpv_model.edmx.diagram">
       <DependentUpon>cpv_model.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\MYCPV - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\MYCPV - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\chart.js" />
     <Content Include="Scripts\chart.min.js" />

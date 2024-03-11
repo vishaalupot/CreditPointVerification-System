@@ -13,7 +13,7 @@ namespace CPV_Mark3.Controllers
     public class FEController : Controller
     {
         private CPV_DB1Entities db = new CPV_DB1Entities();
-        DateTime allocationDate;
+       // DateTime allocationDate;
         // GET: FE
         public ActionResult FEDash()
         {
