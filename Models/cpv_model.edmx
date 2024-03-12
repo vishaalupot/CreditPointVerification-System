@@ -87,6 +87,16 @@
           <Property Name="Case_Id" Type="int" />
           <Property Name="sortNumber" Type="int" />
         </EntityType>
+        <EntityType Name="CaseSign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Case_Id" Type="int" Nullable="false" />
+          <Property Name="CustSign" Type="varchar(max)" />
+          <Property Name="VerifySign1" Type="varchar(max)" />
+          <Property Name="VerifySign2" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="CaseTables">
           <Key>
             <PropertyRef Name="Id" />
@@ -212,6 +222,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CaseSign_CaseTable">
+          <End Role="CaseTables" Type="Self.CaseTables" Multiplicity="1" />
+          <End Role="CaseSign" Type="Self.CaseSign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CaseTables">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CaseSign">
+              <PropertyRef Name="Case_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -277,6 +299,7 @@
           <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="C__RefactorLog" EntityType="Self.C__RefactorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CaseImages" EntityType="Self.CaseImages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CaseSign" EntityType="Self.CaseSign" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CaseTables" EntityType="Self.CaseTables" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClientTables" EntityType="Self.ClientTables" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductTables" EntityType="Self.ProductTables" Schema="dbo" store:Type="Tables" />
@@ -285,6 +308,10 @@
           <AssociationSet Name="FK_CaseImage_CaseTable" Association="Self.FK_CaseImage_CaseTable">
             <End Role="CaseTables" EntitySet="CaseTables" />
             <End Role="CaseImages" EntitySet="CaseImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CaseSign_CaseTable" Association="Self.FK_CaseSign_CaseTable">
+            <End Role="CaseTables" EntitySet="CaseTables" />
+            <End Role="CaseSign" EntitySet="CaseSign" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -335,6 +362,11 @@
           <AssociationSet Name="AspNetUserRoles" Association="CPV_DB1Model.AspNetUserRoles">
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="CaseSigns" EntityType="CPV_DB1Model.CaseSign" />
+          <AssociationSet Name="FK_CaseSign_CaseTable" Association="CPV_DB1Model.FK_CaseSign_CaseTable">
+            <End Role="CaseTable" EntitySet="CaseTables" />
+            <End Role="CaseSign" EntitySet="CaseSigns" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
@@ -477,6 +509,7 @@
           <Property Name="VisitDate" Type="DateTime" Precision="3" />
           <Property Name="Less_Emp_Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Backend_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CaseSigns" Relationship="CPV_DB1Model.FK_CaseSign_CaseTable" FromRole="CaseTable" ToRole="CaseSign" />
         </EntityType>
         <Association Name="FK_CaseImage_CaseTable">
           <End Type="CPV_DB1Model.CaseTable" Role="CaseTable" Multiplicity="0..1" />
@@ -575,6 +608,29 @@
         <Association Name="AspNetUserRoles">
           <End Type="CPV_DB1Model.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="CPV_DB1Model.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityType Name="CaseSign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Case_Id" Type="Int32" Nullable="false" />
+          <Property Name="CustSign" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="VerifySign1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="VerifySign2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CaseTable" Relationship="CPV_DB1Model.FK_CaseSign_CaseTable" FromRole="CaseSign" ToRole="CaseTable" />
+        </EntityType>
+        <Association Name="FK_CaseSign_CaseTable">
+          <End Type="CPV_DB1Model.CaseTable" Role="CaseTable" Multiplicity="1" />
+          <End Type="CPV_DB1Model.CaseSign" Role="CaseSign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CaseTable">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CaseSign">
+              <PropertyRef Name="Case_Id" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -786,6 +842,17 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="CaseSigns">
+            <EntityTypeMapping TypeName="CPV_DB1Model.CaseSign">
+              <MappingFragment StoreEntitySet="CaseSign">
+                <ScalarProperty Name="VerifySign2" ColumnName="VerifySign2" />
+                <ScalarProperty Name="VerifySign1" ColumnName="VerifySign1" />
+                <ScalarProperty Name="CustSign" ColumnName="CustSign" />
+                <ScalarProperty Name="Case_Id" ColumnName="Case_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

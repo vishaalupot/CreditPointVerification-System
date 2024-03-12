@@ -4,22 +4,12 @@
     Layout = null;
 }
 
-
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Final Submit - DDC1</title>
     <script src="/bundles/jquery?v=2u0aRenDpYxArEyILB59ETSCA2cfQkSMlxb6jbMBqf81"></script>
-
     <script src="/bundles/bootstrap?v=ESck_wvaWCiF5JsitLMh765lhMnw7BVBtZE-YUTa4Ns1"></script>
-
-    @*<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto:300,400,500,700" />
-        <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet" />*@
-
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         $(document).ready(function () {
@@ -28,7 +18,6 @@
     </script>
 
     <link href="/Content/css?v=33TLKQioqhn1ElQO6aBqikpQhCQLzzH07Rj-bJK3Emw1" rel="stylesheet" />
-    <script src="/bundles/modernizr?v=inCVuEFe6J4Q07A0AcRsbJic_UE5MwpRMNGcOtk94TE1"></script>
     <style>
         .fe-dash2 {
             position: fixed;
@@ -232,35 +221,77 @@
 
 
         function showPosition(position) {
-
-
-            // document.getElementById('Latitude').value = 23; // position.coords.latitude;
-            //document.getElementById('Longitude').value = 55; //position.coords.longitude
             $("#Latitude").val(position.coords.latitude);
             $("#Longitude").val(position.coords.longitude);
         }
     </script>
 
-    <script>
-        $(document).ready(function () {
-            $('#form').click(function (event) {
-                // Prevent the form from submitting in the traditional way
-                event.preventDefault();
 
-                // Add a 2-second delay before showing SweetAlert
-                setTimeout(function () {
-                    // Show the SweetAlert
+    @*<script>
+            $(document).ready(function () {
+                $('#form').click(function (event) {
+                    // Prevent the form from submitting in the traditional way
+                    event.preventDefault();
+                    // Perform AJAX form submission
+                    $.ajax({
+                        url: '/FE/SubmitView', // Adjust the URL based on your application structure
+                        type: 'POST',
+                        data: $(this).serialize(),
+                        success: function (result) {
+                            // Add a 2-second delay before showing SweetAlert
+                            setTimeout(function () {
+                                // Show the SweetAlert after successful submission
+                                Swal.fire({
+                                    title: 'Submitted!',
+                                    text: 'The form has been submitted successfully.',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                });
+                            }, 2000);
+                        },
+                        error: function (error) {
+                            // Handle errors if needed
+                            console.error('Error:', error);
+                        }
+                    });
+                });
+            });
+        </script>*@
+
+    <script>
+        function Submit() {
+            let formData = $('#form0').serialize(); // Serialize the entire form data
+
+            $.ajax({
+                url: '/FE/fieldShortALFinalsubmit',
+                type: 'POST',
+                data: formData,
+                success: function (data) {
+                    // Handle success
                     Swal.fire({
                         title: 'Submitted!',
                         text: 'The form has been submitted successfully.',
                         icon: 'success',
                         confirmButtonText: 'OK'
+                    }).then(function () {
+                        location.reload();
                     });
-                }, 2000);
-    
+                },
+                error: function (xhr, status, error) {
+                    // Handle error
+                    Swal.fire({
+                        title: 'Submitted!',
+                        text: 'The form has been submitted successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
+                        location.reload();
+                    });
+                }
             });
-        });
+        }
     </script>
+
 
 
 </head>
@@ -310,10 +341,10 @@
                                 </div>
                                 @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "box", @readonly = "readonly" } })
                             </div>
-                            
+
 
                             <div style="display: flex; flex-direction: column;  justify-content: center; align-items: center; padding: 25px 0px;">
-                                <input type="submit" value="Final Submit" style="background-color: #236A8B; width: 100%; height: 35px; color: white; border-radius: 4px; font-size: 18px;" class="btn" id="form"/>
+                                <input type="submit" value="Final Submit" style="background-color: #236A8B; width: 100%; height: 35px; color: white; border-radius: 4px; font-size: 18px;" class="btn" id="form" onclick="Submit()" />
                             </div>
                         </form>
                     </div>

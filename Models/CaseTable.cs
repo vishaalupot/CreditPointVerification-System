@@ -18,6 +18,7 @@ namespace CPV_Mark3.Models
         public CaseTable()
         {
             this.CaseImages = new HashSet<CaseImage>();
+            this.CaseSigns = new HashSet<CaseSign>();
         }
     
         public int Id { get; set; }
@@ -99,5 +100,7 @@ namespace CPV_Mark3.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CaseImage> CaseImages { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CaseSign> CaseSigns { get; set; }
     }
 }
