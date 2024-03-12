@@ -59,53 +59,7 @@ namespace CPV_Mark3.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult PdfSharpConvert(string htmldata)
-        //public ActionResult PdfSharpConvert()
-        {
-            //string html = htmldata["html"].ToString();
-            //string html = "<html></html>";
-            string htmlContent = "";
-            //if (htmldata != null && htmldata.ContentLength > 0)
-            //{
-            //    // Read the content of the Blob
-            //    using (var reader = new StreamReader(htmldata.InputStream))
-            //    {
-            //        htmlContent = reader.ReadToEnd();
-
-            //        // Handle the HTML content on the server-side
-            //        // You can process, convert, or save the HTML content here
-
-            //        // For demonstration purposes, let's just return a simple message
-            //        return Content("HTML received successfully on the server.");
-            //    }
-            //}
-
-
-            //byte[] pdfBytes;
-
-            // Check if htmlContent is not null or empty before processing
-            if (!string.IsNullOrEmpty(htmlContent))
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    //var pdf = TheArtOfDev.HtmlRenderer.PdfSharp.PdfGenerator.GeneratePdf(htmlContent, PdfSharp.PageSize.A4);
-                    //pdf.Save(ms);
-                    //pdfBytes = ms.ToArray();
-                }
-
-                // Assuming PrintVerifyManager is a model or data needed for your view
-                // Replace 'PrintVerifyManager' with the appropriate data or model for your scenario
-                 ; // Replace this with the actual instantiation or retrieval of your model/data
-                return View();
-            }
-            else
-            {
-                // Handle the case where htmlContent is null or empty
-                // You may want to return an error view or take appropriate action
-                return Content("Error: HTML content is missing.");
-            }
-        }
+       
 
         public ActionResult CasesReports()
         {
@@ -183,9 +137,6 @@ namespace CPV_Mark3.Controllers
             }
 
 
-
-
-
             return PartialView("_SearchCases", results);
 
 
@@ -217,41 +168,7 @@ namespace CPV_Mark3.Controllers
 
             var results = db.CaseTables.OrderByDescending(o => o.Id).ToList();
             
-
-            //if (query != "" || query2 != ""|| query3 != ""|| query4 != "")
-            //{
-            //    results = db.CaseTables
-            //    .Where(item => item.Application_no == query ||
-            //                   item.FE_Name == query2 ||
-            //                   item.Product == query3 ||
-            //                   item.Final_Status == query4
-            //                   ).OrderByDescending(o => o.Id)
-            //    .ToList();
-
-            //}
-            //else
-            //{
-            //    results = db.CaseTables.OrderByDescending(o => o.Id).ToList();
-            //}
-
-            //if(query4 == "Final Captured")
-            //{
-
-            //}
-            //if (DateTime.TryParse(query5, out DateTime searchDate))
-            //{
-            //    DateTime dt = removeTime(searchDate);
-            //    var dateResults = results
-            //        .Where(item => item.Allocation_Date.HasValue && removeTime(item.Allocation_Date.Value) == dt)
-            //        .ToList();
-
-            //    return PartialView("_SearchVerifyManager", dateResults);
-            //}
-            //else
-            //{
-            //    return PartialView("_SearchVerifyManager", results);
-            //}
-
+                       
             if(query != "")
             {
                 results = results
@@ -360,32 +277,7 @@ namespace CPV_Mark3.Controllers
 
 
         }
-
-        //[HttpPost]
-        //public ActionResult DisplayVerifyManager(string query)
-        //{
-        //    CPV_DB1Entities db = new CPV_DB1Entities();
-        //    CaseTable caseTable = new CaseTable();
-
-        //    var results = db.CaseTables.ToList();
-
-        //    if (query != "")
-        //    {
-        //        results = db.CaseTables
-        //        .Where(item => item.Application_no == query ||
-        //                       item.Application_name == query ||
-        //                       item.Company_Name == query)
-        //        .ToList();
-
-        //    }
-        //    else
-        //    {
-        //        results = db.CaseTables.ToList();
-        //    }
-
-        //    return View(results);
-
-        //}
+               
 
 
         public ActionResult UploadAllocation()
@@ -758,26 +650,7 @@ namespace CPV_Mark3.Controllers
         {
             using (CPV_DB1Entities db = new CPV_DB1Entities())
             {
-
-                //CaseImage caseImage = db.CaseImages.Find(id);
-                //CaseTable caseTable = db.CaseTables.Find(id);
-
-                //if(caseImage != null)
-                //{
-                //    db.CaseImages.Remove(caseImage);
-                //    db.SaveChanges();
-
-                //}
-                //if (caseTable != null)
-                //{
-                //    db.CaseTables.Remove(caseTable);
-                //    db.SaveChanges();
-                //}
-
-
-
-                //List<CaseTable> cases = db.CaseTables.ToList();
-                //return View(cases);
+                
 
                 List<CaseImage> relatedImages = db.CaseImages.Where(ci => ci.Case_Id == id).ToList();
 
@@ -856,42 +729,6 @@ namespace CPV_Mark3.Controllers
         }
 
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult CreateCaseManagerView(FormCollection form)
-        //{
-
-        //    var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        //    var users = userManager.Users.ToList();
-
-        //    CPV_DB1Entities db = new CPV_DB1Entities();
-
-        //    CaseTable caseTable = new CaseTable
-        //    {
-        //        Application_name = form["Application_name"],
-        //        Application_no = form["Application_no"],
-        //        Company_Name = form["Company_Name"],
-        //        Trade_License_Number = form["Trade_License_Number"],
-        //        Company_Address = form["Company_Address"],
-        //        Landmark = form["Landmark"],
-        //        Landline = form["Landline"],
-        //        Contacted_Person = form["Contacted_Person"],
-        //        Contacted_Person_Mobile_No = form["Contacted_Person_Mobile_No"],
-        //        Operating_Hours = form["Operating_Hours"],
-        //        Emirate = form["Emirate"],
-        //        Product = form["Product"],
-        //        Visit_Type = form["Visit_Type"],
-        //        Client = form["Client"],
-        //        Allocation_Date = DateTime.TryParse(form["Allocation_Date"], out allocationDate) ? allocationDate : default(DateTime),
-        //        FE_Name = form["FE_Name"],
-        //        Final_Status = "Pending"
-        //    };
-
-        //    db.CaseTables.Add(caseTable);
-        //    db.SaveChanges();
-
-        //    return RedirectToAction("DisplayCaseManager");
-        //}
 
 
 
@@ -971,12 +808,7 @@ namespace CPV_Mark3.Controllers
             return emiratesList;
         }
 
-        //public static List<string> GetStatus()
-        //{
-        //    CPV_DB1Entities db = new CPV_DB1Entities();
-        //    return db.CaseTables.Select(s => s.Final_Status).ToList();
-        //}
-
+    
         public static List<string> GetStatus()
         {
             CPV_DB1Entities db = new CPV_DB1Entities();
@@ -1051,25 +883,7 @@ namespace CPV_Mark3.Controllers
                 ID = s.Id,
                 Name = s.Name,
             }).ToList();
-
-
-            //var userslist = db.AspNetUsers.Join(db.AspNetRoles)
-            //var _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
-            //var rolesWithUsers = _roleManager.Roles
-            //.Select(role => new UserRoleDto
-            //{
-            //    RoleName = role.Name,
-            //    Users = _userManager.Users
-            //        .Where(user => _userManager.IsInRoleAsync(user.Id, role.Name).Result)
-            //        .Select(user => new UserDto
-            //        {
-            //            UserId = user.Id,
-            //            UserName = user.UserName,
-            //                // Include other user properties as needed
-            //            })
-            //        .ToList()
-            //}).ToList();
-            //    //.ToListAsync();
+                       
 
 
             List<string> filteredUsernames = new List<string>();
@@ -1735,66 +1549,9 @@ namespace CPV_Mark3.Controllers
         {
             return PartialView("_Header");
         }
-       
-    
+           
         
-        //public ActionResult GeneratePdf(int id)
-        //{
-
-        //    byte[][] imagesData = GetSignFromDataBase(id);
-
-        //    if (imagesData != null && imagesData.Length == 3)
-        //    {
-        //        string[] base64Images1 = imagesData.Select(imageData => Convert.ToBase64String(imageData)).ToArray();
-
-        //        string[] imageSrcs = base64Images1.Select(base64Image => string.Format("data:image/png;base64,{0}", base64Image)).ToArray();
-
-        //        ViewBag.ImageSrcs = imageSrcs;
-        //        ViewBag.Id = id;
-        //    }
-
-        //    CPV_DB1Entities db = new CPV_DB1Entities();
-        //    CaseTable caseTable = db.CaseTables.Find(id);
-        //    List<byte[]> imageList = GetImageFromDataBase(id).ToList();
-
-        //    List<string> base64Images = new List<string>();
-        //    string headerUrl = Url.Action("Header", "Home", null, Request.Url.Scheme);
-        //    string customSwitches = $"--header-html {headerUrl}";
-
-
-        //    if (imageList.Any())
-        //    {
-        //        foreach (var imageData in imageList)
-        //        {
-        //            string base64Image = Convert.ToBase64String(imageData);
-        //            base64Images.Add(base64Image);
-        //        }
-
-        //        ViewBag.Images = base64Images;
-        //        //return View(caseTable);
-        //        //ViewData.Model = caseTable;
-        //        //var customSwitches = string.Format("--header-html \"{0}\"", Url.Action("Header", "Pdf", new { area = "" }, "http"));
-        //        //string customSwitches = "--header-html " + Url.Action("_Header", "Home", new { }, "http");
-        //        //customSwitches = "--header-html " + "https://localhost:44380/Home/Header";
-        //        return new ViewAsPdf("PrintVerifyManagerToPdf", caseTable)
-        //        {
-        //            FileName = "GeneratedPdf.pdf", // Optional: File name of the PDF
-        //            CustomSwitches = customSwitches // "--header-html " + Url.Action("_Header", "Home", new { }, "http")
-        //        };
-        //    }
-        //    else
-        //    {
-        //        ViewBag.Images = new List<string>();
-        //        ViewBag.ErrorMessage = "No images found for the specified ID.";
-        //    }
-        //   // var customSwitches2 = "--header-html " + Url.Action("_Header", "Home", new { }, "http");
-        //    // This will generate a PDF using the view "PdfView" as HTML source
-        //    return new ViewAsPdf("PrintVerifyManager", caseTable)
-        //    {
-        //        FileName = "GeneratedPdf.pdf",
-        //        CustomSwitches = customSwitches  // Optional: File name of the PDF
-        //    };
-        //}
+       
 
     }
 
