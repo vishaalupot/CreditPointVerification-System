@@ -34,7 +34,6 @@ namespace CPV_Mark3.Controllers
         private ApplicationUserManager _userManager;
 
 
-
         [HttpPost]
         public ActionResult DeleteImage(int id)
         {
@@ -68,7 +67,7 @@ namespace CPV_Mark3.Controllers
 
         public ActionResult FETransfer()
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
 
             var results = db.CaseTables
@@ -83,7 +82,7 @@ namespace CPV_Mark3.Controllers
         [HttpPost]
         public ActionResult FETransfer(string query, string query2)
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
             // Filter items based on the search query
             //var results = caseTable.Where(item => item.ToLower().Contains(query.ToLower())).ToList();
@@ -103,7 +102,7 @@ namespace CPV_Mark3.Controllers
         {
 
 
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
 
             var results = db.CaseTables
@@ -118,7 +117,7 @@ namespace CPV_Mark3.Controllers
         [HttpPost]
         public ActionResult _SearchCases(string query, string query3)
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+           // CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
             // Filter items based on the search query
             //var results = caseTable.Where(item => item.ToLower().Contains(query.ToLower())).ToList();
@@ -146,7 +145,7 @@ namespace CPV_Mark3.Controllers
         public ActionResult _SearchAllCases()
         {
 
-            CPV_DB1Entities db = new CPV_DB1Entities();
+           // CPV_DB1Entities db = new CPV_DB1Entities();
             List<CaseTable> cases = db.CaseTables.OrderByDescending(o => o.Id).ToList();
             return PartialView(cases);
         }
@@ -154,7 +153,7 @@ namespace CPV_Mark3.Controllers
         public ActionResult _SearchVerifyManager()
         {
 
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             List<CaseTable> cases = db.CaseTables.OrderByDescending(o=>o.Id).ToList();
             
             return PartialView(cases);
@@ -163,7 +162,7 @@ namespace CPV_Mark3.Controllers
         [HttpPost]
         public ActionResult _SearchVerifyManager(string query, string query2, string query3, string query4, string query5)
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
 
             var results = db.CaseTables.OrderByDescending(o => o.Id).ToList();
@@ -253,7 +252,7 @@ namespace CPV_Mark3.Controllers
         [HttpPost]
         public ActionResult _SearchAllCases(string query)
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+           // CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
 
             var results = db.CaseTables.OrderByDescending(o => o.Id).ToList();
@@ -296,7 +295,7 @@ namespace CPV_Mark3.Controllers
             else
             {              
 
-                CPV_DB1Entities db = new CPV_DB1Entities();
+                //CPV_DB1Entities db = new CPV_DB1Entities();
 
                 List<int> DashMonth1 = new List<int>();
                 List<int> DashMonth2 = new List<int>();
@@ -387,7 +386,7 @@ namespace CPV_Mark3.Controllers
         public ActionResult UserView()
         {
 
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             List<AspNetUser> users = db.AspNetUsers.ToList();
             return View(users);
 
@@ -478,7 +477,7 @@ namespace CPV_Mark3.Controllers
                 ViewBag.Id = id;
             }
 
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = db.CaseTables.Find(id);
             List<byte[]> imageList = GetImageFromDataBase(id).ToList();
 
@@ -562,7 +561,7 @@ namespace CPV_Mark3.Controllers
         public ActionResult UserView1(FormCollection form)
         {
 
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             AspNetUser user = new AspNetUser
             {
                 FullName = form["FullName"],
@@ -580,7 +579,7 @@ namespace CPV_Mark3.Controllers
 
         public ActionResult NewProductView()
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             List<ProductTable> productTable = db.ProductTables.ToList();
 
             return View(productTable);
@@ -596,7 +595,7 @@ namespace CPV_Mark3.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddNewProductView(FormCollection form)
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             ProductTable product = new ProductTable
             {
                 ProductName = form["ProductName"],
@@ -620,7 +619,7 @@ namespace CPV_Mark3.Controllers
         public ActionResult DisplayCaseManager()
         {
 
-            CPV_DB1Entities db = new CPV_DB1Entities();
+           // CPV_DB1Entities db = new CPV_DB1Entities();
             List<CaseTable> cases = db.CaseTables.OrderByDescending(o => o.Id).ToList();
             return View(cases);
         }
@@ -629,7 +628,7 @@ namespace CPV_Mark3.Controllers
         public ActionResult searchCases(int id)
         {
 
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             List<CaseTable> cases = db.CaseTables.ToList();
             CaseTable caseTable = db.CaseTables.Find(id);
 
@@ -677,7 +676,7 @@ namespace CPV_Mark3.Controllers
         [HttpPost]
         public ActionResult ChangeFE(int id, string fe_name)
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             List<CaseTable> cases = db.CaseTables.ToList();
             CaseTable caseTable = db.CaseTables.Find(id);
 
@@ -743,7 +742,7 @@ namespace CPV_Mark3.Controllers
                 var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 var users = userManager.Users.ToList();
 
-                CPV_DB1Entities db = new CPV_DB1Entities();
+               // CPV_DB1Entities db = new CPV_DB1Entities();
 
                 CaseTable caseTable = new CaseTable
                 {
@@ -811,17 +810,19 @@ namespace CPV_Mark3.Controllers
     
         public static List<string> GetStatus()
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            // CPV_DB1Entities db = new CPV_DB1Entities();
+            using (CPV_DB1Entities db = new CPV_DB1Entities())
+            {
+                // Get distinct Final_Status values from the database
+                var statusList = db.CaseTables.Select(s => s.Final_Status).Distinct().ToList();
 
-            // Get distinct Final_Status values from the database
-            var statusList = db.CaseTables.Select(s => s.Final_Status).Distinct().ToList();
+                // Add default values if they are not already present
+                AddDefaultStatusIfNotExists(statusList, "Pending");
+                AddDefaultStatusIfNotExists(statusList, "PDA Captured");
+                AddDefaultStatusIfNotExists(statusList, "Final Captured");
 
-            // Add default values if they are not already present
-            AddDefaultStatusIfNotExists(statusList, "Pending");
-            AddDefaultStatusIfNotExists(statusList, "PDA Captured");
-            AddDefaultStatusIfNotExists(statusList, "Final Captured");
-
-            return statusList;
+                return statusList;
+            }
         }
 
         private static void AddDefaultStatusIfNotExists(List<string> statusList, string defaultStatus)
@@ -835,14 +836,20 @@ namespace CPV_Mark3.Controllers
 
         public static List<string> GetProductList()
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
-            return db.ProductTables.Select(s => s.ProductName).ToList();
-            //return db.CaseTables.Select(s => s.Final_Status).ToList();
+            // CPV_DB1Entities db = new CPV_DB1Entities();
+            using (CPV_DB1Entities db = new CPV_DB1Entities())
+            {
+                return db.ProductTables.Select(s => s.ProductName).ToList();
+                //return db.CaseTables.Select(s => s.Final_Status).ToList();
+            }
         }
         public static List<string> GetVisitList()
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
-            return db.VisitTables.Select(s => s.Visit_Type).ToList();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
+            using (CPV_DB1Entities db = new CPV_DB1Entities())
+            {
+                return db.VisitTables.Select(s => s.Visit_Type).ToList();
+            }
         }
 
 
@@ -859,18 +866,20 @@ namespace CPV_Mark3.Controllers
 
         public static List<string> GetFelist2()
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
+            using (CPV_DB1Entities db = new CPV_DB1Entities())
+            {
+                List<string> GetFEList1 = new List<string> { "FE", "Client", "Admin" };
 
-            List<string> GetFEList1 = new List<string> { "FE", "Client", "Admin" };
-
-            return GetFEList1;
+                return GetFEList1;
+            }
 
         }
 
 
         public List<string> GetFEList()
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
             // Create a role manager
@@ -980,21 +989,29 @@ namespace CPV_Mark3.Controllers
 
         public static List<string> GetClientList()
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
-            return db.ClientTables.Select(s => s.Client).ToList();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
+            using (CPV_DB1Entities db = new CPV_DB1Entities())
+            {
+                return db.ClientTables.Select(s => s.Client).ToList();
+            }
         }
         public static List<string> GetCaseList()
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
-            return db.CaseTables.Select(s => s.Client).ToList();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
+            using (CPV_DB1Entities db = new CPV_DB1Entities())
+            {
+                return db.CaseTables.Select(s => s.Client).ToList();
+            }
         }
 
 
         public ActionResult DisplayVerifyManager()
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
-            List<CaseTable> cases = db.CaseTables.OrderByDescending(o => o.Id).ToList();
-            return View(cases);
+            //CPV_DB1Entities db = new CPV_DB1Entities();
+           
+                List<CaseTable> cases = db.CaseTables.OrderByDescending(o => o.Id).ToList();
+                return View(cases);
+           
 
         }
 
@@ -1003,7 +1020,7 @@ namespace CPV_Mark3.Controllers
         [HttpPost]
         public ActionResult EditVerifyManager(FormCollection form)
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = db.CaseTables.Find(int.Parse(form["Id"].ToString()));
 
 
@@ -1074,7 +1091,7 @@ namespace CPV_Mark3.Controllers
 
         public ActionResult EditVerifyManager(int id)
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
 
             //CaseTable caseTable = db.CaseTables.Where(w => w.Id == id).First();
             CaseTable caseTable = db.CaseTables.Find(id);
@@ -1115,7 +1132,7 @@ namespace CPV_Mark3.Controllers
 
         public ActionResult EditCases(int id)
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = db.CaseTables.Find(id);
             return View(caseTable);
         }
@@ -1124,7 +1141,7 @@ namespace CPV_Mark3.Controllers
         [HttpPost]
         public ActionResult EditCases(FormCollection form)
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+           // CPV_DB1Entities db = new CPV_DB1Entities();
 
             CaseTable caseTable = db.CaseTables.Find(int.Parse(form["Id"].ToString()));
 
@@ -1149,15 +1166,6 @@ namespace CPV_Mark3.Controllers
         }
 
 
-       
-
-
-
-
-
-
-
-
         public IEnumerable<byte[]> GetImageFromDataBase(int Id)
         {
             var q = from data in db.CaseImages orderby data.sortNumber where data.Case_Id == Id select data.Image;
@@ -1178,7 +1186,7 @@ namespace CPV_Mark3.Controllers
 
         public ActionResult Register()
         {
-            CPV_DB1Entities db = new CPV_DB1Entities();
+            //CPV_DB1Entities db = new CPV_DB1Entities();
             List<string> listRoles = db.AspNetRoles.Select(s => s.Name).ToList();
             ViewBag.Roles = listRoles;
             return View();
@@ -1249,7 +1257,7 @@ namespace CPV_Mark3.Controllers
             if (ModelState.IsValid)
             {
 
-                CPV_DB1Entities db = new CPV_DB1Entities();
+                //CPV_DB1Entities db = new CPV_DB1Entities();
 
                 AspNetUser user = new AspNetUser();
 
@@ -1293,7 +1301,7 @@ namespace CPV_Mark3.Controllers
             if (ModelState.IsValid)
             {
 
-                CPV_DB1Entities db = new CPV_DB1Entities();
+                //CPV_DB1Entities db = new CPV_DB1Entities();
 
                 List<AspNetUser> user = db.AspNetUsers.ToList();
 
@@ -1448,6 +1456,7 @@ namespace CPV_Mark3.Controllers
         public ActionResult DisplayFeCount(string feName, string stats)
         {
             List<CaseTable> caseTable = db.CaseTables.ToList();
+
             if (feName != "0")
             {
                 List<CaseTable> cases = caseTable.Where(w => w.FE_Name == feName).ToList();
