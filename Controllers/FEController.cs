@@ -128,6 +128,7 @@ namespace CPV_Mark3.Controllers
             db.Entry(caseTable).State = System.Data.Entity.EntityState.Modified;
 
             db.SaveChanges();
+
             return RedirectToAction("SignatureView", new { id = caseTable.Id });
         }
 

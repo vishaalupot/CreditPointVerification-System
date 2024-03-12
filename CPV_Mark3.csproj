@@ -368,6 +368,9 @@
     <Compile Include="Models\CaseImage.cs">
       <DependentUpon>cpv_model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CaseSign.cs">
+      <DependentUpon>cpv_model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CaseTable.cs">
       <DependentUpon>cpv_model.tt</DependentUpon>
     </Compile>
