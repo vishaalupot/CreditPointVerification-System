@@ -82,7 +82,7 @@ namespace CPV_Mark3.Controllers
             //}
 
 
-            byte[] pdfBytes;
+            //byte[] pdfBytes;
 
             // Check if htmlContent is not null or empty before processing
             if (!string.IsNullOrEmpty(htmlContent))
@@ -1147,7 +1147,7 @@ namespace CPV_Mark3.Controllers
             var allUsers = userManager.Users.ToList();
 
             // Find users with the "FE" role
-            var usersWithFERole = allUsers.Where(user => userManager.IsInRole(user.Id, "FE")).ToList();
+            var usersWithFERole =  allUsers.Where(user => userManager.IsInRole(user.Id, "FE")).ToList();
 
             // Create a list to store the usernames of users with the "FE" role
             var usernamesWithFERole = new List<string>();
