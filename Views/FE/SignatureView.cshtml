@@ -19,18 +19,18 @@
     <script>
         $(document).ready(function () {
             var canvas = document.querySelector('#signature');
-            canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-            canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+            //canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+            //canvas.height = canvas.offsetHeight * window.devicePixelRatio;
             var pad = new SignaturePad(canvas);
 
             var canvas2 = document.querySelector('#Vsignature1');
-            canvas2.width = canvas2.offsetWidth * window.devicePixelRatio;
-            canvas2.height = canvas2.offsetHeight * window.devicePixelRatio;
+            //canvas2.width = canvas2.offsetWidth * window.devicePixelRatio;
+            //canvas2.height = canvas2.offsetHeight * window.devicePixelRatio;
             var pad2 = new SignaturePad(canvas2);
 
             var canvas3 = document.querySelector('#Vsignature2');
-            canvas3.width = canvas3.offsetWidth * window.devicePixelRatio;
-            canvas3.height = canvas3.offsetHeight * window.devicePixelRatio;
+            //canvas3.width = canvas3.offsetWidth * window.devicePixelRatio;
+            //canvas3.height = canvas3.offsetHeight * window.devicePixelRatio;
             var pad3 = new SignaturePad(canvas3);
         });
 
@@ -233,6 +233,7 @@
             font-weight: 600;
             color: #236A8B;
             font-family: 'Jaldi', sans-serif;
+            white-space: nowrap;
         }
     </style>
 
@@ -296,15 +297,21 @@
                 <form method="POST" action="/FE/SignatureView" style="display: flex; flex-direction: column;">
 
                     <div class="h-sign">Customer Signature</div>
-                    <canvas width="225" height="200" id="signature" style="border:1px solid black"></canvas><br>
+                    <div style="display: flex; justify-content: center;">
+                        <canvas width="225" height="200" id="signature" style="border:1px solid black; width: 225px !important; height:200px !important;"></canvas><br>
+                    </div>
 
                     <div class="h-sign">Verifier Signature</div>
-                    <canvas width="225" height="200" id="Vsignature1" style="border:1px solid black"></canvas><br>
+                    <div style="display: flex; justify-content: center;">
+                        <canvas width="225" height="200" id="Vsignature1" style="border: 1px solid black; width: 225px !important; height: 200px !important;"></canvas><br>
+                    </div>
 
                     <div class="h-sign">Verifier Signature Confirmation</div>
-                    <canvas width="225" height="200" id="Vsignature2" style="border:1px solid black"></canvas><br>
+                    <div style="display: flex; justify-content: center;">
+                        <canvas width="225" height="200" id="Vsignature2" style="border: 1px solid black; width: 225px !important; height: 200px !important; "></canvas><br>
+                    </div>
 
-                    <button type="button" id="accept" class="btn btn-primary" style="background-color: #236A8B">
+                    <button type="button" id="accept" class="btn btn-primary" style="background-color: #236A8B; margin: 10px 0px;">
                         <input type="button" id="accepts" style="background-color: #236A8B; font-size: 15px; border:none;" onclick="uploadImage(@ViewBag.snr)" value="Upload" class="btn btn-primary btn-block" />
 
                         <input type="hidden" id="SignatureDataUrl" name="SignatureDataUrl">

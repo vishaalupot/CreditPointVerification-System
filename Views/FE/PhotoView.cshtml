@@ -12,35 +12,50 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo Upload - Derby CPV - DDC1</title>
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto:300,400,500,700" />
-    <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
 
-            function uploadImage(snr) {
+           function uploadImage(snr) {
+    // Show SweetAlert with loading message
+    Swal.fire({
+        title: 'Uploading...',
+        text: 'Please wait while the image is being uploaded.',
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        onBeforeOpen: () => {
+            Swal.showLoading();
+        }
+    });
 
-                 let url = '@Url.Action("UploadImageInDataBase", "FE")';
-                var formData = new FormData();
-                formData.append("file", $("#ImageFile")[0].files[0]);
-                formData.append("snr", snr);
+    let url = '@Url.Action("UploadImageInDataBase", "FE")';
+    var formData = new FormData();
+    formData.append("file", $("#ImageFile")[0].files[0]);
+    formData.append("snr", snr);
 
-                $.ajax({
-                    url: url,
-                    data: formData,
-                    type: "POST",
-                    processData: false,
-                    contentType: false,
-                    success: function (data) {
-                        location.reload();
-                        let res = data;
-                    },
-                    error: function (xhr, status, error) {
-                        // Handle error
-                    }
-                })
-            }
+    $.ajax({
+        url: url,
+        data: formData,
+        type: "POST",
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            Swal.close(); // Close the loading SweetAlert
+            location.reload();
+            let res = data;
+        },
+        error: function (xhr, status, error) {
+            // Handle error
+            Swal.close(); // Close the loading SweetAlert in case of an error
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'There was an error uploading the image. Please try again.'
+            });
+        }
+    });
+}
+
     </script>
     <style>
         .fe-dash2 {
