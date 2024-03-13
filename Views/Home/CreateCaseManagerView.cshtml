@@ -10,8 +10,6 @@
 
 <head>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
         @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
@@ -136,6 +134,24 @@
             };
         });
 
+        function showConfirmationAlert() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You are about to create a new case. Do you want to proceed?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, create case',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If the user confirms, proceed with form submission
+                    document.getElementById('createCaseForm').submit();
+                }
+            });
+        }
+
 
     </script>
 
@@ -143,181 +159,180 @@
 
 <div class="bod">
 
-        <div class="heading">Create Case</div>
-    
-    @using (Html.BeginForm())
+    <div class="heading">Create Case</div>
+
+    @using (Html.BeginForm("CreateCaseManagerView", "Home", FormMethod.Post, new { id = "createCaseForm" }))
+
     {
         @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.ValidationMessageFor(model => model.Application_name, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.Application_name, "Applicant Name", new { @class = "control-label label" })
+                @Html.EditorFor(model => model.Application_name, new { htmlAttributes = new { @class = "form-control box" } })
+
+            </div>
 
 
-<div class="form-horizontal">
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.Application_no, "Application Number", new { @class = "control-label label" })
+                @Html.EditorFor(model => model.Application_no, new { htmlAttributes = new { @class = "form-control box" } })
+                @Html.ValidationMessageFor(model => model.Application_no, "", new { @class = "text-danger" })
+            </div>
 
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.ValidationMessageFor(model => model.Application_name, "", new { @class = "text-danger" })
-        @Html.LabelFor(model => model.Application_name, "Applicant Name", new { @class = "control-label label" })
-        @Html.EditorFor(model => model.Application_name, new { htmlAttributes = new { @class = "form-control box" } })
-
-    </div>
-
-
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.Application_no, "Application Number", new { @class = "control-label label" })
-        @Html.EditorFor(model => model.Application_no, new { htmlAttributes = new { @class = "form-control box" } })
-        @Html.ValidationMessageFor(model => model.Application_no, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.Company_Name, "Company Name", new { @class = "control-label label" })
-        @Html.EditorFor(model => model.Company_Name, new { htmlAttributes = new { @class = "form-control box" } })
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.Company_Name, "Company Name", new { @class = "control-label label" })
+                @Html.EditorFor(model => model.Company_Name, new { htmlAttributes = new { @class = "form-control box" } })
 
 
-        @Html.ValidationMessageFor(model => model.Company_Name, "", new { @class = "text-danger" })
-    </div>
+                @Html.ValidationMessageFor(model => model.Company_Name, "", new { @class = "text-danger" })
+            </div>
 
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.Trade_License_Number, "Trade License Number", new { @class = "control-label label" })
-        @Html.EditorFor(model => model.Trade_License_Number, new { htmlAttributes = new { @class = "form-control box" } })
-
-
-        @Html.ValidationMessageFor(model => model.Trade_License_Number, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.Company_Address, "Company Address", new { @class = "control-label label" })
-        @Html.EditorFor(model => model.Company_Address, new { htmlAttributes = new { @class = "form-control box" } })
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.Trade_License_Number, "Trade License Number", new { @class = "control-label label" })
+                @Html.EditorFor(model => model.Trade_License_Number, new { htmlAttributes = new { @class = "form-control box" } })
 
 
-        @Html.ValidationMessageFor(model => model.Company_Address, "", new { @class = "text-danger" })
-    </div>
+                @Html.ValidationMessageFor(model => model.Trade_License_Number, "", new { @class = "text-danger" })
+            </div>
 
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.Landmark, "Landmark", new { @class = "control-label label" })
-        @Html.EditorFor(model => model.Landmark, new { htmlAttributes = new { @class = "form-control box" } })
-
-
-        @Html.ValidationMessageFor(model => model.Landmark, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.Landline, "Landline", new { @class = "control-label label" })
-        @Html.EditorFor(model => model.Landline, new { htmlAttributes = new { @class = "form-control box" } })
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.Company_Address, "Company Address", new { @class = "control-label label" })
+                @Html.EditorFor(model => model.Company_Address, new { htmlAttributes = new { @class = "form-control box" } })
 
 
-        @Html.ValidationMessageFor(model => model.Landline, "", new { @class = "text-danger" })
-    </div>
+                @Html.ValidationMessageFor(model => model.Company_Address, "", new { @class = "text-danger" })
+            </div>
 
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.Contacted_Person, "Contacted Person", new { @class = "control-label label" })
-        @Html.EditorFor(model => model.Contacted_Person, new { htmlAttributes = new { @class = "form-control box" } })
-
-
-        @Html.ValidationMessageFor(model => model.Contacted_Person, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.Contacted_Person_Mobile_No, "Contacted Person Mobile No", new { @class = "control-label label" })
-        @Html.EditorFor(model => model.Contacted_Person_Mobile_No, new { htmlAttributes = new { @class = "form-control box" } })
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.Landmark, "Landmark", new { @class = "control-label label" })
+                @Html.EditorFor(model => model.Landmark, new { htmlAttributes = new { @class = "form-control box" } })
 
 
-        @Html.ValidationMessageFor(model => model.Contacted_Person_Mobile_No, "", new { @class = "text-danger" })
-    </div>
+                @Html.ValidationMessageFor(model => model.Landmark, "", new { @class = "text-danger" })
+            </div>
 
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.Operating_Hours, "Operating Hours", new { @class = "control-label label" })
-        @Html.EditorFor(model => model.Operating_Hours, new { htmlAttributes = new { @class = "form-control box" } })
-
-
-        @Html.ValidationMessageFor(model => model.Operating_Hours, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.Emirate, "Emirate", new { @class = "control-label label" })
-        @Html.DropDownListFor(model => model.Emirate, new SelectList(CPV_Mark3.Controllers.HomeController.GetEmiratesList(), "Value", "Text"), "-- Select --", new { @class = "form-control drop box" })
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.Landline, "Landline", new { @class = "control-label label" })
+                @Html.EditorFor(model => model.Landline, new { htmlAttributes = new { @class = "form-control box" } })
 
 
-        @Html.ValidationMessageFor(model => model.Emirate, "", new { @class = "text-danger" })
-    </div>
+                @Html.ValidationMessageFor(model => model.Landline, "", new { @class = "text-danger" })
+            </div>
 
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.Product, "Product", new { @class = "control-label label" })
-        @Html.DropDownListFor(model => model.Product, new SelectList(CPV_Mark3.Controllers.HomeController.GetProductList()), "-- Select --", new { @class = "form-control drop box" })
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.Contacted_Person, "Contacted Person", new { @class = "control-label label" })
+                @Html.EditorFor(model => model.Contacted_Person, new { htmlAttributes = new { @class = "form-control box" } })
 
 
+                @Html.ValidationMessageFor(model => model.Contacted_Person, "", new { @class = "text-danger" })
+            </div>
 
-        @Html.ValidationMessageFor(model => model.Product, "", new { @class = "text-danger" })
-    </div>
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.Contacted_Person_Mobile_No, "Contacted Person Mobile No", new { @class = "control-label label" })
+                @Html.EditorFor(model => model.Contacted_Person_Mobile_No, new { htmlAttributes = new { @class = "form-control box" } })
 
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.Visit_Type, "Visit Type", new { @class = "control-label label" })
-        @Html.DropDownListFor(model => model.Visit_Type, new SelectList(CPV_Mark3.Controllers.HomeController.GetVisitList()), "-- Select --", new { @class = "form-control drop box" })
+
+                @Html.ValidationMessageFor(model => model.Contacted_Person_Mobile_No, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.Operating_Hours, "Operating Hours", new { @class = "control-label label" })
+                @Html.EditorFor(model => model.Operating_Hours, new { htmlAttributes = new { @class = "form-control box" } })
+
+
+                @Html.ValidationMessageFor(model => model.Operating_Hours, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.Emirate, "Emirate", new { @class = "control-label label" })
+                @Html.DropDownListFor(model => model.Emirate, new SelectList(CPV_Mark3.Controllers.HomeController.GetEmiratesList(), "Value", "Text"), "-- Select --", new { @class = "form-control drop box" })
+
+
+                @Html.ValidationMessageFor(model => model.Emirate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.Product, "Product", new { @class = "control-label label" })
+                @Html.DropDownListFor(model => model.Product, new SelectList(CPV_Mark3.Controllers.HomeController.GetProductList()), "-- Select --", new { @class = "form-control drop box" })
 
 
 
-        @Html.ValidationMessageFor(model => model.Visit_Type, "", new { @class = "text-danger" })
-    </div>
+                @Html.ValidationMessageFor(model => model.Product, "", new { @class = "text-danger" })
+            </div>
 
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.Client, "Client", new { @class = "control-label label" })
-        @Html.DropDownListFor(model => model.Client, new SelectList(CPV_Mark3.Controllers.HomeController.GetClientList()), "-- Select --", new { @class = "form-control drop box" })
-
-
-        @Html.ValidationMessageFor(model => model.Client, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.Allocation_Date, "Allocation Date", new { @class = "control-label label" })
-        @Html.EditorFor(model => model.Allocation_Date, new { htmlAttributes = new { @class = "form-control box", @Value = DateTime.Now.ToString("MM-dd-yyyy HH:mm:ss") } })
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.Visit_Type, "Visit Type", new { @class = "control-label label" })
+                @Html.DropDownListFor(model => model.Visit_Type, new SelectList(CPV_Mark3.Controllers.HomeController.GetVisitList()), "-- Select --", new { @class = "form-control drop box" })
 
 
-        @Html.ValidationMessageFor(model => model.Allocation_Date, "", new { @class = "text-danger" })
-    </div>
 
-    <div class="form-group col-sm-12 col-md-6 col-lg-4">
-        @Html.LabelFor(model => model.FE_Name, "FE Name", new { @class = "control-label label" })
-        @*@Html.DropDownListFor(model => model.FE_Name, new SelectList(CPV_Mark3.Controllers.HomeController.DisplayUserRoles()), "-- Select --", new { @class = "form-control drop" })*@
-        @*@Html.DropDownListFor(model => model.FE_Name, (SelectList)ViewBag.FEList, "-- Select --", new { @class = "form-control drop" })*@
-        @*@Html.DropDownListFor(model => model.FE_Name, new SelectList(CPV_Mark3.Controllers.HomeController.DisplayFE()))*@
-        @*@Html.DropDownList("FE_Name", new SelectList(Model.GetFEList()), "-- Select --", new { @class = "form-control drop" })*@
+                @Html.ValidationMessageFor(model => model.Visit_Type, "", new { @class = "text-danger" })
+            </div>
 
-        @*@Html.DropDownListFor(model => model.FE_Name, new SelectList(ViewBag.Roles, ""), new { @class = "form-control" })*@
-        @*@Html.DropDownList("FE_Name", new SelectList(feList), "-- Select --", new { @class = "form-control drop" })*@
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.Client, "Client", new { @class = "control-label label" })
+                @Html.DropDownListFor(model => model.Client, new SelectList(CPV_Mark3.Controllers.HomeController.GetClientList()), "-- Select --", new { @class = "form-control drop box" })
+
+
+                @Html.ValidationMessageFor(model => model.Client, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.Allocation_Date, "Allocation Date", new { @class = "control-label label" })
+                @Html.EditorFor(model => model.Allocation_Date, new { htmlAttributes = new { @class = "form-control box", @Value = DateTime.Now.ToString("MM-dd-yyyy HH:mm:ss") } })
+
+
+                @Html.ValidationMessageFor(model => model.Allocation_Date, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                @Html.LabelFor(model => model.FE_Name, "FE Name", new { @class = "control-label label" })
+                @*@Html.DropDownListFor(model => model.FE_Name, new SelectList(CPV_Mark3.Controllers.HomeController.DisplayUserRoles()), "-- Select --", new { @class = "form-control drop" })*@
+                @*@Html.DropDownListFor(model => model.FE_Name, (SelectList)ViewBag.FEList, "-- Select --", new { @class = "form-control drop" })*@
+                @*@Html.DropDownListFor(model => model.FE_Name, new SelectList(CPV_Mark3.Controllers.HomeController.DisplayFE()))*@
+                @*@Html.DropDownList("FE_Name", new SelectList(Model.GetFEList()), "-- Select --", new { @class = "form-control drop" })*@
+
+                @*@Html.DropDownListFor(model => model.FE_Name, new SelectList(ViewBag.Roles, ""), new { @class = "form-control" })*@
+                @*@Html.DropDownList("FE_Name", new SelectList(feList), "-- Select --", new { @class = "form-control drop" })*@
 
 
 
 
-        @*@{ Html.RenderAction("_FEView", "Home"); }*@
+                @*@{ Html.RenderAction("_FEView", "Home"); }*@
 
-        @Html.DropDownListFor(m => m.FE_Name,
-                  new SelectList(HomeController.GetAllUsers(), "--Users--"), new { @class = " form-control box" })
+                @Html.DropDownListFor(m => m.FE_Name,
+                          new SelectList(HomeController.GetAllUsers(), "--Users--"), new { @class = " form-control box" })
 
-        <script>
-            $(document).ready(function () {
-                $('#userRolesDropdown').click(function () {
-                    window.location.href = '@Url.Action("DisplayUserRoles")';
-                });
-            });
-        </script>
+                <script>
+                    $(document).ready(function () {
+                        $('#userRolesDropdown').click(function () {
+                            window.location.href = '@Url.Action("DisplayUserRoles")';
+                        });
+                    });
+                </script>
 
 
 
-    </div>
+            </div>
 
-    <div class="form-group" >
-        <div class=" col-md-10">
-            <input type="submit" value="Create" class="btn SubBtn" style=" width: 100px; height: 30px;" id="submit" />
-            <a href="@Url.Action("DisplayCaseManager", "Home")">
-                <input type="button" value="Go Back" class=" btn bckBtn" />
-            </a>
+            <div class="form-group">
+                <div class=" col-md-10">
+                    <input type="button" value="Create" class="btn SubBtn" style=" width: 100px; height: 30px;" @*id="submit"*@ onclick="showConfirmationAlert()" />
+                    <a href="@Url.Action("DisplayCaseManager", "Home")">
+                        <input type="button" value="Go Back" class=" btn bckBtn" />
+                    </a>
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-success" />
+                    </div>
+                </div>*@
+
         </div>
-    </div>
-
-    @*<div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-success" />
-        </div>
-    </div>*@
-
-</div>
     }
 </div>
 
