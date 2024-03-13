@@ -290,14 +290,6 @@
         @Html.DropDownListFor(m => m.FE_Name,
                   new SelectList(HomeController.GetAllUsers(), "--Users--"), new { @class = " form-control box" })
 
-        @*@Html.HiddenFor(m => m.FE_Name, new { id = "callingViewHiddenField" })
-
-            @{ Html.RenderAction("_FEView", "Home"); }*@
-        @Html.ValidationMessageFor(model => model.FE_Name, "", new { @class = "text-danger" })
-
-        @*Working cmd*@
-        @*@Html.ActionLink("User Roles", "DisplayUserRoles", null, new { @class = "btn btn-default", @id = "userRolesDropdown" })*@
-
         <script>
             $(document).ready(function () {
                 $('#userRolesDropdown').click(function () {

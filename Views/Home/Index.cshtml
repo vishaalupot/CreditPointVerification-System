@@ -46,13 +46,13 @@
                  success: function (res) {
                      $('#overlayFe').html(res);
                      $('#overlayFe').fadeIn(200);}
-                 
+
             });
         });
 
         $(".circular-progress").on("click",function(){
             let text = "monthly" + $(this).next().text();
-            text = text.replaceAll(" ", "");           
+            text = text.replaceAll(" ", "");
             $.ajax({
                 url: '@Url.Action("DisplayFeCount", "Home")?feName=0&stats=' + text,
                 type: 'GET',
@@ -420,7 +420,8 @@
         }
 
     .stat1-below {
-        background-color: #2D6980;
+        background: linear-gradient(to bottom,#25947a, #236a8b 50%);
+/*        #2D6980;*/
         border-radius: 12px;
         width: 15vh;
         height: 25vh;
@@ -768,6 +769,103 @@
     }*/
 </style>
 
+
+<style>
+
+
+    .box {
+        background: #FFF;
+        border-radius: 5px;
+        display: inline-block;
+        margin: 6em 0 2em;
+        padding: 0 20px 20px;
+    }
+
+    .date #daymonth {
+        white-space: nowrap;
+        display: flex;
+        justify-content: center;
+        font-family: 'Jaldi', sans-serif;
+        color: #454545;
+        font-size: 2.25em;
+        font-weight: 700;
+    }
+
+    .date #year {
+        font-family: 'Jaldi', sans-serif;
+        display: flex;
+        justify-content: center;
+        color: #C1C1C1;
+        font-size: 2em;
+        font-weight: 700;
+    }
+
+    .clock {
+        background-color: #236a8b;
+        border: 0.6em solid white;
+        border-radius: 100%;
+        height: 8em;
+        margin-top: -50%;
+        position: relative;
+        width: 8em;
+    }
+
+        .clock span {
+            background: white;
+            bottom: 50%;
+            display: block;
+            left: 50%;
+            position: absolute;
+            transform-origin: bottom center;
+        }
+
+        .clock .hours {
+            height: 30%;
+            width: 0.2em;
+        }
+
+        .clock .minutes {
+            height: 45%;
+            width: 0.2em;
+        }
+
+        .clock .seconds {
+            height: 45%;
+            width: 0.2em;
+            background-color: black;
+        }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var date = new Date(),
+            year = date.getFullYear(),
+            month = date.getMonth(),
+            day = date.getUTCDate(),
+            months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        document.getElementById('daymonth').innerHTML = months[month] + " " + day;
+        document.getElementById('year').innerHTML = year;
+
+        var clockH = document.querySelector(".hours");
+        var clockM = document.querySelector(".minutes");
+
+        function time() {
+            var d = new Date(),
+                s = d.getSeconds() * 6,
+                m = d.getMinutes() * 6 + (s / 60),
+                h = d.getHours() % 12 / 12 * 360 + (m / 12);
+            clockH.style.transform = "rotate(" + h + "deg)";
+            clockM.style.transform = "rotate(" + m + "deg)";
+            document.querySelector(".seconds").style.transform = "rotate(" + s + "deg)";
+        }
+
+        var clock = setInterval(time, 1000);
+        time();
+    });
+</script>
+
+
 <div class="body-content">
     <div style=" display: flex; flex-direction: column; width: 85%;">
         <div class="body-cont1">
@@ -822,85 +920,58 @@
                 </div>
 
                 <div style="display: flex; flex-direction: row;">
-                    @*<div class="stat1">
-                            <canvas id="myChart" style="width: 600px !important;"></canvas>
-                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-                            <script>
-                                const ctx = document.getElementById('myChart');
-
-                                new Chart(ctx, {
-                                    data: {
-                                        datasets: [{
-                                            type: 'bar',
-                                            label: 'Total Cases',
-                                            data: @ViewBag.DashMonth1,
-                                            //    [12, 19, 3, 5, 2, 13],
-                                            backgroundColor: [
-                                                '#165DFF',
-                                            ],
-
-
-                                        }, {
-                                            type: 'bar',
-                                            label: 'Completed Cases',
-                                            data: @ViewBag.DashMonth2,
-                                            //    [10, 9, 8, 2, 1, 7],
-                                            backgroundColor: [
-                                                '#14C9C9',
-                                            ],
-                                        }],
-                                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-                                    },
-
-                                });
-
-                            </script>
-                        </div>*@
-
-
                     <div class="stat1">
                         <canvas id="myChart" style="width: 600px !important;"></canvas>
                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
                         <script>
-        const ctx = document.getElementById('myChart');
+                            const ctx = document.getElementById('myChart');
 
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                datasets: [{
-                    label: 'Total Cases',
-                    data: @ViewBag.DashMonth1,
-                    backgroundColor: '#165DFF',
-                    borderWidth: 0,  // Remove border lines
-                }, {
-                    label: 'Completed Cases',
-                    data: @ViewBag.DashMonth2,
-                    backgroundColor: '#14C9C9',
-                    borderWidth: 0,  // Remove border lines
-                }],
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-            },
-            options: {
-                scales: {
-                    x: {
-                        grid: {
-                            display: false  // Hide vertical grid lines
-                        }
-                    },
-                    y: {
-                        grid: {
-                            display: false  // Hide horizontal grid lines
-                        }
-                    }
-                }
-            }
-        });
+                            new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    datasets: [{
+                                        label: 'Total Cases',
+                                        data: @ViewBag.DashMonth1,
+                                        backgroundColor: '#165DFF',
+                                        borderWidth: 0,  // Remove border lines
+                                    }, {
+                                        label: 'Completed Cases',
+                                        data: @ViewBag.DashMonth2,
+                                        backgroundColor: '#14C9C9',
+                                        borderWidth: 0,  // Remove border lines
+                                    }],
+                                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                                },
+                                options: {
+                                    scales: {
+                                        x: {
+                                            grid: {
+                                                display: false  // Hide vertical grid lines
+                                            }
+                                        },
+                                        y: {
+                                            grid: {
+                                                display: false  // Hide horizontal grid lines
+                                            }
+                                        }
+                                    }
+                                }
+                            });
                         </script>
                     </div>
 
                     <div class="stat1-below">
+                        <div class="box">
+                            <div class="clock">
+                                <span class="hours"></span>
+                                <span class="minutes"></span>
+                                <span class="seconds"></span>
+                            </div>
+                            <div class="date">
+                                <div id="daymonth"></div>
+                                <div id="year"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -942,7 +1013,7 @@
             <div class="sub-head" style="text-align: end;">Monthly Stats</div>
             <br>
             @*<div style="display: flex; flex-direction: column; justify-content: space-between; padding: 4px 0px;">*@
-                       
+
 
             @*<div style="display: flex; flex-direction: column;" class="monthlyStats">*@
             <div class="circular-progress">
