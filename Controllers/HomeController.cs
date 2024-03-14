@@ -246,29 +246,50 @@ namespace CPV_Mark3.Controllers
 
 
         [HttpPost]
-        public ActionResult _SearchAllCases(string query)
+        public ActionResult _SearchAllCases(string query, int page = 1, int pageSize = 10)
         {
            // CPV_DB1Entities db = new CPV_DB1Entities();
-            CaseTable caseTable = new CaseTable();
+            //CaseTable caseTable = new CaseTable();
 
-            var results = db.CaseTables.OrderByDescending(o => o.Id).ToList();
+            var results = db.CaseTables.OrderByDescending(o => o.Id);
 
             if (query != "")
             {
+                //results = db.CaseTables
+                //.Where(item => item.Application_no == query ||
+                //               item.Application_name == query ||
+                //               item.Company_Name == query)
+                //.OrderByDescending(o => o.Id);
                 results = db.CaseTables
-                .Where(item => item.Application_no == query ||
-                               item.Application_name == query ||
-                               item.Company_Name == query)
-                .OrderByDescending(o => o.Id)
-                .ToList();
+                .Where(item =>  item.Application_no.Contains(query) ||
+                               item.Application_name.Contains(query) ||
+                               item.Company_Name.Contains(query))
+                .OrderByDescending(o => o.Id);
 
             }
             else
             {
-                results = db.CaseTables.OrderByDescending(o => o.Id).ToList();
+                results = db.CaseTables.OrderByDescending(o => o.Id);
             }
 
-            return PartialView("_SearchAllCases", results);
+            // Calculate total pages
+            int totalRecords = results.Count();
+            int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+
+            // Ensure page is within valid range
+            page = Math.Max(1, Math.Min(totalPages, page));
+
+            // Calculate the starting index of records for the current page
+            int startIndex = (page - 1) * pageSize;
+
+            // Select records for the current page
+            List<CaseTable> currentPageData = results.Skip(startIndex).Take(pageSize).ToList();
+
+            // Pass data and pagination info to the view
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+
+            return PartialView("_SearchAllCases", currentPageData);
 
 
         }

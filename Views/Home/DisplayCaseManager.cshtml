@@ -216,8 +216,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script type="text/javascript">
 
-        $(document).ready(function ()
-        {
+        $(document).ready(function () { 
+
             searchCases();
 
             /*Not used anymore*/
@@ -226,45 +226,86 @@
 
             $("#btnsubmit").on("click", function (e)
             {
-                searchCases();
+                searchCases(1);
             });
 
             $("#createCaseButton").click(function () {
                 @*var a = '@Html.Action("CreateCaseManagerView")';*@
-            window.location.href = '@Url.Action("CreateCaseManagerView", "Home")';
-        });
+                window.location.href = '@Url.Action("CreateCaseManagerView", "Home")';
+            });
 
             $("#searchInput").keypress(function (e) {
                 if (e.which === 13) {
                     e.preventDefault();
-                    searchCases();
+                    searchCases(1);
                 }
             });
-
+           
+            $('#paginationControls').on('click', '.paginationButton', function () {
+                var page = $(this).data('page');
+                //loadPartialView(page);
+                searchCases(page);
+            });
+           
         })
 
 
 
 
-        function searchCases() {
-            console.log("Button clicked");
+        function searchCases(page) {
+            //console.log("Button clicked");
             var query = $("#searchInput").val();
             var url = '@Url.Action("_SearchAllCases", "Home")';
             url = url.replace("_query_", query);
-            console.log(url);
-           /* alert(query)*/
+            
+            //console.log("page1: " + page);
+            /* alert(query)*/
             $.ajax({
                 url: url,
-                data: { query: query },
+                data: { query: query, page: page, pageSize: 10 },
                 type: "Post",
                 success: function (result) {
 
                     $("#CaseList").html(result);
+                    var totalPages = $('#totalPages').val();
+                    var Page = $('#CurrentPage  ').val();
+                    updatePaginationControls(Page,totalPages);
                 },
                 error: function (e) {
                     alert("Error fetching search results");
                 }
             });
+        }
+
+        function updatePaginationControls(currentPage, totalPages) {
+            
+            // Remove existing pagination controls
+            $('#paginationControls').empty();
+            currentPage = parseInt(currentPage);
+            //let nextpage = parseInt(currentPage) + 1;
+            //console.log("currentpage: " + currentPage + " Total page: " + totalPages)
+            // Add Previous button
+            if (currentPage > 1) {
+                $('#paginationControls').append('<button class="paginationButton" data-page="' + (currentPage - 1) + '">Previous</button>');
+            }
+
+            // Add numbered buttons for each page
+            for (var i = 1; i <= totalPages; i++) {
+                if (currentPage == i) {
+                    $('#paginationControls').append('<button class="paginationButton" style="color:red" data-page="' + i + '">' + i + '</button>');
+                }
+                else {
+                    $('#paginationControls').append('<button class="paginationButton" data-page="' + i + '">' + i + '</button>');
+                }
+                lastpage = i;
+            }
+
+            // Add Next button
+            if (currentPage < totalPages) {
+                $('#paginationControls').append('<button class="paginationButton" data-page="' + (currentPage + 1) + '">Next</button>');
+                //console.log(currentPage);
+            }
+            
         }
 
     </script>
@@ -346,53 +387,60 @@
         @*@using (Html.BeginForm("DisplayCaseManager", "Home", FormMethod.Post))
         {*@
 
-            <div style="display: flex; flex-direction: row; align-items: center;">
-                <div style="display: flex; flex-direction: row; margin-right: 20px; align-items: center;">
-                    <input type="text" id="searchInput" class="search-input" />
-                    <input type="button" id="btnsubmit" />
-                </div>
-
-                <button id="createCaseButton" class="cssbuttons-io" type="button">
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-                        </svg>
-                        Case
-                    </span>
-                </button>
+        <div style="display: flex; flex-direction: row; align-items: center;">
+            <div style="display: flex; flex-direction: row; margin-right: 20px; align-items: center;">
+                <input type="text" id="searchInput" class="search-input" />
+                <input type="button" id="btnsubmit" />
             </div>
 
+            <button id="createCaseButton" class="cssbuttons-io" type="button">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+                    </svg>
+                    Case
+                </span>
+            </button>
+        </div>
 
-                <div class="dis">
-                    <div class="view">
+        <div id="paginationControls">
+           
+        </div>
 
+        <div class="dis">
+            <div class="view">
 
-                        <div id="CaseList" aria-hidden="true">
-                            <p class="card-text placeholder-glow">
-                                <span class="placeholder col-1"></span>
-                                <span class="placeholder col-1"></span>
-                                <span class="placeholder col-1"></span>
-                                <span class="placeholder col-1"></span>
-                                <span class="placeholder col-1"></span>
-                                <span class="placeholder col-1"></span>
-                                <span class="placeholder col-1"></span>
-                                <span class="placeholder col-1"></span>
-                                <span class="placeholder col-1"></span>
-                                <span class="placeholder col-1"></span>
-                                <span class="placeholder col-12"></span>
-                                <span class="placeholder col-12"></span>
-                                <span class="placeholder col-12"></span>
+                <div id="CaseList" aria-hidden="true">
+                    <p class="card-text placeholder-glow">
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-12"></span>
+                        <span class="placeholder col-12"></span>
+                        <span class="placeholder col-12"></span>
 
-                            </p>
-                        </div>
-
-                        <div id="CaseList">
-
-                        </div>
-                    </div>
+                    </p>
                 </div>
+
+                <div id="CaseList">
+
+                </div>
+
+            </div>
+        </div>
+
+
+
         @*}*@
     </div>
+
 </body>
 
 </html>
