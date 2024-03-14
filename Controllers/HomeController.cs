@@ -616,8 +616,11 @@ namespace CPV_Mark3.Controllers
         {
 
            // CPV_DB1Entities db = new CPV_DB1Entities();
-            List<CaseTable> cases = db.CaseTables.OrderByDescending(o => o.Id).ToList();
-            return View(cases);
+           // var cases = db.CaseTables.OrderByDescending(o => o.Id);
+           
+
+
+            return View();
         }
 
         [HttpPost]
