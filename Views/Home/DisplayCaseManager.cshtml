@@ -262,7 +262,7 @@
             /* alert(query)*/
             $.ajax({
                 url: url,
-                data: { query: query, page: page, pageSize: 10 },
+                data: { query: query, page: page, pageSize: 5 },
                 type: "Post",
                 success: function (result) {
 
@@ -282,28 +282,45 @@
             // Remove existing pagination controls
             $('#paginationControls').empty();
             currentPage = parseInt(currentPage);
-            //let nextpage = parseInt(currentPage) + 1;
+            //var maxnumbutton = 10;
             //console.log("currentpage: " + currentPage + " Total page: " + totalPages)
-            // Add Previous button
+      
             if (currentPage > 1) {
-                $('#paginationControls').append('<button class="paginationButton" data-page="' + (currentPage - 1) + '">Previous</button>');
+                $('#paginationControls').append('<button class="paginationButton" data-page="1">First</button>');
+                $('#paginationControls').append('<button class="paginationButton" data-page="' + (currentPage - 1) + '">Prev</button>');
             }
 
+           
+
             // Add numbered buttons for each page
-            for (var i = 1; i <= totalPages; i++) {
-                if (currentPage == i) {
-                    $('#paginationControls').append('<button class="paginationButton" style="color:red" data-page="' + i + '">' + i + '</button>');
-                }
-                else {
+
+            var startPage = Math.max(1, currentPage - 4); // Show 4 pages before current page
+            var endPage = Math.min(totalPages, startPage + 9); // Show 9 pages after current page
+
+            // Add numbered buttons for each page within the range
+            for (var i = startPage; i <= endPage; i++) {
+                if (currentPage === i) {
+                    $('#paginationControls').append('<button class="paginationButton" style="color: red" data-page="' + i + '">' + i + '</button>');
+                } else {
                     $('#paginationControls').append('<button class="paginationButton" data-page="' + i + '">' + i + '</button>');
                 }
-                lastpage = i;
             }
+            //for (var i = 1; i <= totalPages && i <= maxnumbutton; i++) {
+            //    if (currentPage == i) {
+            //        $('#paginationControls').append('<button class="paginationButton" style="color:red" data-page="' + i + '">' + i + '</button>');
+            //    }
+            //    else {
+            //        $('#paginationControls').append('<button class="paginationButton" data-page="' + i + '">' + i + '</button>');
+            //    }
+            //    lastpage = i;
+            //}
+
 
             // Add Next button
             if (currentPage < totalPages) {
                 $('#paginationControls').append('<button class="paginationButton" data-page="' + (currentPage + 1) + '">Next</button>');
-                //console.log(currentPage);
+                $('#paginationControls').append('<button class="paginationButton" data-page="' + totalPages + '">Last</button>');
+               
             }
             
         }
