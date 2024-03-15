@@ -239,7 +239,7 @@
     <script>
         $(document).ready(function () {
 
-            searchVerify()
+            searchVerify(1)
 
             $("#btnsubmit").on("click", function (e) {
 
@@ -274,17 +274,24 @@
                 }
             });
 
+            $('#paginationControls').on('click', '.paginationButton', function () {
+                var page = $(this).data('page');
+                //loadPartialView(page);
+                searchVerify(page);
+            });
+
+
         })
 
 
-        function searchVerify() {
+        function searchVerify(page) {
                 console.log("Button clicked");
                 var query = $("#searchInput").val();
                 var query2 = $("#dropdown").val();
                 var query3 = $("#dropdown2").val();
                 var query4 = $("#dropdown3").val();
                 var query5 = $("#date").val();
-
+         
                 var url = '@Url.Action("_SearchVerifyManager", "Home")';
                 console.log(url);
                 $.ajax({
@@ -294,18 +301,64 @@
                         query2: query2,
                         query3: query3,
                         query4: query4,
-                        query5: query5
+                        query5: query5,
+                        page: page,
+                        pageSize: 5
                     },
                     type: "Post",
                     success: function (result) {
 
                         $("#VerifyList").html(result);
+                        var totalPages = $('#totalPages').val();
+                        var Page = $('#CurrentPage').val();
+                       // console.log("currentpage: " + Page + " Total page: " + totalPages)
+                        updatePaginationControls(Page, totalPages);
                     },
                     error: function (e) {
                         alert("Error fetching search results");
                     }
                 });
             }
+
+        function updatePaginationControls(currentPage, totalPages) {
+            
+            // Remove existing pagination controls
+            $('#paginationControls').empty();
+            currentPage = parseInt(currentPage);
+            //var maxnumbutton = 10;
+            console.log("currentpage: " + currentPage + " Total page: " + totalPages)
+
+            if (currentPage > 1) {
+                $('#paginationControls').append('<button class="paginationButton" data-page="1">First</button>');
+                $('#paginationControls').append('<button class="paginationButton" data-page="' + (currentPage - 1) + '">Prev</button>');
+            }
+
+
+
+            // Add numbered buttons for each page
+
+            var startPage = Math.max(1, currentPage - 4); // Show 4 pages before current page
+            var endPage = Math.min(totalPages, startPage + 9); // Show 9 pages after current page
+
+            // Add numbered buttons for each page within the range
+            for (var i = startPage; i <= endPage; i++) {
+                if (currentPage === i) {
+                    $('#paginationControls').append('<button class="paginationButton" style="color: red" data-page="' + i + '">' + i + '</button>');
+                } else {
+                    $('#paginationControls').append('<button class="paginationButton" data-page="' + i + '">' + i + '</button>');
+                }
+            }
+          
+
+
+            // Add Next button
+            if (currentPage < totalPages) {
+                $('#paginationControls').append('<button class="paginationButton" data-page="' + (currentPage + 1) + '">Next</button>');
+                $('#paginationControls').append('<button class="paginationButton" data-page="' + totalPages + '">Last</button>');
+
+            }
+
+        }
 
     </script>
 
@@ -326,7 +379,7 @@
             <div>
                 <label>User List</label>
                 @*<input type="text" id="callingViewHiddenField" style="display: none;" />
-            @{ Html.RenderAction("_FEView", "Home"); }*@
+                @{ Html.RenderAction("_FEView", "Home"); }*@
                 @Html.DropDownList("FEList", new SelectList(HomeController.GetAllUsers()), "--Users--", new { @class = "box", id = "dropdown" })
             </div>
 
@@ -350,10 +403,10 @@
 
             <div>
                 <label>Status Date</label>
-                <input type="date" id="date" name="date" class = "drop box">
+                <input type="date" id="date" name="date" class="drop box">
             </div>
 
-           
+
 
 
             <div style=" width: 150px; margin-left: 5px; margin: 7px 3px 10px 8px; display: flex; align-items: end;">
@@ -361,35 +414,37 @@
             </div>
 
         </div>
-
-
-            <div class="dis">
-                <div class="view">
-                    <div id="VerifyList" aria-hidden="true">
-                        <p class="card-text placeholder-glow">
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-1"></span>
-                            <span class="placeholder col-12"></span>
-                            <span class="placeholder col-12"></span>
-                            <span class="placeholder col-12"></span>
-                        </p>
-                    </div>
-
-                    <div id="VerifyList">
-
-                    </div>
-                </div>
-            </div>
+        <div id="paginationControls">
 
         </div>
+
+        <div class="dis">
+            <div class="view">
+                <div id="VerifyList" aria-hidden="true">
+                    <p class="card-text placeholder-glow">
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-1"></span>
+                        <span class="placeholder col-12"></span>
+                        <span class="placeholder col-12"></span>
+                        <span class="placeholder col-12"></span>
+                    </p>
+                </div>
+
+                <div id="VerifyList">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
 </body>
 </html>
 

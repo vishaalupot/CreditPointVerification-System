@@ -2,7 +2,7 @@
 
 @model IEnumerable<CPV_Mark3.Models.CaseTable>
 
-@{ 
+@{
     Layout = null;
 }
 
@@ -23,6 +23,7 @@
     .view::-webkit-scrollbar-track {
         background-color: transparent;
     }
+
     .view::-webkit-scrollbar-thumb {
         background-color: #236154;
         border-radius: 12px;
@@ -187,3 +188,5 @@
     }
 </div>
 
+<input type="hidden" id="totalPages" value="@ViewBag.TotalPages" />
+<input type="hidden" id="CurrentPage" value="@ViewBag.CurrentPage" />

@@ -218,7 +218,7 @@
 
         $(document).ready(function () { 
 
-            searchCases();
+            searchCases(1);
 
             /*Not used anymore*/
          
@@ -268,7 +268,7 @@
 
                     $("#CaseList").html(result);
                     var totalPages = $('#totalPages').val();
-                    var Page = $('#CurrentPage  ').val();
+                    var Page = $('#CurrentPage').val();
                     updatePaginationControls(Page,totalPages);
                 },
                 error: function (e) {

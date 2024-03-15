@@ -143,20 +143,40 @@ namespace CPV_Mark3.Controllers
 
            // CPV_DB1Entities db = new CPV_DB1Entities();
             List<CaseTable> cases = db.CaseTables.OrderByDescending(o => o.Id).ToList();
+
             return PartialView(cases);
         }
 
-        public ActionResult _SearchVerifyManager()
+        public ActionResult _SearchVerifyManager(int page = 1, int pageSize = 10)
         {
 
             //CPV_DB1Entities db = new CPV_DB1Entities();
-            List<CaseTable> cases = db.CaseTables.OrderByDescending(o=>o.Id).ToList();
-            
-            return PartialView(cases);
+            var cases = db.CaseTables.OrderByDescending(o => o.Id);
+
+            // Calculate total pages
+            int totalRecords = cases.Count();
+            int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+
+            // Ensure page is within valid range
+            page = Math.Max(1, Math.Min(totalPages, page));
+
+            // Calculate the starting index of records for the current page
+            int startIndex = (page - 1) * pageSize;
+
+            // Select records for the current page
+            var currentPageData = cases.Skip(startIndex).Take(pageSize);
+
+            // Pass data and pagination info to the view
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+
+
+            return PartialView(currentPageData);
         }
 
         [HttpPost]
-        public ActionResult _SearchVerifyManager(string query, string query2, string query3, string query4, string query5)
+        public ActionResult _SearchVerifyManager(string query, string query2, string query3, string query4, string query5,
+            int page = 1, int pageSize = 10)
         {
             //CPV_DB1Entities db = new CPV_DB1Entities();
             CaseTable caseTable = new CaseTable();
@@ -223,7 +243,24 @@ namespace CPV_Mark3.Controllers
                 }
             }
 
-            return PartialView("_SearchVerifyManager", results);
+            // Calculate total pages
+            int totalRecords = results.Count();
+            int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+
+            // Ensure page is within valid range
+            page = Math.Max(1, Math.Min(totalPages, page));
+
+            // Calculate the starting index of records for the current page
+            int startIndex = (page - 1) * pageSize;
+
+            // Select records for the current page
+            var currentPageData = results.Skip(startIndex).Take(pageSize);
+
+            // Pass data and pagination info to the view
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+
+            return PartialView("_SearchVerifyManager", currentPageData);
 
 
 
@@ -283,7 +320,7 @@ namespace CPV_Mark3.Controllers
             int startIndex = (page - 1) * pageSize;
 
             // Select records for the current page
-            List<CaseTable> currentPageData = results.Skip(startIndex).Take(pageSize).ToList();
+           var currentPageData = results.Skip(startIndex).Take(pageSize);
 
             // Pass data and pagination info to the view
             ViewBag.CurrentPage = page;
